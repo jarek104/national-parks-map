@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "stunning-pins": {
+      "hosting": {
+        "map": [
+          "stunning-pins"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<div fxFlex style="background: #475467" fxLayout="row" fxLayoutAlign="space-around center">
+  <div matRipple fxFlex fxLayout="column" fxLayoutAlign="space-around center" class="tab-button" routerLink="/explore">
+    <mat-icon svgIcon="explore"></mat-icon>
+    <div class="icon-label">Explore</div>
+  </div>
+  <div matRipple fxFlex fxLayout="column" fxLayoutAlign="space-around center" class="tab-button" routerLink="/trending">
+    <mat-icon svgIcon="trend"></mat-icon>
+    <div class="icon-label">Trending</div>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutAlign="space-around center">
+    <!-- <img matRipple src="../../../../assets/icons/filter-circle.svg" class="filter-icon"> -->
+    <svg fill="none" xmlns="http://www.w3.org/2000/svg" version="1.1" class="tab-button filter filter-icon">
+      <g transform="translate(5, 0)">
+        <circle cx="35.5" cy="37.5" r="31.5" fill="white" stroke="#475467" />
+        <path d="M21 31.75H51" stroke="#4F4F4F" stroke-width="4" stroke-linecap="round" />
+        <path d="M32.25 50.5H39.75" stroke="#4F4F4F" stroke-width="4" stroke-linecap="round" />
+        <path d="M26.625 41.125H45.375" stroke="#4F4F4F" stroke-width="4" stroke-linecap="round" />
+      </g>
+      <filter id="dropshadow" height="130%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+        <!-- stdDeviation is how much to blur -->
+        <feOffset dx="2" dy="2" result="offsetblur"></feOffset> <!-- how much to offset -->
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="0.5"></feFuncA> <!-- slope is the opacity of the shadow -->
+        </feComponentTransfer>
+        <feMerge>
+          <feMergeNode></feMergeNode> <!-- this contains the offset blurred image -->
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+          <!-- this contains the element that the filter is applied to -->
+        </feMerge>
+      </filter>
+    </svg>
+
+  </div>
+  <div matRipple fxFlex fxLayout="column" fxLayoutAlign="space-around center" class="tab-button" routerLink="/favorites">
+    <mat-icon svgIcon="favorites"></mat-icon>
+    <div class="icon-label">Favorites</div>
+  </div>
+  <div matRipple fxFlex fxLayout="column" fxLayoutAlign="space-around center" class="tab-button">
+    <mat-icon svgIcon="upload"></mat-icon>
+    <div class="icon-label">Upload</div>
+  </div>
+</div>

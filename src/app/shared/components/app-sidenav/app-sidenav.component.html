@@ -1,0 +1,25 @@
+<div class="profile-section" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+  <button mat-icon-button class="sidenav-collapse-button" (click)="oncCollapseClicked()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <img src="../../assets/images/profile2.jpg" class="avatar">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <div class="user-name">Jarek Olewniczak</div>
+    <div class="user-points">425 points</div>
+    <div class="user-creation-date">Since April 2019</div>
+
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div class="links-section" fxFlex>
+  <mat-list>
+    <mat-list-item *ngFor="let link of links" [routerLink]="['/' + link.route]" routerLinkActive="link-active" (click)="onLinkClick()">
+      <div class="nav-link"> {{ link.label }} </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<mat-divider></mat-divider>
+<div class="footer" fxLayout="row">
+  <button fxFlex mat-button>Help & Feedback</button>
+  <button fxFlex mat-button>Logout</button>
+</div>

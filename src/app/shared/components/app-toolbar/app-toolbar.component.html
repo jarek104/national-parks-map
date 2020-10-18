@@ -1,0 +1,23 @@
+<div fxFlex fxLayout="row" fxLayoutAlign="space-between center" class="top-row">
+  <div fxFlex>
+    <button mat-icon-button (click)="onMenuClick()">
+      <mat-icon style="color: #fff;" svgIcon="menu2"></mat-icon>
+    </button>
+  </div>
+  <div class="title" *ngIf="showSearchInput === false">Stunning Pins</div>
+  <div fxFlex fxLayout="row-reverse">
+    <button mat-icon-button (click)="showSearchInput = !showSearchInput">
+      <mat-icon style="color: #fff;">search</mat-icon>
+    </button>
+  </div>
+</div>
+<div *ngIf="showSearchInput === true" class="bottom-row" fxLayout="row" fxLayoutAlign="space-between center">
+  <form fxFlex>
+    <mat-form-field class="input-full-width">
+      <input matInput placeholder="Search...">
+    </mat-form-field>
+  </form>
+  <button mat-icon-button (click)="onMenuClick()">
+    <mat-icon style="color: #fff;">close</mat-icon>
+  </button>
+</div>

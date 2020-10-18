@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyAuosqPHqAFxSHa7r74Rbv71mgofe-pEO0',
+    authDomain: 'stunning-pins.firebaseapp.com',
+    databaseURL: 'https://stunning-pins.firebaseio.com',
+    projectId: 'stunning-pins',
+    storageBucket: 'stunning-pins.appspot.com',
+    messagingSenderId: '428570695478'
+  }
 };
 
 /*

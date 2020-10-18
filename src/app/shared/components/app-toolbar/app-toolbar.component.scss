@@ -1,0 +1,25 @@
+:host {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #475467;
+}
+
+.title {
+    font-weight: bold;
+    color: white;
+}
+
+.input-full-width {
+    width: 100%;
+}
+
+.top-row {
+    min-height: 50px;
+}
+
+.bottom-row {
+    min-height: 50px;
+    padding-left: 16px;
+}

@@ -1,0 +1,56 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-area {
+    height: 200px;
+    position: absolute;
+    bottom: 68px;
+    left: 50%;
+    width: 80%;
+    margin-left: -40%;
+}
+
+.image-description {
+    padding: 8px 16px;
+    color: #fff;
+    background: linear-gradient(#00000000 -100%, #000 250%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.image-title {
+    // font-weight: bold;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.image-by {
+    font-size: 14px;
+}
+
+.image-author-name {
+    // color: #FF7144;
+    // color: #FF3D00;
+    color: rgb(102, 255, 0);
+    font-size: 14px;
+}
+
+.item-carousel {
+    max-height: 200px;
+    text-align: unset !important;
+    border: unset !important;
+    min-width: 80%;
+}
+
+.image-container {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+}

@@ -1,0 +1,5 @@
+<carousel-component>
+  <div class="item-carousel" *ngFor="let photo of photos | async">
+    <img [src]="photo.blob" alt="" width="200px" height="200px">
+  </div>
+</carousel-component>
