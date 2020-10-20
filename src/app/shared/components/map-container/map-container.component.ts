@@ -1,9 +1,10 @@
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+
 import { ExplorerService } from './../../services/explorer.service';
-import { Photo } from './../../../models/photo';
-import { Component, ViewChild, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { MapComponent } from 'ngx-mapbox-gl';
 import { Map } from 'mapbox-gl';
+import { MapComponent } from 'ngx-mapbox-gl';
 import { Observable } from 'rxjs';
+import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';
 
 @Component({
@@ -15,19 +16,16 @@ export class MapContainerComponent implements OnInit {
 
   @ViewChild(MapComponent) map: MapComponent;
   @Output() screenBoundsEmitter = new EventEmitter();
-  @Input() places: Place[] = [];
-  activePlaceIndex: Observable<number>;
-  highlightedPointIndex: number;
+  @Input() places: any[] = [];
+  startPlace = [-100.3715367, 39.041718];
+
+  activePlace?: Place;
 
   constructor(
     private explorerService: ExplorerService
   ) { }
 
   ngOnInit() {
-    this.activePlaceIndex = this.explorerService.activePlaceIndex;
-    this.activePlaceIndex.subscribe(data => {
-      this.highlightedPointIndex = data;
-    });
   }
 
   onLoad(mapInstance?: Map) {
@@ -35,5 +33,16 @@ export class MapContainerComponent implements OnInit {
   }
   reloadPlaces() {
     this.screenBoundsEmitter.emit(this.map.mapInstance.getBounds());
+  }
+
+  onPinClick(place: Place) {
+    console.log(place);
+    this.activePlace = place;
+  }
+  isActive(place: Place) {
+    if (!this.activePlace) {
+      this.activePlace = this.places[0];
+    }
+    return place.id === this.activePlace.id;
   }
 }

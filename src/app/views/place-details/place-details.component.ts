@@ -32,17 +32,17 @@ export class PlaceDetailsComponent implements OnInit {
       switchMap(params => {
         return this.placeService.getPlaceDetails(params.id);
       }),
-      tap(place => this.currentPhoto = place.coverPhoto)
+      // tap(place => this.currentPhoto = place.coverPhoto)
     );
     this.place$.pipe(
       mergeMap((place: Place) => {
         return forkJoin(
-          this.placeService.getAuthor(place.coverPhoto.authorId),
+          // this.placeService.getAuthor(place.coverPhoto.authorId),
           this.placeService.getAlternativePhotos(place.photoIds)
         );
       })
-    ).subscribe(([author, photos]) => {
-      this.currentPhotoAuthor = author;
+    ).subscribe(([photos]) => {
+      // this.currentPhotoAuthor = author;
       this.alternativePhotos = photos;
 
     });

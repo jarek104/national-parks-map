@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { PLACES } from 'src/assets/mocks/places';
+// import { PLACES } from 'src/assets/mocks/places';
 import { Place } from 'src/app/models/place';
-import { USERS } from 'src/assets/mocks/users';
+// import { USERS } from 'src/assets/mocks/users';
 import { User } from 'src/app/models/user';
 import { Photo } from 'src/app/models/photo';
 import { map, tap } from 'rxjs/operators';
@@ -21,12 +21,14 @@ export class PlaceService {
 
   }
   getPlaceDetails(id: string): Observable<Place> {
-    const myPlace = PLACES.find(place => place.id === id);
-    return of(myPlace);
+    // const myPlace = PLACES.find(place => place.id === id);
+    // return of(myPlace);
+    return of(undefined);
   }
   getAuthor(userId: string): Observable<User> {
-    const myUser = USERS.find(user => user.id === userId);
-    return of(myUser);
+    // const myUser = USERS.find(user => user.id === userId);
+    // return of(myUser);
+    return of(undefined);
   }
   getAlternativePhotos(photoIds: string[]): Observable<Photo[]> {
     return this.http.get<Photo[]>(this.jsonFileURL);

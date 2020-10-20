@@ -1,8 +1,8 @@
-<mgl-map [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="[2]" [center]="[-74, 43]" [attributionControl]="false"
+<mgl-map [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="[3]" [center]="startPlace" [attributionControl]="false"
   (load)="onLoad($event)" (moveEnd)="reloadPlaces()" fxFlex>
-  <mgl-marker [lngLat]="[place.longitude, place.lattitude]" *ngFor="let place of places; let i=index">
-    <div class="marker" [ngStyle]="{
-'background-color': i == highlightedPointIndex ? '#66ff00' :'#475467',
+  <mgl-marker [lngLat]="[place.geopoint.longitude, place.geopoint.latitude]" *ngFor="let place of places; let i=index">
+    <div class="marker" (click)="onPinClick(place)" [ngStyle]="{
+'background-color': isActive(place) ? '#66ff00' :'#475467',
           'width': '12px',
           'height': '12px'
         }">

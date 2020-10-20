@@ -2,11 +2,16 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  bio: string;
-  memberSince: string;
-  totalFavoritesCount: number;
-  photos: number[];
-  reportIds: number[];
-  favoritePhotoIds: number[];
-  bucketListIds: number[];
+  contactEnabled: boolean;
+  dateCreated: string | Date;
+  avatarId?: string;
+  points?: number;
+  bio?: string;
+  uploadedPhotoIds?: string[];
+  reportsCreatedIds?: string[];
+  reportsReceivedIds?: string[];
+  bucketListsIds?: string[];
+  favoritePhotoIds?: string[];
+  followingUserIds?: string[];
+  photoViewingHistory?: string[];
 }

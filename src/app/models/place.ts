@@ -2,8 +2,11 @@ import { Photo } from './photo';
 
 export interface Place {
   id: string;
-  longitude: number;
-  lattitude: number;
+  title: string;
+  description?: string;
+  dateCreated?: string | Date;
+  longitude?: number;
+  latitude?: number;
   photoIds: string[];
-  coverPhoto: Photo;
+  coverPhotoId: string;
 }

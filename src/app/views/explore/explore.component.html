@@ -1,13 +1,9 @@
-<sp-map-container [places]="placesInBounds | async" (screenBoundsEmitter)="onScreenBoundChange($event)"></sp-map-container>
-<div class="preview-area">
-  <carousel-component *ngIf="(placesInBounds | async).length > 0" perspective="1000" (onSlideChange)="onSlideChange($event)">
-    <div class="item-carousel" *ngFor="let place of placesInBounds | async">
-      <div class="image-container" [style.backgroundImage]="'url(' + place.coverPhoto.blob + ')'" fxFlex (click)="onPreviewClick(place)"
-        routerLink="/place-details/{{place.id}}"></div>
-      <div class="image-description" (click)="change()">
-        <div class="image-title">{{ place.coverPhoto.title }}</div>
-        <div class="image-by">Photo by <span class="image-author-name">{{ place.coverPhoto.cameraType }}</span></div>
-      </div>
-    </div>
-  </carousel-component>
+<div fxFlexFill fxLayout="row">
+  <div fxFlex="70">
+    <sp-map-container [places]="placesInBounds$ | async" (screenBoundsEmitter)="onScreenBoundChange($event)"></sp-map-container>
+  </div>
+  <div fxFlex="30" style="overflow: auto;">
+    <sp-generate fxFlexFill></sp-generate>
+  </div>
 </div>
+

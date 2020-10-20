@@ -1,14 +1,25 @@
+import { Tag } from './tag';
 export interface Photo {
   id: string;
-  longitude: number;
-  lattitude: number;
-  blob: string;
   title: string;
-  description: string;
-  authorId: string;
-  favorites: number;
-  tags: number[];
-  date: string;
-  placeId: number;
-  cameraType: string;
+  tags: Tag[];
+  geopoint: {
+    longitude?: number;
+    lattitude?: number;
+  }
+  authorId?: string;
+  isCopyright?: boolean;
+  showAuthor?: boolean;
+  likesCount?: number;
+  viewCount?: number;
+  dislikesCount?: number;
+  dateCreated: string | Date;
+  description?: string;
+  cameraBrand?: string;
+  cameraModel?: string;
+  fullRezLink?: string;
+  medRezLink?: string;
+  lowRezLink?: string;
+  wasEdited?: boolean;
+  reportIds?: string[];
 }
