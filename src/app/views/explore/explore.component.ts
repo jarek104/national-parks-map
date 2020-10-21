@@ -18,6 +18,7 @@ export class ExploreComponent implements OnInit {
   selectedItem?: any;
   photosFromPlace$?: Observable<any>;
   showingPlaces = true;
+  currentBounds?: any;
 
   placesInBounds$: Observable<any>;
 
@@ -28,6 +29,7 @@ export class ExploreComponent implements OnInit {
   ngOnInit(): void {
   }
   onScreenBoundChange(bounds: LngLatBounds) {
+    this.currentBounds = bounds;
     this.placesInBounds$ = this.explorerService.getPlacesInBounds$(bounds);
   }
 
@@ -37,9 +39,11 @@ export class ExploreComponent implements OnInit {
     this.photosFromPlace$ = this.explorerService.getPhotosCollection(item).pipe(
       map(photo => convertSnaps(photo))
     );
+    this.placesInBounds$ = this.photosFromPlace$;
   }
 
   toggleView(){
-    this.showingPlaces = !this.showingPlaces;
+    this.showingPlaces = true;
+    this.placesInBounds$ = this.explorerService.getPlacesInBounds$(this.currentBounds);
   }
 }

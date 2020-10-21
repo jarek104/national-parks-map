@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@a
 
 import { Map } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
+import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
 
 @Component({
@@ -26,8 +27,10 @@ export class MapContainerComponent {
     this.screenBoundsEmitter.emit(this.map.mapInstance.getBounds());
   }
 
-  onPinClick(place: Place) {
-    this.activeItem = place;
+  onPinClick(item: Place | Photo) {
+    console.log(item);
+
+    this.activeItem = item;
   }
   isActive(place: Place) {
     if (!this.activeItem) {

@@ -38,7 +38,7 @@ export class ExplorerService {
   }
 
   getPhotosCollection(place: Place) {
-    console.log('place', place.photoIds);
-    return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds)).snapshotChanges();
+    return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
+      .snapshotChanges();
   }
 }
