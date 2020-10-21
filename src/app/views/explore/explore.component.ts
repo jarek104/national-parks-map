@@ -38,4 +38,8 @@ export class ExploreComponent implements OnInit {
       map(photo => convertSnaps(photo))
     );
   }
+
+  toggleView(){
+    this.showingPlaces = !this.showingPlaces;
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { Place } from 'src/app/models/place';
+
 @Component({
   selector: 'app-place-list-item',
   templateUrl: './place-list-item.component.html',
@@ -7,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class PlaceListItemComponent implements OnInit {
 
-  @Input() place?: any;
+  @Input() place?: Place;
   @Output() itemSelected = new EventEmitter();
 
 
