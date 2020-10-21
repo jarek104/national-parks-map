@@ -22,11 +22,13 @@ import { NgModule } from '@angular/core';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { PhotoListTileComponent } from './shared/components/photo-list-tile/photo-list-tile.component';
 import { PlaceDetailsComponent } from './views/place-details/place-details.component';
+import { PlaceListItemComponent } from './shared/components/place-list-item/place-list-item.component';
 import { ProfileComponent } from './views/profile/profile.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { SharedModule } from './shared/modules/shared.module';
 import { UploadsComponent } from './views/uploads/uploads.component';
 import { environment } from '../environments/environment';
+import { PhotoListItemComponent } from './shared/components/photo-list-item/photo-list-item.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { environment } from '../environments/environment';
     SettingsComponent,
     PhotoListTileComponent,
     PlaceDetailsComponent,
+    PlaceListItemComponent,
+    PhotoListItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,6 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    MatIconModule,
     HttpClientModule,
     SharedModule,
     GenerateModule,

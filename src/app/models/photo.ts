@@ -1,12 +1,12 @@
 import { Tag } from './tag';
+
 export interface Photo {
   id: string;
   title: string;
+  description: string;
+  placeId: string;
   tags: Tag[];
-  geopoint: {
-    longitude?: number;
-    lattitude?: number;
-  }
+  geopoint: firebase.firestore.GeoPoint;
   authorId?: string;
   isCopyright?: boolean;
   showAuthor?: boolean;
@@ -14,7 +14,6 @@ export interface Photo {
   viewCount?: number;
   dislikesCount?: number;
   dateCreated: string | Date;
-  description?: string;
   cameraBrand?: string;
   cameraModel?: string;
   fullRezLink?: string;

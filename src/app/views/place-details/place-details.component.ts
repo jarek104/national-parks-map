@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, mergeMap } from 'rxjs/operators';
 import { Observable, forkJoin } from 'rxjs';
+import { mergeMap, switchMap, tap } from 'rxjs/operators';
+
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
 import { PlaceService } from 'src/app/shared/services/place.service';
-import { Photo } from 'src/app/models/photo';
-
-import { Location } from '@angular/common';
 import { User } from '../../models/user';
 
 @Component({

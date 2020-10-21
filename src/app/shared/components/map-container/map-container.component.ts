@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 
-import { ExplorerService } from './../../services/explorer.service';
 import { Map } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
-import { Observable } from 'rxjs';
-import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';
 
 @Component({
@@ -12,21 +9,15 @@ import { Place } from 'src/app/models/place';
   templateUrl: './map-container.component.html',
   styleUrls: ['./map-container.component.scss']
 })
-export class MapContainerComponent implements OnInit {
+export class MapContainerComponent {
 
   @ViewChild(MapComponent) map: MapComponent;
   @Output() screenBoundsEmitter = new EventEmitter();
   @Input() places: any[] = [];
+  @Input() activeItem?: any;
   startPlace = [-100.3715367, 39.041718];
 
-  activePlace?: Place;
-
-  constructor(
-    private explorerService: ExplorerService
-  ) { }
-
-  ngOnInit() {
-  }
+  constructor() { }
 
   onLoad(mapInstance?: Map) {
     this.screenBoundsEmitter.emit(mapInstance.getBounds());
@@ -36,13 +27,12 @@ export class MapContainerComponent implements OnInit {
   }
 
   onPinClick(place: Place) {
-    console.log(place);
-    this.activePlace = place;
+    this.activeItem = place;
   }
   isActive(place: Place) {
-    if (!this.activePlace) {
-      this.activePlace = this.places[0];
+    if (!this.activeItem) {
+      this.activeItem = this.places[0];
     }
-    return place.id === this.activePlace.id;
+    return place.id === this.activeItem.id;
   }
 }

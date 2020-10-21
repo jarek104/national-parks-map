@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
 import { Photo } from 'src/app/models/photo';
 
 @Component({
@@ -8,11 +9,13 @@ import { Photo } from 'src/app/models/photo';
 })
 export class PhotoListTileComponent implements OnInit {
 
-  @Input() photo: Photo;
+  @Input() photo?: Photo;
 
   constructor() { }
 
   ngOnInit() {
+    // console.log('init', this.photo);
+
   }
 
 }

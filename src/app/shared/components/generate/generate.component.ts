@@ -71,9 +71,16 @@ export class GenerateComponent implements OnInit {
     this.photoForm.patchValue({
       geopoint: geo
     })
-    console.log(this.selectedPlace, this.photoForm.value);
-    const ref = this.firestore.collection('places').doc(this.selectedPlace.id).collection('photos');
-    ref.add(this.photoForm.value);
+    const ref = this.firestore.collection('photos').add({
+      placeId: this.selectedPlace.id,
+      ...this.photoForm.value
+    }).then(newDoc => {
+      if (newDoc) {
+        this.firestore.collection('places').doc(`${this.selectedPlace.id}`).update({
+          photoIds: firebase.firestore.FieldValue.arrayUnion(newDoc.id)
+        })
+      }
+    })
   }
 
   parseGeopoint(point: string) {

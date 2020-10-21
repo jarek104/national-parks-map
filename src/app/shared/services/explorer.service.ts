@@ -1,10 +1,13 @@
-import { filter, map } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
 
-import { Place } from 'src/app/models/place';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LngLatBounds, LngLatLike } from 'mapbox-gl';
+import { filter, map, tap } from 'rxjs/operators';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
+import { Place } from 'src/app/models/place';
+import { convertSnaps } from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +20,9 @@ export class ExplorerService {
   constructor(
     private firestore: AngularFirestore,
   ) {
-    console.log('init service');
-
     this.allPlaces$ = this.firestore.collection('places')
-    .snapshotChanges().pipe(
-      map(places => {
-        return places.map(place => {
-          return {
-            id: place.payload.doc.id,
-            ...place.payload.doc.data() as {},
-          }
-        })
-      })
+      .snapshotChanges().pipe(
+        map(places => convertSnaps(places))
     )
   }
 
@@ -41,5 +35,10 @@ export class ExplorerService {
         })
       })
     )
+  }
+
+  getPhotosCollection(place: Place) {
+    console.log('place', place.photoIds);
+    return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds)).snapshotChanges();
   }
 }
