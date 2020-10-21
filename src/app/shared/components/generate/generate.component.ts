@@ -3,7 +3,10 @@ import * as firebase from 'firebase/app'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { combineLatest, forkJoin } from 'rxjs';
+import { concatMap, last, switchMap } from 'rxjs/operators';
 
+import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ExplorerService } from './../../services/explorer.service';
 import { Tag } from 'src/app/models/tag';
@@ -17,6 +20,7 @@ export class GenerateComponent implements OnInit {
   tags: Tag[] = [Tag.Beach, Tag.Desert, Tag.Forest, Tag.Lake, Tag.Mountain, Tag.Waterfall];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedPlace?: any;
+  photoFile?: File;
 
   places = [];
   form = new FormGroup({
@@ -36,8 +40,8 @@ export class GenerateComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    private explorerService: ExplorerService) {
-  }
+    private fireStorage: AngularFireStorage,
+  ) { }
 
   ngOnInit() {
     // this.explorerService.placesInBounds$.subscribe(places =>
@@ -71,14 +75,30 @@ export class GenerateComponent implements OnInit {
     this.photoForm.patchValue({
       geopoint: geo
     })
-    const ref = this.firestore.collection('photos').add({
+
+    this.firestore.collection('photos').add({
       placeId: this.selectedPlace.id,
       ...this.photoForm.value
-    }).then(newDoc => {
-      if (newDoc) {
-        this.firestore.collection('places').doc(`${this.selectedPlace.id}`).update({
-          photoIds: firebase.firestore.FieldValue.arrayUnion(newDoc.id)
-        })
+    }).then(photoDoc => {
+      if (photoDoc) {
+        const filePath = `photos/${photoDoc.id}/${this.photoFile.name}`;
+
+        const uploadTask = this.fireStorage.upload(filePath, this.photoFile);
+
+        uploadTask.snapshotChanges().pipe(
+          last(),
+          concatMap(() => this.fireStorage.ref(filePath).getDownloadURL()),
+          switchMap(downloadUrl => {
+            return forkJoin([
+              this.firestore.collection('places').doc(`${this.selectedPlace.id}`).update({
+               photoIds: firebase.firestore.FieldValue.arrayUnion(photoDoc.id)
+             }),
+             this.firestore.collection('photos').doc(`${photoDoc.id}`).update({
+               downloadUrl
+             })
+            ])
+          })
+        ).subscribe(console.log);
       }
     })
   }
@@ -118,5 +138,9 @@ export class GenerateComponent implements OnInit {
   }
   getTagString(tag: number) {
     return Tag[tag];
+  }
+
+  uploadFile(event: any) {
+    this.photoFile = event.target.files[0];
   }
 }

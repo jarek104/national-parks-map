@@ -54,6 +54,7 @@
     <mat-form-field>
       <input matInput placeholder="geopoint" formControlName="geopoint"/>
     </mat-form-field>
+    <input type="file" (change)="uploadFile($event)"/>
     <button mat-raised-button color="primary" (click)="onPhotoSubmit()">Submit Photo</button>
   </form>
 </div>

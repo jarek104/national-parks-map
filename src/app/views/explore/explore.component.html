@@ -3,14 +3,14 @@
     <sp-map-container [activeItem]="selectedItem" [places]="placesInBounds$ | async" (screenBoundsEmitter)="onScreenBoundChange($event)"></sp-map-container>
   </div>
   <div fxFlex="30" style="overflow: auto;">
-    <!-- <ng-container *ngIf="placesInBounds$ | async as places">
+    <ng-container *ngIf="placesInBounds$ | async as places">
       <ng-container *ngIf="showingPlaces; else photosTemplate">
         <app-place-list-item *ngFor="let item of places; let i = index" [place]="item" (itemSelected)="onItemSelected($event)">{{i+1}}</app-place-list-item>
       </ng-container>
       <ng-template #photosTemplate>
         <app-photo-list-item *ngFor="let photo of (photosFromPlace$ | async)" [photo]="photo"></app-photo-list-item>
       </ng-template>
-    </ng-container> -->
+    </ng-container>
     <sp-generate fxFlexFill></sp-generate>
   </div>
 </div>
