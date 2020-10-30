@@ -14,6 +14,7 @@ export class MapContainerComponent {
 
   @ViewChild(MapComponent) map: MapComponent;
   @Output() screenBoundsEmitter = new EventEmitter();
+  @Output() itemSelected = new EventEmitter();
   @Input() places: any[] = [];
   @Input() activeItem?: any;
   startPlace = [-100.3715367, 39.041718];
@@ -28,14 +29,13 @@ export class MapContainerComponent {
   }
 
   onPinClick(item: Place | Photo) {
-    console.log(item);
-
     this.activeItem = item;
+    this.itemSelected.emit(this.activeItem)
   }
   isActive(place: Place) {
-    if (!this.activeItem) {
-      this.activeItem = this.places[0];
-    }
-    return place.id === this.activeItem.id;
+    if (this.activeItem) {
+      return place.id === this.activeItem.id;
+    } 
+    return false;
   }
 }

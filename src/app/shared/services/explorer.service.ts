@@ -41,7 +41,12 @@ export class ExplorerService {
   }
   getPlaceById$(id: string) {
     return this.allPlaces$.pipe(
-      map((places: Place[]) => places.find(item => item.id === id))
+      map((places: Place[]) => {
+        if (places) {
+          return places.find(item => item.id === id);
+        }
+        return []
+      })
     )
   }
 

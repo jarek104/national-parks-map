@@ -42,8 +42,10 @@ export class ExploreComponent implements OnInit {
         return this.explorerService.getPlaceById$(params['placeId'])
       })
     ).subscribe(item => {
-      this.selectedItem = item;
-      console.log('item', this.selectedItem);
+      if (item) {
+        this.selectedItem = item;
+        console.log('item', this.selectedItem);
+      }
       
     });
   }
