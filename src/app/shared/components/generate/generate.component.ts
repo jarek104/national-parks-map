@@ -27,7 +27,8 @@ export class GenerateComponent implements OnInit {
     title: new FormControl(''),
     description: new FormControl(''),
     dateCreated: new FormControl(new Date()),
-    geopoint: new FormControl('')
+    geopoint: new FormControl(''),
+    photoIds: new FormControl([])
   });
 
   photoForm = new FormGroup({
@@ -64,6 +65,9 @@ export class GenerateComponent implements OnInit {
     geo = new firebase.firestore.GeoPoint(Number(geo[0]), Number(geo[1]));
     this.form.patchValue({
       geopoint: geo
+    })
+    this.form.patchValue({
+      photoIds: []
     })
     this.firestore.collection('places').add(this.form.value);
   }

@@ -14,7 +14,7 @@ export class PhotoListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('photo', this.photo);
+    // console.log('photo', this.photo);
 
   }
 

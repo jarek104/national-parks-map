@@ -11,10 +11,15 @@ import { UploadsComponent } from './views/uploads/uploads.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'explore', component: ExploreComponent },
+  { path: 'explore/:placeId', component: ExploreComponent },
+  // { path: 'explore', component: ExploreComponent, children:[
+  //   { path: 'place/:id', component: ExploreComponent },
+  //   { path: 'photo/:id', component: ExploreComponent }
+  // ]},
   { path: 'uploads', component: UploadsComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'place-details/:id', component: PlaceDetailsComponent },
+  { path: 'place/:id', component: PlaceDetailsComponent },
   { path: '', redirectTo: '/explore', pathMatch: 'full' },
   { path: '**', redirectTo: '/explore' }
 ];
