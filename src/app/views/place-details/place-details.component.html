@@ -1,32 +1,32 @@
 <div fxFlex class="image-wrapper mat-elevation-z2">
-  <div class="image-container" [style.backgroundImage]="'url(' + (place$ | async).coverPhoto.blob + ')'" fxFlex></div>
+  <!-- <div class="image-container" [style.backgroundImage]="'url(' + (place$ | async).coverPhoto.blob + ')'" fxFlex></div> -->
+  <div class="image-container" [style.backgroundImage]="demo" fxFlex></div>
   <button mat-icon-button class="back-button" (click)="onBackClick()">
     <mat-icon>arrow_back</mat-icon>
   </button>
   <div class="favorites-section" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-icon-button class="favorite-button" (click)="onFavoritesClick(currentPhoto)">
+    <button mat-icon-button class="favorite-button" (click)="onFavoritesClick()">
       <mat-icon>favorite_border</mat-icon>
     </button>
+    <div> 37 </div>
     <!-- <div> {{ currentPhoto.favorites }}</div> -->
   </div>
 </div>
 
 <div fxFlex class="details-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
   <div class="image-title">
-    {{ currentPhoto.title }}
-  </div>
-  <div class="image-author">
-    <span class="photo-by">Photo by: </span>
-    <span class="author-name">{{ currentPhotoAuthor?.name }}</span>
-  </div>
-  <div class="image-previews" fxFlex="1 1 auto">
-    <div class="image-list">
-      <div *ngFor="let photo of alternativePhotos" class="image-wrapper">
-        <img [src]="photo.blob">
-      </div>
-    </div>
+    {{ place.title }}
   </div>
   <div class="image-description" fxFlex="2 1 auto">
-    {{ currentPhoto.description }}
+    {{ place.description }}
+  </div>
+  <!-- <div class="image-author">
+    <span class="photo-by">Photo by: </span>
+    <span class="author-name"> hi</span>
+  </div> -->
+  <div class="image-previews" fxFlex="1 1 auto">
+    <div style="width: 100%" fxLayout="row wrap">
+      <app-photo-list-item style="width: 50%" *ngFor="let photo of photos" [photo]="photo"></app-photo-list-item>
+    </div>
   </div>
 </div>

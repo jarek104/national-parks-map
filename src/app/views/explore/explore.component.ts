@@ -18,12 +18,13 @@ export class ExploreComponent implements OnInit {
 
   @ViewChild(CarouselComponent) carousel: CarouselComponent;
   selectedItem?: any;
+  highlightedItem?: any;
   photosFromPlace$?: Observable<any>;
   showingPlaces = true;
   currentBounds?: any;
   id = '';
 
-  placesInBounds$: Observable<any>;
+  pinsInBounds$: Observable<any>;
 
   constructor(
     private explorerService: ExplorerService,
@@ -44,7 +45,6 @@ export class ExploreComponent implements OnInit {
     ).subscribe(item => {
       if (item) {
         this.selectedItem = item;
-        console.log('item', this.selectedItem);
       }
       
     });
@@ -53,28 +53,28 @@ export class ExploreComponent implements OnInit {
     this.currentBounds = bounds;
     console.log('bound change');
     
-    this.placesInBounds$ = this.explorerService.getPlacesInBounds$(bounds);
+    this.pinsInBounds$ = this.explorerService.getPlacesInBounds$(bounds);
   }
 
   onItemSelected(item: any) {
-    this.selectedItem = item;
-    this.showingPlaces = false;
+    this.selectedItem = item;    
+    console.log(item);
+    // this.showingPlaces = false;
     
-    // this.loadPlace(item.id)
-    this.router.navigate(['/explore', item.id], { relativeTo: this.route });
+    // this.photosFromPlace$ = this.explorerService.getPhotosCollection(item).pipe(
+      //   map(photo => convertSnaps(photo))
+      // );
+      // this.pinsInBounds$ = this.photosFromPlace$;
+      // this.router.navigate(['/explore', item.id], { relativeTo: this.route });
+  }
+  
+  onItemHovered(item: any) {
+    this.highlightedItem = item;
   }
 
-  toggleView(){
-    this.showingPlaces = true;
-    console.log('toggle view');
-    
-    this.placesInBounds$ = this.explorerService.getPlacesInBounds$(this.currentBounds);
+  onBackClicked(){
+    this.showingPlaces = true;    
+    this.pinsInBounds$ = this.explorerService.getPlacesInBounds$(this.currentBounds);
   }
 
-  private loadPlace(place: Place) {
-    this.photosFromPlace$ = this.explorerService.getPhotosCollection(place).pipe(
-      map(photo => convertSnaps(photo))
-    );
-    this.placesInBounds$ = this.photosFromPlace$;
-  }
 }

@@ -1,4 +1,4 @@
-export function convertSnaps<T>(snaps) {
+export function convertSnaps<T>(snaps) {  
   if (!snaps) {
     return
   }

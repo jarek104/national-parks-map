@@ -1,22 +1,26 @@
 <div fxFlexFill fxLayout="row">
   <div fxFlex="70">
-    <sp-map-container [activeItem]="selectedItem" [places]="placesInBounds$ | async" (screenBoundsEmitter)="onScreenBoundChange($event)" (itemSelected)="onItemSelected($event)"></sp-map-container>
+    <sp-map-container [activeItem]="selectedItem" [hoveredItem]="highlightedItem" [places]="pinsInBounds$ | async" (screenBoundsEmitter)="onScreenBoundChange($event)" (itemClicked)="onItemSelected($event)"></sp-map-container>
   </div>
   <div fxFlex="30" style="overflow: auto;">
-    <button mat-button (click)="toggleView()">Back</button>
-    <ng-container *ngIf="placesInBounds$ | async as places">
+    <!-- <button mat-button (click)="toggleView()">Back</button> -->
+    <ng-container *ngIf="pinsInBounds$ | async as places">
+      
       <ng-container *ngIf="showingPlaces; else photosTemplate">
-        <app-place-list-item *ngFor="let item of places; let i = index" [place]="item" (itemSelected)="onItemSelected($event)">{{i+1}}</app-place-list-item>
+        <app-place-list [places]="places" [active]="selectedItem" (itemHovered)="onItemHovered($event)" (itemClicked)="onItemSelected($event)"></app-place-list>
       </ng-container>
+
       <ng-template #photosTemplate>
-        <h3>{{selectedItem.title}}</h3>
+        <sp-place-details (backClicked)="onBackClicked()" [place]="selectedItem" [photos]="photosFromPlace$ | async"></sp-place-details>
+        <!-- <h3>{{selectedItem.title}}</h3>
         <p style="width: 100%">{{selectedItem.description}}</p>
         <div style="width: 100%" fxLayout="row wrap">
           <app-photo-list-item *ngFor="let photo of (photosFromPlace$ | async)" [photo]="photo"></app-photo-list-item>
-        </div>
+        </div> -->
       </ng-template>
+
     </ng-container>
-    <sp-generate fxFlexFill></sp-generate>
+    <!-- <sp-generate fxFlexFill></sp-generate> -->
   </div>
 </div>
 

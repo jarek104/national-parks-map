@@ -1,13 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
-import { mergeMap, switchMap, tap } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
-import { PlaceService } from 'src/app/shared/services/place.service';
-import { User } from '../../models/user';
 
 @Component({
   selector: 'sp-place-details',
@@ -15,43 +9,22 @@ import { User } from '../../models/user';
   styleUrls: ['./place-details.component.scss']
 })
 export class PlaceDetailsComponent implements OnInit {
+  demo = "url(\"https://www.discovernorthamerica.co.uk/wp-content/uploads/2018/10/monument-valley-1081996_960_720.jpg\")";
 
-  place$: Observable<Place>;
-  currentPhoto: Photo;
-  currentPhotoAuthor: User;
-  alternativePhotos: Photo[] = [];
+  @Output() backClicked = new EventEmitter();
+  @Input() place?: Place;
+  @Input() photos?: Photo[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private placeService: PlaceService,
-    private location: Location
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.place$ = this.route.params.pipe(
-      switchMap(params => {
-        return this.placeService.getPlaceDetails(params.id);
-      }),
-      // tap(place => this.currentPhoto = place.coverPhoto)
-    );
-    this.place$.pipe(
-      mergeMap((place: Place) => {
-        return forkJoin(
-          // this.placeService.getAuthor(place.coverPhoto.authorId),
-          this.placeService.getAlternativePhotos(place.photoIds)
-        );
-      })
-    ).subscribe(([photos]) => {
-      // this.currentPhotoAuthor = author;
-      this.alternativePhotos = photos;
-
-    });
   }
   onBackClick() {
-    this.location.back();
+    this.backClicked.emit();
   }
-  onFavoritesClick(photo: Photo) {
-    console.log('add/remove photo from favorites', photo);
+  onFavoritesClick() {
+    console.log(this.photos);
+    console.log('add/remove photo from favorites');
   }
 
 }

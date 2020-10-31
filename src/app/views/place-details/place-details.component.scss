@@ -4,6 +4,7 @@
   flex-direction: column;
   color: #475467;
   font-family: Thasadith;
+  border: 1px solid black;
 }
 
 .image-wrapper {
@@ -13,6 +14,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 200px;
   }
 
   .back-button {

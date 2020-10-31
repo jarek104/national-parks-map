@@ -51,10 +51,11 @@ export class ExplorerService {
   }
 
   getPhotosCollection(place: Place) {
+    console.log('place.photoIds', place.photoIds);
+    
     if (place.photoIds) {
-      return
+      return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
+        .snapshotChanges();
     }
-    return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
-      .snapshotChanges();
   }
 }

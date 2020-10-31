@@ -14,9 +14,10 @@ export class MapContainerComponent {
 
   @ViewChild(MapComponent) map: MapComponent;
   @Output() screenBoundsEmitter = new EventEmitter();
-  @Output() itemSelected = new EventEmitter();
+  @Output() itemClicked = new EventEmitter();
   @Input() places: any[] = [];
   @Input() activeItem?: any;
+  @Input() hoveredItem?: any;
   startPlace = [-100.3715367, 39.041718];
 
   constructor() { }
@@ -30,12 +31,17 @@ export class MapContainerComponent {
 
   onPinClick(item: Place | Photo) {
     this.activeItem = item;
-    this.itemSelected.emit(this.activeItem)
+    this.itemClicked.emit(this.activeItem)
   }
-  isActive(place: Place) {
-    if (this.activeItem) {
-      return place.id === this.activeItem.id;
-    } 
-    return false;
+
+  getPinStyle(place: Place | undefined): string {
+    if (place) {
+      if (this.activeItem && place.id === this.activeItem.id) {
+        return '#66ff00';
+      } else if (this.hoveredItem && place.id === this.hoveredItem.id) {
+        return 'lightcoral';
+      }
+    }
+    return '#475467';
   }
 }

@@ -2,7 +2,7 @@
   (load)="onLoad($event)" (moveEnd)="reloadPlaces()" fxFlex>
   <mgl-marker [lngLat]="[place.geopoint.longitude, place.geopoint.latitude]" *ngFor="let place of places; let i=index">
     <div class="marker" (click)="onPinClick(place)" [ngStyle]="{
-'background-color': isActive(place) ? '#66ff00' :'#475467',
+'background-color': getPinStyle(place),
           'width': '12px',
           'height': '12px'
         }">

@@ -1,0 +1,4 @@
+<!-- <app-place-list-item *ngFor="let item of places; let i = index" [active]="active" [place]="item" (itemHovered)="onItemHovered(item)" (itemSelected)="onItemSelected(item)">{{i+1}}</app-place-list-item> -->
+<div *ngFor="let place of places; let i = index" [class.active]="place === active" (click)="onItemClicked(place)" (mouseenter)="onItemHover(place)" (mouseout)="onItemHover()">
+    <span> {{place.title}} </span>
+</div>

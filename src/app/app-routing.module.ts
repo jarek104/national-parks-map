@@ -10,7 +10,7 @@ import { UploadsComponent } from './views/uploads/uploads.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'explore', component: ExploreComponent },
+  // { path: 'explore', component: ExploreComponent },
   { path: 'explore/:placeId', component: ExploreComponent },
   // { path: 'explore', component: ExploreComponent, children:[
   //   { path: 'place/:id', component: ExploreComponent },
@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'place/:id', component: PlaceDetailsComponent },
   { path: '', redirectTo: '/explore', pathMatch: 'full' },
-  { path: '**', redirectTo: '/explore' }
+  { path: '**', redirectTo: '/explore/_' }
 ];
 
 
