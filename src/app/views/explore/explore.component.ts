@@ -58,13 +58,13 @@ export class ExploreComponent implements OnInit {
 
   onItemSelected(item: any) {
     this.selectedItem = item;    
-    console.log(item);
-    // this.showingPlaces = false;
+    // console.log(item);
+    this.showingPlaces = false;
     
-    // this.photosFromPlace$ = this.explorerService.getPhotosCollection(item).pipe(
-      //   map(photo => convertSnaps(photo))
-      // );
-      // this.pinsInBounds$ = this.photosFromPlace$;
+    this.photosFromPlace$ = this.explorerService.getPhotosCollection(item).pipe(
+        map(photo => convertSnaps(photo))
+      );
+      this.pinsInBounds$ = this.photosFromPlace$;
       // this.router.navigate(['/explore', item.id], { relativeTo: this.route });
   }
   

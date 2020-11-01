@@ -12,11 +12,6 @@
 
       <ng-template #photosTemplate>
         <sp-place-details (backClicked)="onBackClicked()" [place]="selectedItem" [photos]="photosFromPlace$ | async"></sp-place-details>
-        <!-- <h3>{{selectedItem.title}}</h3>
-        <p style="width: 100%">{{selectedItem.description}}</p>
-        <div style="width: 100%" fxLayout="row wrap">
-          <app-photo-list-item *ngFor="let photo of (photosFromPlace$ | async)" [photo]="photo"></app-photo-list-item>
-        </div> -->
       </ng-template>
 
     </ng-container>

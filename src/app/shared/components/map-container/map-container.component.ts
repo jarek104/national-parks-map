@@ -37,9 +37,9 @@ export class MapContainerComponent {
   getPinStyle(place: Place | undefined): string {
     if (place) {
       if (this.activeItem && place.id === this.activeItem.id) {
-        return '#66ff00';
-      } else if (this.hoveredItem && place.id === this.hoveredItem.id) {
         return 'lightcoral';
+      } else if (this.hoveredItem && place.id === this.hoveredItem.id) {
+        return '#66ff00';
       }
     }
     return '#475467';

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Place } from 'src/app/models/place';
+import { PlaceService } from '../../services/place.service';
 
 @Component({
   selector: 'app-place-list',
@@ -13,20 +14,24 @@ export class PlaceListComponent implements OnInit {
   @Output() itemClicked = new EventEmitter();
   @Output() itemHovered = new EventEmitter();
   hoveredItem?: Place;
+  coverPhotoUrl?: string;
 
-  constructor() { }
+  constructor(
+    private placeService: PlaceService, 
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onItemClicked(item: Place) {
-    this.itemClicked.emit(item)
-    console.log('active', this.active);
-    
+    this.itemClicked.emit(item)    
   }
 
   onItemHover(item?: Place) {    
     item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
+  }
+
+  getCoverPhoto(place: Place) {
+    // return this.placeService.getCoverPhotoUrl(place);
   }
 
 }

@@ -1,6 +1,6 @@
 <div fxFlex class="image-wrapper mat-elevation-z2">
   <!-- <div class="image-container" [style.backgroundImage]="'url(' + (place$ | async).coverPhoto.blob + ')'" fxFlex></div> -->
-  <div class="image-container" [style.backgroundImage]="demo" fxFlex></div>
+  <div class="image-container" [style.backgroundImage]="'url(' + place.coverPhotoUrl + ')'" fxFlex></div>
   <button mat-icon-button class="back-button" (click)="onBackClick()">
     <mat-icon>arrow_back</mat-icon>
   </button>

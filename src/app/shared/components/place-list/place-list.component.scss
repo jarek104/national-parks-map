@@ -1,3 +1,33 @@
+:host {
+    color: #fff;
+    display: block;
+    padding: 4px;
+}
+
 .active {
     color: #66ff00;
+}
+
+.image-description {
+    box-sizing: border-box;
+    padding: 8px 16px;
+    background: linear-gradient(#00000000 -100%, #000 250%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-style: italic;
+    font-size: 16px;
+    border-radius: 0 0 4px 4px;
+}
+
+.image-container {
+    cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 150px;
+    border-radius: 4px;
+    margin-bottom: 4px;
 }

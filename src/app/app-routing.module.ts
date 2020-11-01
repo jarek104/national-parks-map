@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'place/:id', component: PlaceDetailsComponent },
-  { path: '', redirectTo: '/explore', pathMatch: 'full' },
+  { path: '', redirectTo: '/explore/_', pathMatch: 'full' },
   { path: '**', redirectTo: '/explore/_' }
 ];
 
