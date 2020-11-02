@@ -28,7 +28,7 @@ export class ExplorerService {
     ).subscribe(data => this.allPlaces$.next(data));
   }
 
-  getPlacesInBounds$(bounds: LngLatBounds) {
+  getPlacesInBounds$(bounds: LngLatBounds) {    
     return this.allPlaces$.pipe(
       map(places => {
         console.log('getPlacesInBounds');
@@ -51,7 +51,7 @@ export class ExplorerService {
     )
   }
 
-  getPhotosCollection(place: Place) {    
+  getPlacePhotosCollection(place: Place) {    
     if (place.photoIds) {
       return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
         .snapshotChanges();

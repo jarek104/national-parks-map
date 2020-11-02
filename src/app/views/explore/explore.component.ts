@@ -41,15 +41,17 @@ export class ExploreComponent implements OnInit {
     });
   }
   onScreenBoundChange(bounds: LngLatBounds) {
-    this.currentBounds = bounds;
-    this.pinsInBounds$ = this.explorerService.getPlacesInBounds$(bounds);
+    if (this.showingPlaces) {
+      this.currentBounds = bounds;
+      this.pinsInBounds$ = this.explorerService.getPlacesInBounds$(bounds);
+    }
   }
 
   onItemSelected(item: any) {
     this.selectedItem = item;    
     this.showingPlaces = false;
     
-    this.pinsInBounds$= this.explorerService.getPhotosCollection(item).pipe(
+    this.pinsInBounds$ = this.explorerService.getPlacePhotosCollection(item).pipe(
       map(photo => convertSnaps(photo))
     );
   }

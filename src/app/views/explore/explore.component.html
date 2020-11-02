@@ -10,7 +10,7 @@
       </ng-container>
 
       <ng-template #photosTemplate>
-        <sp-place-details (backClicked)="onBackClicked()" [place]="selectedItem" [photos]="photosFromPlace$ | async"></sp-place-details>
+        <sp-place-details (backClicked)="onBackClicked()" [place]="selectedItem" [photos]="pinsInBounds$ | async" (itemHovered)="onItemHovered($event)"></sp-place-details>
       </ng-template>
 
     </ng-container>

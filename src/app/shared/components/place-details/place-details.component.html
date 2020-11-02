@@ -25,5 +25,5 @@
   </div>
   <button mat-button fxFlexAlign="end" (click)="toggleDescriptionView()">Read More</button>
   <div> More Photos</div>
-  <app-photo-preview-list [photos]="photos" ></app-photo-preview-list>
+  <app-photo-preview-list [photos]="photos" (itemHovered)="onItemHovered($event)"></app-photo-preview-list>
 </div>

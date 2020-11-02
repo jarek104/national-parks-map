@@ -11,6 +11,7 @@ import { Place } from 'src/app/models/place';
 export class PlaceDetailsComponent implements OnInit {
 
   @Output() backClicked = new EventEmitter();
+  @Output() itemHovered = new EventEmitter();
   @Input() place?: Place;
   @Input() photos?: Photo[];
 
@@ -23,6 +24,10 @@ export class PlaceDetailsComponent implements OnInit {
   }
   onFavoritesClick() {
     console.log('add/remove photo from favorites');
+  }
+
+  onItemHovered(photo: Photo) {    
+    this.itemHovered.emit(photo);
   }
 
   toggleDescriptionView() {
