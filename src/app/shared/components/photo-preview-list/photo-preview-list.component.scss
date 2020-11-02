@@ -1,7 +1,8 @@
 :host {
     color: #fff;
     display: block;
-    padding: 8px;
+    padding: 4px;
+    width: 100%;
 }
 
 .active {
@@ -21,23 +22,13 @@
     border-radius: 0 0 4px 4px;
 }
 
-.wrapper {
-    height: 150px;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-}
-
 .image-container {
+    cursor: pointer;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
+    position: relative;
     height: 150px;
-    transition: 0.3s ease-in-out;
-}
-.image-container:hover{
-    transform: scale(1.1, 1.1);
+    border-radius: 4px;
+    margin-bottom: 4px;
 }

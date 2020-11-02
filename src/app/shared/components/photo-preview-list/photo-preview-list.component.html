@@ -1,0 +1,7 @@
+<div *ngFor="let photo of photos; let i = index" 
+  routerLink="/photo/{{photo.id}}"
+  class="image-container" [class.active]="photo === active" 
+  (click)="onItemClicked(place)" (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
+  [style.backgroundImage]="'url(' + photo.downloadUrl + ')'">
+    <div class="image-description">{{ photo?.title }}</div>
+</div>

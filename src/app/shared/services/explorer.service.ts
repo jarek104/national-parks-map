@@ -15,6 +15,7 @@ import { convertSnaps } from './utils';
 export class ExplorerService {
   activePlaceIndex = new BehaviorSubject<number>(0);
   placesInBounds$ = new BehaviorSubject<any[]>([]);
+  photosInPlace$ = new BehaviorSubject<any[]>([]);
   allPlaces$ = new BehaviorSubject<any>(undefined);
 
 
@@ -39,20 +40,18 @@ export class ExplorerService {
       distinctUntilChanged(),
     )
   }
-  getPlaceById$(id: string) {
+  getPlaceById$(id: string) {    
     return this.allPlaces$.pipe(
       map((places: Place[]) => {
         if (places) {
           return places.find(item => item.id === id);
         }
-        return []
+        return undefined;
       })
     )
   }
 
-  getPhotosCollection(place: Place) {
-    console.log('place.photoIds', place.photoIds);
-    
+  getPhotosCollection(place: Place) {    
     if (place.photoIds) {
       return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
         .snapshotChanges();

@@ -1,7 +1,8 @@
 <div *ngFor="let place of places; let i = index" 
   routerLink="/explore/{{place.id}}"
-  class="image-container" [class.active]="place === active" 
+  class="wrapper mat-elevation-z3" [class.active]="place === active" 
   (click)="onItemClicked(place)" (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
-  [style.backgroundImage]="'url(' + place.coverPhotoUrl + ')'">
-    <div class="image-description">{{ place?.title }}</div>
+  >
+  <div class="image-container" [style.backgroundImage]="'url(' + place.coverPhotoUrl + ')'"></div>
+  <div class="image-description">{{ place?.title }}</div>
 </div>

@@ -9,7 +9,6 @@ import { Place } from 'src/app/models/place';
   styleUrls: ['./place-details.component.scss']
 })
 export class PlaceDetailsComponent implements OnInit {
-  demo = "url(\"https://www.discovernorthamerica.co.uk/wp-content/uploads/2018/10/monument-valley-1081996_960_720.jpg\")";
 
   @Output() backClicked = new EventEmitter();
   @Input() place?: Place;
@@ -23,8 +22,11 @@ export class PlaceDetailsComponent implements OnInit {
     this.backClicked.emit();
   }
   onFavoritesClick() {
-    console.log(this.photos);
     console.log('add/remove photo from favorites');
+  }
+
+  toggleDescriptionView() {
+    
   }
 
 }

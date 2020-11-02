@@ -2,12 +2,11 @@
   <div fxFlex="70">
     <sp-map-container [activeItem]="selectedItem" [hoveredItem]="highlightedItem" [places]="pinsInBounds$ | async" (screenBoundsEmitter)="onScreenBoundChange($event)" (itemClicked)="onItemSelected($event)"></sp-map-container>
   </div>
-  <div fxFlex="30" style="overflow: auto;">
-    <!-- <button mat-button (click)="toggleView()">Back</button> -->
-    <ng-container *ngIf="pinsInBounds$ | async as places">
+  <div fxFlex="30" style="overflow: auto;" class="mat-elevation-z4">
+    <ng-container *ngIf="pinsInBounds$ | async as pins">
       
       <ng-container *ngIf="showingPlaces; else photosTemplate">
-        <app-place-list [places]="places" [active]="selectedItem" (itemHovered)="onItemHovered($event)" (itemClicked)="onItemSelected($event)"></app-place-list>
+        <app-place-list [places]="pins" [active]="selectedItem" (itemHovered)="onItemHovered($event)" (itemClicked)="onItemSelected($event)"></app-place-list>
       </ng-container>
 
       <ng-template #photosTemplate>

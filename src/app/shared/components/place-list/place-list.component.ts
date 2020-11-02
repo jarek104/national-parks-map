@@ -13,8 +13,6 @@ export class PlaceListComponent implements OnInit {
   @Input() active?: Place;
   @Output() itemClicked = new EventEmitter();
   @Output() itemHovered = new EventEmitter();
-  hoveredItem?: Place;
-  coverPhotoUrl?: string;
 
   constructor(
     private placeService: PlaceService, 
@@ -28,10 +26,6 @@ export class PlaceListComponent implements OnInit {
 
   onItemHover(item?: Place) {    
     item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
-  }
-
-  getCoverPhoto(place: Place) {
-    // return this.placeService.getCoverPhotoUrl(place);
   }
 
 }
