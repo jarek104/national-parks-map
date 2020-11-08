@@ -1,5 +1,5 @@
 <div fxFlex class="image-wrapper mat-elevation-z2">
-  <div class="image-container" [style.backgroundImage]="'url(' + place.coverPhotoUrl + ')'" fxFlex></div>
+  <div class="image-container" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'" fxFlex></div>
   <button mat-icon-button class="back-button" (click)="onBackClick()">
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -14,14 +14,14 @@
 
 <div fxFlex class="details-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
   <div class="image-title">
-    {{ place.title }}
+    {{ place?.title }}
   </div>
   <div class="image-author">
     <span class="photo-by">Photo by: </span>
     <span class="author-name"> Jerry Olewniczak</span>
   </div>
   <div class="image-description" fxFlex="2 1 auto">
-    {{ place.description }}
+    {{ place?.description }}
   </div>
   <button mat-button fxFlexAlign="end" (click)="toggleDescriptionView()">Read More</button>
   <div> More Photos</div>

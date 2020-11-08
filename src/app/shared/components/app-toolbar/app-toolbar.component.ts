@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-import { ExplorationMode } from 'src/app/models/exploration-mode';
 import { ExplorerService } from '../../services/explorer.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Observable } from 'rxjs';

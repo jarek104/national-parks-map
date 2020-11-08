@@ -1,11 +1,11 @@
 import * as firebase from 'firebase/app';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LngLatBounds, LngLatLike } from 'mapbox-gl';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ExplorationMode } from 'src/app/models/exploration-mode';
+import { ExplorationMode } from 'src/app/models/exploration';
 import { Injectable } from '@angular/core';
 import { Place } from 'src/app/models/place';
 import { convertSnaps } from './utils';
@@ -17,23 +17,27 @@ export class ExplorerService {
   activePlaceIndex = new BehaviorSubject<number>(0);
   placesInBounds$ = new BehaviorSubject<any[]>([]);
   photosInPlace$ = new BehaviorSubject<any[]>([]);
-  allPlaces$ = new BehaviorSubject<any>(undefined);
+  allPlaces$: Observable<Place[]>;
   explorationMode$ = new BehaviorSubject<string>(ExplorationMode[0]);
+  currentBounds$ = new BehaviorSubject<LngLatBounds | undefined>(undefined);
 
 
   constructor(
     private firestore: AngularFirestore,
   ) {
-    this.firestore.collection('places')
+    
+    this.allPlaces$ = this.firestore.collection('places')
       .stateChanges().pipe(
         map(places => convertSnaps(places)),
-    ).subscribe(data => this.allPlaces$.next(data));
+    );
   }
 
   getPlacesInBounds$(bounds: LngLatBounds) {    
+    if (!bounds) {
+      return of([]);
+    }
     return this.allPlaces$.pipe(
       map(places => {
-        console.log('getPlacesInBounds');
         return places.filter(place => {
           const location = [place.geopoint.longitude, place.geopoint.latitude];
           return bounds.contains(location as LngLatLike)
@@ -43,8 +47,13 @@ export class ExplorerService {
     )
   }
   getPlaceById$(id: string) {    
+    if (!id) {
+      return undefined;
+    }
     return this.allPlaces$.pipe(
       map((places: Place[]) => {
+        console.log('places', places);
+        
         if (places) {
           return places.find(item => item.id === id);
         }
