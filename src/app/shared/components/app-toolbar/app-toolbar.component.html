@@ -4,7 +4,13 @@
       <mat-icon style="color: #fff;" svgIcon="menu2"></mat-icon>
     </button>
   </div>
-  <div class="title" *ngIf="showSearchInput === false">Stunning Pins</div>
+  <!-- <div class="title" *ngIf="showSearchInput === false">Stunning Pins</div> -->
+  <div>
+    <mat-button-toggle-group name="mode" [value]="mode$ | async" (change)="onModeChange($event)">
+      <mat-button-toggle value="places">Places</mat-button-toggle>
+      <mat-button-toggle value="photos">Photos</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
   <div fxFlex fxLayout="row-reverse">
     <button mat-icon-button (click)="showSearchInput = !showSearchInput">
       <mat-icon style="color: #fff;">search</mat-icon>

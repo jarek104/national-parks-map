@@ -21,6 +21,7 @@ export class ExploreComponent implements OnInit {
   highlightedItem?: any;
   showingPlaces = true;
   currentBounds?: any;
+  explorationMode$ = this.explorerService.explorationMode$;
   
   photosFromPlace$?: Observable<any>;
   pinsInBounds$: Observable<any>;

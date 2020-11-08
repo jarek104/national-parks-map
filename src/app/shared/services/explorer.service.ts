@@ -5,6 +5,7 @@ import { LngLatBounds, LngLatLike } from 'mapbox-gl';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ExplorationMode } from 'src/app/models/exploration-mode';
 import { Injectable } from '@angular/core';
 import { Place } from 'src/app/models/place';
 import { convertSnaps } from './utils';
@@ -17,6 +18,7 @@ export class ExplorerService {
   placesInBounds$ = new BehaviorSubject<any[]>([]);
   photosInPlace$ = new BehaviorSubject<any[]>([]);
   allPlaces$ = new BehaviorSubject<any>(undefined);
+  explorationMode$ = new BehaviorSubject<string>(ExplorationMode[0]);
 
 
   constructor(
