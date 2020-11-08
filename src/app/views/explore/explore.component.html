@@ -4,7 +4,7 @@
   </div>
   <div fxFlex="40" style="overflow: auto;" class="mat-elevation-z4">
     {{(panelViewMode$ | async) === 0}}
-    {{selectedItem?.id}}
+    {{explorationMode$ | async}}
     <ng-container *ngIf="pinsInBounds$ | async as pins">
       
       <ng-container *ngIf="(panelViewMode$ | async) === 0; else photosTemplate">

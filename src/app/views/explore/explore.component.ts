@@ -1,11 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, forkJoin, of } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
+import { ExplorationMode, PanelViewMode } from './../../models/exploration';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { ExplorerService } from './../../shared/services/explorer.service';
-import { PanelViewMode } from './../../models/exploration';
 import { convertSnaps } from 'src/app/shared/services/utils';
 
 @Component({
@@ -36,22 +36,46 @@ export class ExploreComponent implements OnInit {
       switchMap(params => {
         return this.explorerService.getPlaceById$(params['placeId'])
       })
-    ).subscribe(item => {
+    ).subscribe(item => {      
       item ? this.onItemSelected(item) : this._resetView();
     });
-
-    this.explorerService.currentBounds$.subscribe(value => console.log('new', value));
     
-    this.pinsInBounds$ = this.explorerService.currentBounds$.pipe(
-      switchMap(bounds => {
-        return this.explorerService.getPlacesInBounds$(bounds);
+    // this works
+    // this.pinsInBounds$ = this.explorerService.currentBounds$.pipe(
+    //   switchMap(bounds => {
+    //     return this.explorerService.getPlacesInBounds$(bounds);
+    //   })
+    // );
+
+
+    // this doesn't work right
+    this.pinsInBounds$ = combineLatest([
+      this.explorerService.currentBounds$,
+      this.explorationMode$,
+      this.panelViewMode$
+    ]).pipe(
+      switchMap(([bounds, explorationMode, panelMode]) => {
+        if (bounds && explorationMode !== undefined && panelMode !== undefined) {
+          console.log('here', bounds, explorationMode, ExplorationMode.places, panelMode);
+          if (explorationMode === ExplorationMode.places) {
+            return this.explorerService.getPlacesInBounds$(bounds);
+          } else {
+            return this.explorerService.getPhotosInBounds$(bounds);
+          }
+        } else {
+          return of(undefined);
+        }
       })
-    );
-    // this.pinsInBounds$ = combineLatest([
-    //   this.explorerService.currentBounds$,
-    //   this.explorationMode$,
-    //   this.panelViewMode$
-    // ])
+    )
+    
+    // subscribe(([bounds, explorationMode, panelMode]) => {
+    //   if (bounds && explorationMode && panelMode !== undefined) {
+    //     console.log('here', bounds, explorationMode, panelMode);
+    //     if (explorationMode === ExplorationMode.places) {
+
+    //     }
+    //   }
+    // });
   }
   
   onItemSelected(item: any) {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
+import { ExplorationMode } from 'src/app/models/exploration';
 import { ExplorerService } from '../../services/explorer.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Observable } from 'rxjs';
@@ -13,7 +14,7 @@ export class AppToolbarComponent implements OnInit {
 
   @Output() emitSidenavToggle = new EventEmitter;
   showSearchInput = false;
-  mode$?: Observable<string> = this.explorationService.explorationMode$;
+  mode$?: Observable<ExplorationMode> = this.explorationService.explorationMode$;
 
   constructor(private explorationService: ExplorerService) { }
 

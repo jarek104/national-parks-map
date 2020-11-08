@@ -15,7 +15,6 @@ export class PlaceListComponent implements OnInit {
   @Output() itemHovered = new EventEmitter();
 
   constructor(
-    private placeService: PlaceService, 
   ) { }
 
   ngOnInit(): void {}
