@@ -9,10 +9,6 @@
     box-sizing: border-box;
 }
 
-.active {
-    color: #66ff00;
-}
-
 .image-description {
     box-sizing: border-box;
     padding: 8px 16px;
@@ -50,6 +46,7 @@
     height: 150px;
     transition: 0.3s ease-in-out;
 }
-.image-container:hover{
+
+.hovered {
     transform: scale(1.05, 1.05);
 }

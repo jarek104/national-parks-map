@@ -9,14 +9,13 @@ import { Photo } from 'src/app/models/photo';
   styleUrls: ['./photo-preview-list.component.scss']
 })
 export class PhotoPreviewListComponent implements OnInit {
-  photos = [];
+  @Input() photos: Photo[];
 
   constructor(
     private explorerService: ExplorerService,
   ) {}
 
   ngOnInit() {
-    // this.explorerService.pinsInBounds$.next([]);
   }
 
   onItemClicked(item: Photo) {
@@ -24,7 +23,7 @@ export class PhotoPreviewListComponent implements OnInit {
   }
 
   onItemHover(item?: Photo) {    
-    // item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
+    item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined)
   }
 
 }

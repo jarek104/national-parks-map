@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 
 import { ExplorerService } from '../../services/explorer.service';
 import { Map } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
+import { Observable } from 'rxjs';
 import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
 
@@ -11,18 +12,24 @@ import { Place } from 'src/app/models/place';
   templateUrl: './map-container.component.html',
   styleUrls: ['./map-container.component.scss']
 })
-export class MapContainerComponent {
+export class MapContainerComponent implements OnInit{
+  startPlace = [-100.3715367, 39.041718];
 
   @ViewChild(MapComponent) map: MapComponent;
-  @Output() itemClicked = new EventEmitter();
-  @Input() places: any[] = [];
-  @Input() activeItem?: any;
-  @Input() hoveredItem?: any;
-  startPlace = [-100.3715367, 39.041718];
+
+  selectedItem$: Observable<unknown>;
+  highlightedItem$: Observable<unknown>;
+  pinsInBounds$: Observable<unknown[]>;
 
   constructor(
     private explorerService: ExplorerService,
   ) { }
+
+  ngOnInit() {
+    this.pinsInBounds$ = this.explorerService.pinsInBounds$;
+    this.selectedItem$ = this.explorerService.selectedItem$;
+    this.highlightedItem$ = this.explorerService.highlightedItem$;
+  }
 
   onLoad(mapInstance?: Map) {
     this.explorerService.currentBounds$.next(mapInstance.getBounds())
@@ -32,15 +39,21 @@ export class MapContainerComponent {
   }
 
   onPinClick(item: Place | Photo) {
-    this.activeItem = item;
-    this.itemClicked.emit(this.activeItem)
+    this.explorerService.selectedItem$.next(item);
+  }
+  
+  onPinHover(item?: Place | Photo) {    
+    item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined);
   }
 
-  getPinStyle(place: Place | undefined): string {
-    if (place) {
-      if (this.activeItem && place.id === this.activeItem.id) {
+  getPinStyle(pin: Place | undefined): string {
+    const activeItem = this.explorerService.selectedItem$.value;
+    const hoveredItem = this.explorerService.highlightedItem$.value;
+
+    if (pin) {
+      if (activeItem && pin.id === activeItem.id) {
         return 'lightcoral';
-      } else if (this.hoveredItem && place.id === this.hoveredItem.id) {
+      } else if (hoveredItem && pin.id === hoveredItem.id) {
         return '#66ff00';
       }
     }

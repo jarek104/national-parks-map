@@ -16,6 +16,8 @@ import { convertSnaps } from './utils';
 export class ExplorerService {
   activePlaceIndex = new BehaviorSubject<number>(0);
   pinsInBounds$ = new BehaviorSubject<any[]>([]);
+  selectedItem$ = new BehaviorSubject<any>(undefined);
+  highlightedItem$ = new BehaviorSubject<any>(undefined);
   allPlaces$: Observable<Place[]>;
   currentBounds$ = new BehaviorSubject<LngLatBounds | undefined>(undefined);
 

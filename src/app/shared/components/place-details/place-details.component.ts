@@ -31,15 +31,13 @@ export class PlaceDetailsComponent implements OnInit {
       tap(photos => this.explorerService.pinsInBounds$.next(photos))
     );
   }
-  onBackClick() {
-    // this.backClicked.emit();
-  }
+
   onFavoritesClick() {
     console.log('add/remove photo from favorites');
   }
 
   onItemHovered(photo: Photo) {    
-    // this.itemHovered.emit(photo);
+    this.explorerService.highlightedItem$.next(photo);
   }
 
   toggleDescriptionView() {

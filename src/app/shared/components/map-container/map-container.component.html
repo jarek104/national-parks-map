@@ -1,8 +1,10 @@
 <mgl-map [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="[3]" [center]="startPlace" [attributionControl]="false"
   (load)="onLoad($event)" (moveEnd)="reloadPlaces()" fxFlex>
-  <mgl-marker [lngLat]="[place.geopoint.longitude, place.geopoint.latitude]" *ngFor="let place of places; let i=index">
-    <div class="marker" (click)="onPinClick(place)" [ngStyle]="{
-'background-color': getPinStyle(place),
+  <mgl-marker [lngLat]="[pin.geopoint.longitude, pin.geopoint.latitude]" *ngFor="let pin of pinsInBounds$ | async; let i=index">
+    <div class="marker" (click)="onPinClick(pin)" 
+    (mouseenter)="onPinHover(pin)" (mouseleave)="onPinHover()"
+    [ngStyle]="{
+          'background-color': getPinStyle(pin),
           'width': '12px',
           'height': '12px'
         }">

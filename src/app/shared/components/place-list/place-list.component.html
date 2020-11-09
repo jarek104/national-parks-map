@@ -1,11 +1,11 @@
 <div *ngFor="let place of places$ | async as places; let i = index" class="item-wrapper">
   <div  
     routerLink="/places/{{place?.id}}"
-    class="wrapper mat-elevation-z3" [class.active]="place === active" 
-    (click)="onItemClicked(place)" (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
+    class="wrapper mat-elevation-z3" 
+    (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="place?.coverPhotoUrl">
-      <div class="image-container" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'"></div>
+      <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'"></div>
     </ng-container>
     <div class="image-description">{{ place?.title }}</div>
   </div>

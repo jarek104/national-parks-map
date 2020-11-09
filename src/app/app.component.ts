@@ -13,9 +13,7 @@ import { convertSnaps } from './shared/services/utils';
 })
 export class AppComponent implements OnInit {
   showSidenav = false;
-  selectedItem?: any;
-  highlightedItem?: any;
-  pinsInBounds$: Observable<any>;
+  pinsInBounds$: Observable<unknown[]>;
 
   items: Observable<any[]>;
   constructor(
@@ -28,15 +26,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.pinsInBounds$ = this.explorerService.pinsInBounds$;
   }
-
+  
   onItemSelected(item: any) {
-    this.selectedItem = item;  
     this.pinsInBounds$ = this.explorerService.getPhotosByPlace$(item).pipe(
       map(photo => convertSnaps(photo))
     );
-  }
-  
-  onItemHovered(item: any) {
-    this.highlightedItem = item;
   }
 }

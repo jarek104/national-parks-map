@@ -19,21 +19,18 @@ export class PlaceListComponent implements OnInit {
     private explorerService: ExplorerService,
   ) { }
 
-  ngOnInit(): void {
-    console.log('init');
-    
+  ngOnInit(): void {    
     this.places$ = this.explorerService.currentBounds$.pipe(
       switchMap(_ => this.explorerService.getPlacesInBounds$()),
     );
-    
-  }
-
-  onItemClicked(item: Place) {
-    // this.itemClicked.emit(item)    
   }
 
   onItemHover(item?: Place) {    
-    // item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
+    item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined)
+  }
+
+  isActive(place: Place) {
+    return this.explorerService.highlightedItem$.value?.id === place.id;
   }
 
 }
