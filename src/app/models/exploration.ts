@@ -5,6 +5,7 @@ export enum ExplorationMode {
 
 export enum PanelViewMode {
     'PlacesList',
+    'PhotosList',
     'PlaceDetails',
     'PhotoDetails'
 }

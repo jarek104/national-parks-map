@@ -25,7 +25,9 @@ export class AppToolbarComponent implements OnInit {
     this.emitSidenavToggle.emit();
   }
 
-  onModeChange(change: MatButtonToggleChange) {    
+  onModeChange(change: MatButtonToggleChange) {  
+    console.log('change.value', change.value);
+      
     this.explorationService.explorationMode$.next(change.value)
   }
 }

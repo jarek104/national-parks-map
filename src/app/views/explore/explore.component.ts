@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, forkJoin, of } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExplorationMode, PanelViewMode } from './../../models/exploration';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { ExplorerService } from './../../shared/services/explorer.service';
@@ -36,7 +36,9 @@ export class ExploreComponent implements OnInit {
       switchMap(params => {
         return this.explorerService.getPlaceById$(params['placeId'])
       })
-    ).subscribe(item => {      
+    ).subscribe(item => {
+      console.log('item select from route');
+      
       item ? this.onItemSelected(item) : this._resetView();
     });
     
@@ -57,9 +59,14 @@ export class ExploreComponent implements OnInit {
       switchMap(([bounds, explorationMode, panelMode]) => {
         if (bounds && explorationMode !== undefined && panelMode !== undefined) {
           console.log('here', bounds, explorationMode, ExplorationMode.places, panelMode);
+
           if (explorationMode === ExplorationMode.places) {
+            // this.panelViewMode$.next(PanelViewMode.PlacesList);
+            console.log('getting places in bounds');
+            
             return this.explorerService.getPlacesInBounds$(bounds);
           } else {
+            // this.panelViewMode$.next(PanelViewMode.PhotosList);
             return this.explorerService.getPhotosInBounds$(bounds);
           }
         } else {
