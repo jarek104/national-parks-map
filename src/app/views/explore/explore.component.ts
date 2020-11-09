@@ -1,7 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, forkJoin, of } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ExplorationMode, PanelViewMode } from './../../models/exploration';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
@@ -19,8 +18,6 @@ export class ExploreComponent implements OnInit {
   selectedItem?: any;
   highlightedItem?: any;
   currentBounds$ = this.explorerService.currentBounds$;
-  explorationMode$ = this.explorerService.explorationMode$.asObservable();
-  panelViewMode$ = new BehaviorSubject<PanelViewMode | undefined>(undefined);
   
   photosFromPlace$?: Observable<any>;
   pinsInBounds$: Observable<any>;
@@ -51,29 +48,29 @@ export class ExploreComponent implements OnInit {
 
 
     // this doesn't work right
-    this.pinsInBounds$ = combineLatest([
-      this.explorerService.currentBounds$,
-      this.explorationMode$,
-      this.panelViewMode$
-    ]).pipe(
-      switchMap(([bounds, explorationMode, panelMode]) => {
-        if (bounds && explorationMode !== undefined && panelMode !== undefined) {
-          console.log('here', bounds, explorationMode, ExplorationMode.places, panelMode);
+    // this.pinsInBounds$ = combineLatest([
+    //   this.explorerService.currentBounds$,
+    //   this.explorationMode$,
+    //   this.panelViewMode$
+    // ]).pipe(
+    //   switchMap(([bounds, explorationMode, panelMode]) => {
+    //     if (bounds && explorationMode !== undefined && panelMode !== undefined) {
+    //       console.log('here', bounds, explorationMode, ExplorationMode.places, panelMode);
 
-          if (explorationMode === ExplorationMode.places) {
-            // this.panelViewMode$.next(PanelViewMode.PlacesList);
-            console.log('getting places in bounds');
+    //       if (explorationMode === ExplorationMode.places) {
+    //         // this.panelViewMode$.next(PanelViewMode.PlacesList);
+    //         console.log('getting places in bounds');
             
-            return this.explorerService.getPlacesInBounds$(bounds);
-          } else {
-            // this.panelViewMode$.next(PanelViewMode.PhotosList);
-            return this.explorerService.getPhotosInBounds$(bounds);
-          }
-        } else {
-          return of(undefined);
-        }
-      })
-    )
+    //         return this.explorerService.getPlacesInBounds$(bounds);
+    //       } else {
+    //         // this.panelViewMode$.next(PanelViewMode.PhotosList);
+    //         return this.explorerService.getPhotosInBounds$(bounds);
+    //       }
+    //     } else {
+    //       return of(undefined);
+    //     }
+    //   })
+    // )
     
     // subscribe(([bounds, explorationMode, panelMode]) => {
     //   if (bounds && explorationMode && panelMode !== undefined) {
@@ -87,8 +84,7 @@ export class ExploreComponent implements OnInit {
   
   onItemSelected(item: any) {
     this.selectedItem = item;  
-    this.panelViewMode$.next(PanelViewMode.PlaceDetails);  
-    this.pinsInBounds$ = this.explorerService.getPlacePhotosCollection(item).pipe(
+    this.pinsInBounds$ = this.explorerService.getPhotosByPlace$(item).pipe(
       map(photo => convertSnaps(photo))
     );
   }
@@ -100,11 +96,10 @@ export class ExploreComponent implements OnInit {
   onBackClicked(){
     this._resetView();
     
-    this.pinsInBounds$ = this.explorerService.getPlacesInBounds$(this.currentBounds$.value);
+    this.pinsInBounds$ = this.explorerService.getPlacesInBounds$();
   }
 
   private _resetView() {
     this.router.navigate(['explore', '_']);
-    this.panelViewMode$.next(PanelViewMode.PlacesList);
   }
 }

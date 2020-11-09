@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { ExplorerService } from './../../services/explorer.service';
 import { Photo } from 'src/app/models/photo';
 
 @Component({
@@ -7,19 +8,23 @@ import { Photo } from 'src/app/models/photo';
   templateUrl: './photo-preview-list.component.html',
   styleUrls: ['./photo-preview-list.component.scss']
 })
-export class PhotoPreviewListComponent {
+export class PhotoPreviewListComponent implements OnInit {
+  photos = [];
 
-  @Input() photos?: Photo[];
-  @Input() active?: Photo;
-  @Output() itemClicked = new EventEmitter();
-  @Output() itemHovered = new EventEmitter();
+  constructor(
+    private explorerService: ExplorerService,
+  ) {}
+
+  ngOnInit() {
+    // this.explorerService.pinsInBounds$.next([]);
+  }
 
   onItemClicked(item: Photo) {
-    this.itemClicked.emit(item)    
+    // this.itemClicked.emit(item)    
   }
 
   onItemHover(item?: Photo) {    
-    item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
+    // item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
   }
 
 }

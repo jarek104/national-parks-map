@@ -5,7 +5,6 @@ import { LngLatBounds, LngLatLike } from 'mapbox-gl';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ExplorationMode } from 'src/app/models/exploration';
 import { Injectable } from '@angular/core';
 import { Photo } from './../../models/photo';
 import { Place } from 'src/app/models/place';
@@ -16,28 +15,25 @@ import { convertSnaps } from './utils';
 })
 export class ExplorerService {
   activePlaceIndex = new BehaviorSubject<number>(0);
-  placesInBounds$ = new BehaviorSubject<any[]>([]);
-  photosInPlace$ = new BehaviorSubject<any[]>([]);
+  pinsInBounds$ = new BehaviorSubject<any[]>([]);
   allPlaces$: Observable<Place[]>;
-  explorationMode$ = new BehaviorSubject<ExplorationMode>(ExplorationMode.places);
   currentBounds$ = new BehaviorSubject<LngLatBounds | undefined>(undefined);
 
 
   constructor(
     private firestore: AngularFirestore,
   ) {
-    
     this.allPlaces$ = this.firestore.collection('places')
       .stateChanges().pipe(
         map(places => convertSnaps(places)),
     );
+  };
 
-  }
-
-  getPlacesInBounds$(bounds: LngLatBounds) {        
-    if (!bounds) {
+  getPlacesInBounds$(): Observable<Place[]> {        
+    if (!this.currentBounds$.value) {
       return of([]);
-    }    
+    }
+    const bounds = this.currentBounds$.value;   
     return this.allPlaces$.pipe(
       map(places => {
         return places.filter(place => {
@@ -46,24 +42,29 @@ export class ExplorerService {
         })
       }),
       distinctUntilChanged(),
-    )
-  }
-  getPhotosInBounds$(bounds: LngLatBounds) {        
-    if (!bounds) {
-      return of([]);
-    }    
-    return this.firestore.collection('photos')
-    .stateChanges().pipe(
-      map(data => convertSnaps(data)),
-      map((photos: Photo[]) => {
-        return photos.filter(photo => {
-          const location = [photo.geopoint.longitude, photo.geopoint.latitude];
-          return bounds.contains(location as LngLatLike)
-        })
-      }),
-      distinctUntilChanged(),
-    )
-  }
+      tap(places => this.pinsInBounds$.next(places)),
+      )
+    };
+    
+    getPhotosInBounds$() {        
+      if (!this.currentBounds$.value) {
+        return of([]);
+      }
+      const bounds = this.currentBounds$.value; 
+      return this.firestore.collection('photos')
+      .stateChanges().pipe(
+        map(data => convertSnaps(data)),
+        map((photos: Photo[]) => {
+          return photos.filter(photo => {
+            const location = [photo.geopoint.longitude, photo.geopoint.latitude];
+            return bounds.contains(location as LngLatLike)
+          })
+        }),
+        distinctUntilChanged(),
+        tap(photos => this.pinsInBounds$.next(photos)),
+      )
+    };
+
   getPlaceById$(id: string) {    
     if (!id) {
       return undefined;
@@ -74,14 +75,16 @@ export class ExplorerService {
           return places.find(item => item.id === id);
         }
         return undefined;
-      })
+      }),
     )
   }
 
-  getPlacePhotosCollection(place: Place) {    
+  getPhotosByPlace$(place: Place): Observable<Photo[]> {    
     if (place.photoIds) {
       return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
-        .snapshotChanges();
+        .snapshotChanges().pipe(
+          map(photo => convertSnaps(photo))
+        )
     }
   }
 }

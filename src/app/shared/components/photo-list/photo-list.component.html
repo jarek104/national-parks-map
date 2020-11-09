@@ -1,0 +1,12 @@
+<div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
+  <div  
+    routerLink="/photos/{{photo?.id}}"
+    class="wrapper mat-elevation-z3" [class.active]="photo === active" 
+    (click)="onItemClicked(photo)" (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
+    >
+    <ng-container *ngIf="photo?.coverPhotoUrl">
+      <div class="image-container" [style.backgroundImage]="'url(' + photo?.coverPhotoUrl + ')'"></div>
+    </ng-container>
+    <div class="image-description">{{ photo?.title }}</div>
+  </div>
+</div>

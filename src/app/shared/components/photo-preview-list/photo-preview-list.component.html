@@ -1,3 +1,5 @@
+photo preview list
+
 <div *ngFor="let photo of photos; let i = index" 
   routerLink="/photo/{{photo.id}}"
   class="image-container" [class.active]="photo === active" 

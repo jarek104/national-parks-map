@@ -1,29 +1,31 @@
-<div fxFlex class="image-wrapper mat-elevation-z2">
-  <div class="image-container" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'" fxFlex></div>
-  <button mat-icon-button class="back-button" (click)="onBackClick()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <div class="favorites-section" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-icon-button class="favorite-button" (click)="onFavoritesClick()">
-      <mat-icon>favorite_border</mat-icon>
+<ng-container *ngIf="place$ | async as place">
+  <div fxFlex class="image-wrapper mat-elevation-z2">
+    <div class="image-container" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'" fxFlex></div>
+    <button mat-icon-button class="back-button" routerLink="/places">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <div> 37 </div>
-    <!-- <div> {{ currentPhoto.favorites }}</div> -->
+    <div class="favorites-section" fxLayout="row" fxLayoutAlign="start center">
+      <button mat-icon-button class="favorite-button" (click)="onFavoritesClick()">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+      <div> 37 </div>
+      <!-- <div> {{ currentPhoto.favorites }}</div> -->
+    </div>
   </div>
-</div>
-
-<div fxFlex class="details-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
-  <div class="image-title">
-    {{ place?.title }}
+  
+  <div fxFlex class="details-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <div class="image-title">
+      {{ place?.title }}
+    </div>
+    <div class="image-author">
+      <span class="photo-by">Photo by: </span>
+      <span class="author-name"> Jerry Olewniczak</span>
+    </div>
+    <div class="image-description" fxFlex="2 1 auto">
+      {{ place?.description }}
+    </div>
+    <button mat-button fxFlexAlign="end" (click)="toggleDescriptionView()">Read More</button>
+    <div> More Photos</div>
+    <app-photo-preview-list [photos]="photos$ | async" (itemHovered)="onItemHovered($event)"></app-photo-preview-list>
   </div>
-  <div class="image-author">
-    <span class="photo-by">Photo by: </span>
-    <span class="author-name"> Jerry Olewniczak</span>
-  </div>
-  <div class="image-description" fxFlex="2 1 auto">
-    {{ place?.description }}
-  </div>
-  <button mat-button fxFlexAlign="end" (click)="toggleDescriptionView()">Read More</button>
-  <div> More Photos</div>
-  <app-photo-preview-list [photos]="photos" (itemHovered)="onItemHovered($event)"></app-photo-preview-list>
-</div>
+</ng-container>

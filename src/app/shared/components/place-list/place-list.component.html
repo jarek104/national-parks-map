@@ -1,6 +1,6 @@
-<div *ngFor="let place of places; let i = index" class="item-wrapper">
+<div *ngFor="let place of places$ | async as places; let i = index" class="item-wrapper">
   <div  
-    routerLink="/explore/{{place?.id}}"
+    routerLink="/places/{{place?.id}}"
     class="wrapper mat-elevation-z3" [class.active]="place === active" 
     (click)="onItemClicked(place)" (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
     >

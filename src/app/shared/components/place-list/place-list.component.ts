@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { ExplorerService } from './../../services/explorer.service';
+import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
 import { PlaceService } from '../../services/place.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-place-list',
@@ -9,22 +12,28 @@ import { PlaceService } from '../../services/place.service';
   styleUrls: ['./place-list.component.scss']
 })
 export class PlaceListComponent implements OnInit {
-  @Input() places?: Place[];
-  @Input() active?: Place;
-  @Output() itemClicked = new EventEmitter();
-  @Output() itemHovered = new EventEmitter();
+
+  places$?: Observable<Place[]>;
 
   constructor(
+    private explorerService: ExplorerService,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('init');
+    
+    this.places$ = this.explorerService.currentBounds$.pipe(
+      switchMap(_ => this.explorerService.getPlacesInBounds$()),
+    );
+    
+  }
 
   onItemClicked(item: Place) {
-    this.itemClicked.emit(item)    
+    // this.itemClicked.emit(item)    
   }
 
   onItemHover(item?: Place) {    
-    item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
+    // item ? this.itemHovered.emit(item) : this.itemHovered.emit(undefined);
   }
 
 }

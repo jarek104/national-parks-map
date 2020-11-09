@@ -6,9 +6,9 @@
   </div>
   <!-- <div class="title" *ngIf="showSearchInput === false">Stunning Pins</div> -->
   <div>
-    <mat-button-toggle-group name="mode" [value]="mode$ | async" (change)="onModeChange($event)">
-      <mat-button-toggle [value]="0">Places</mat-button-toggle>
-      <mat-button-toggle [value]="1">Photos</mat-button-toggle>
+    <mat-button-toggle-group name="mode">
+      <mat-button-toggle routerLink="/places">Places</mat-button-toggle>
+      <mat-button-toggle routerLink="/photos">Photos</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
   <div fxFlex fxLayout="row-reverse">

@@ -20,6 +20,7 @@ import { MapService } from 'ngx-mapbox-gl';
 import { MaterialModule } from './shared/modules/material.module';
 import { NgModule } from '@angular/core';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { PhotoListComponent } from './shared/components/photo-list/photo-list.component';
 import { PhotoPreviewListComponent } from './shared/components/photo-preview-list/photo-preview-list.component';
 import { PlaceDetailsComponent } from './shared/components/place-details/place-details.component';
 import { PlaceListComponent } from './shared/components/place-list/place-list.component';
@@ -44,6 +45,7 @@ import { environment } from '../environments/environment';
     PlaceDetailsComponent,
     PlaceListComponent,
     PhotoPreviewListComponent,
+    PhotoListComponent,
   ],
   imports: [
     BrowserModule,
