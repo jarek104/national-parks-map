@@ -1,3 +1,9 @@
+<div class="tags-filter">
+  <mat-button-toggle-group name="photoContentType" multiple="true" (change)="onFilterChange($event)" [value]="currentFilters$ | async">
+    <mat-button-toggle *ngFor="let tag of tagKeys" [value]="tags[tag]">{{tag}}</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+<!-- <p style="color: grey">{{explorerService.currentPhotoFilters$ | async}}</p> -->
 <div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
   <div  
     routerLink="/photos/{{photo?.id}}"

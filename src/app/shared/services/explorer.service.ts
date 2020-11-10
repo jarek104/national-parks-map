@@ -50,16 +50,23 @@ export class ExplorerService {
       )
     };
     
-    getPhotosInBounds$() {        
+    getPhotosInBounds$(): Observable<Photo[]> {        
       if (!this.currentBounds$.value) {
         return of([]);
       }
       const bounds = this.currentBounds$.value; 
       const photoFilters = this.currentPhotoFilters$.value; 
-      return this.firestore.collection('photos')
-      .stateChanges().pipe(
+
+      let myRef;
+      if (this.currentPhotoFilters$.value.length > 0) {
+        myRef = this.firestore.collection('photos', ref => ref.where('tags', 'array-contains-any', this.currentPhotoFilters$.value));
+      }
+      else {
+        myRef = this.firestore.collection('photos');
+      }
+      return myRef.stateChanges().pipe(
+        tap(data => console.log('snaps', this.currentPhotoFilters$.value, data)),
         map(data => convertSnaps(data)),
-        tap(data => console.log('snaps', data)),
         map((photos: Photo[]) => {
           return photos.filter(photo => {
             const location = [photo.geopoint.longitude, photo.geopoint.latitude];
@@ -67,7 +74,7 @@ export class ExplorerService {
           })
         }),
         distinctUntilChanged(),
-        tap(photos => this.pinsInBounds$.next(photos)),
+        tap((photos: Photo[]) => this.pinsInBounds$.next(photos)),
       )
     };
 

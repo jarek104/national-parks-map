@@ -1,8 +1,4 @@
-<div class="tags-filter">
-  <mat-button-toggle-group name="photoContentType" multiple="true" (change)="onFilterChange($event)">
-    <mat-button-toggle *ngFor="let tag of tagKeys" [value]="tag">{{tags[tag]}}</mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
+
 <div *ngFor="let place of places$ | async as places; let i = index" class="item-wrapper">
   <div  
     routerLink="/places/{{place?.id}}"

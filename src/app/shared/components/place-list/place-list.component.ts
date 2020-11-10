@@ -16,8 +16,6 @@ import { switchMap } from 'rxjs/operators';
 export class PlaceListComponent implements OnInit {
 
   places$?: Observable<Place[]>;
-  tagKeys = Object.keys(Tag);
-  tags = Tag;
 
   constructor(
     private explorerService: ExplorerService,
@@ -35,10 +33,6 @@ export class PlaceListComponent implements OnInit {
 
   isActive(place: Place) {
     return this.explorerService.highlightedItem$.value?.id === place.id;
-  }
-
-  onFilterChange(change: MatButtonToggleChange) {
-    this.explorerService.currentPhotoFilters$.next(change.value);
   }
 
 }
