@@ -1,8 +1,8 @@
 export enum Tag {
-  Beach = 0,
-  Waterfall,
-  Forest,
-  Lake,
-  Desert,
-  Mountain,
+  beach = 'Beach',
+  waterfall = 'Waterfall',
+  forest = 'Forest',
+  lake = 'Lake',
+  desert = 'Desert',
+  mountain = 'Mountain',
 }

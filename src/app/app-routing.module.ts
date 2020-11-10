@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'places', component: PlaceListComponent },
   { path: 'places/:placeId', component: PlaceDetailsComponent },
   { path: 'photos', component: PhotoListComponent },
-  // { path: 'photos/:photoId', component: PhotoDetailsComponent },
+  { path: 'photos/:photoId', component: PhotoListComponent },
   { path: 'uploads', component: UploadsComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'profile', component: ProfileComponent },

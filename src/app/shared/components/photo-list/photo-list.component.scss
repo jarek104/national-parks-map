@@ -1,6 +1,5 @@
 :host {
     color: #fff;
-    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -28,13 +27,14 @@
 
 .item-wrapper {
     width: 50%;
+    height: 150px;
     box-sizing: border-box;
     padding: 4px;
 }
 
 .wrapper {
     box-sizing: border-box;
-    height: 150px;
+    height: 100%;
     width: 100%;
     border-radius: 4px;
     position: relative;

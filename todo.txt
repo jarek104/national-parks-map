@@ -1,0 +1,9 @@
+* filter photos by tag
+
+* make a nicer upload view 
+    * tags, author
+* make a photo view 
+* make a login view
+
+* filter photos by name
+* filter places by name

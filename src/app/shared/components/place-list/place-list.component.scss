@@ -1,6 +1,5 @@
 :host {
     color: #fff;
-    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -25,13 +24,14 @@
 .item-wrapper {
     width: 50%;
     box-sizing: border-box;
+    height: 150px;
     padding: 4px;
 }
 
 .wrapper {
     box-sizing: border-box;
-    height: 150px;
     width: 100%;
+    height: 100%;
     border-radius: 4px;
     position: relative;
     cursor: pointer;
@@ -49,4 +49,9 @@
 
 .hovered {
     transform: scale(1.05, 1.05);
+}
+
+.tags-filter {
+    width: 100%;
+    height: 100px;
 }

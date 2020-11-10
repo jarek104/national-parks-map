@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ExplorerService } from './../../services/explorer.service';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
 import { PlaceService } from '../../services/place.service';
+import { Tag } from 'src/app/models/tag';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -14,6 +16,8 @@ import { switchMap } from 'rxjs/operators';
 export class PlaceListComponent implements OnInit {
 
   places$?: Observable<Place[]>;
+  tagKeys = Object.keys(Tag);
+  tags = Tag;
 
   constructor(
     private explorerService: ExplorerService,
@@ -31,6 +35,10 @@ export class PlaceListComponent implements OnInit {
 
   isActive(place: Place) {
     return this.explorerService.highlightedItem$.value?.id === place.id;
+  }
+
+  onFilterChange(change: MatButtonToggleChange) {
+    this.explorerService.currentPhotoFilters$.next(change.value);
   }
 
 }

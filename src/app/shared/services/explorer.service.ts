@@ -8,6 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { Photo } from './../../models/photo';
 import { Place } from 'src/app/models/place';
+import { Tag } from 'src/app/models/tag';
 import { convertSnaps } from './utils';
 
 @Injectable({
@@ -20,6 +21,7 @@ export class ExplorerService {
   highlightedItem$ = new BehaviorSubject<any>(undefined);
   allPlaces$: Observable<Place[]>;
   currentBounds$ = new BehaviorSubject<LngLatBounds | undefined>(undefined);
+  currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
 
 
   constructor(
@@ -53,9 +55,11 @@ export class ExplorerService {
         return of([]);
       }
       const bounds = this.currentBounds$.value; 
+      const photoFilters = this.currentPhotoFilters$.value; 
       return this.firestore.collection('photos')
       .stateChanges().pipe(
         map(data => convertSnaps(data)),
+        tap(data => console.log('snaps', data)),
         map((photos: Photo[]) => {
           return photos.filter(photo => {
             const location = [photo.geopoint.longitude, photo.geopoint.latitude];

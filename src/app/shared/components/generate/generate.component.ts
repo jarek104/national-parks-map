@@ -17,7 +17,7 @@ import { Tag } from 'src/app/models/tag';
   styleUrls: ['./generate.component.scss']
 })
 export class GenerateComponent implements OnInit {
-  tags: Tag[] = [Tag.Beach, Tag.Desert, Tag.Forest, Tag.Lake, Tag.Mountain, Tag.Waterfall];
+  // tags: Tag[] = [Tag.Beach, Tag.Desert, Tag.Forest, Tag.Lake, Tag.Mountain, Tag.Waterfall];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedPlace?: any;
   photoFile?: File;
@@ -36,7 +36,7 @@ export class GenerateComponent implements OnInit {
     description: new FormControl(''),
     dateCreated: new FormControl(new Date()),
     geopoint: new FormControl(''),
-    tags: new FormControl(this.tags),
+    // tags: new FormControl(this.tags),
   });
 
   constructor(

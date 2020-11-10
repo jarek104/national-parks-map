@@ -4,8 +4,8 @@
     class="wrapper mat-elevation-z3" [class.active]="photo === active" 
     (click)="onItemClicked(photo)" (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
     >
-    <ng-container *ngIf="photo?.coverPhotoUrl">
-      <div class="image-container" [style.backgroundImage]="'url(' + photo?.coverPhotoUrl + ')'"></div>
+    <ng-container *ngIf="photo?.downloadUrl">
+      <div class="image-container" [style.backgroundImage]="'url(' + photo?.downloadUrl + ')'"></div>
     </ng-container>
     <div class="image-description">{{ photo?.title }}</div>
   </div>

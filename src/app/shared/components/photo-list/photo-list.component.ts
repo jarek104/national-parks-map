@@ -25,5 +25,8 @@ export class PhotoListComponent implements OnInit {
     
   }
 
+  onItemHover(item: Photo) {
+    
+  }
 
 }
