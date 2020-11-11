@@ -1,12 +1,19 @@
 import {
-  Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges,
-  ViewChild,
   AfterViewInit,
-  OnChanges
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 
 import Carousel from './carousel';
 import { SwiperDirective } from './swiper.directive';
+
 @Component({
   selector: 'carousel-component',
   styles: [`
@@ -146,7 +153,6 @@ export class CarouselComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     this.onInit.emit(this.carousel);
     if (this.carouselElm) {
-      console.log(this.carouselElm);
       this.itemsCarouselRendered = this.carouselElm.nativeElement.getElementsByClassName('item-carousel').length;
     }
   }

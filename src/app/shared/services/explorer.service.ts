@@ -20,13 +20,14 @@ export class ExplorerService {
   selectedItem$ = new BehaviorSubject<any>(undefined);
   highlightedItem$ = new BehaviorSubject<any>(undefined);
   allPlaces$: Observable<Place[]>;
-  currentBounds$ = new BehaviorSubject<LngLatBounds | undefined>(undefined);
+  currentBounds$ = new BehaviorSubject<mapboxgl.LngLatBounds | undefined>(undefined);
   currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
 
 
   constructor(
     private firestore: AngularFirestore,
   ) {
+    // this.allPlaces$ = this.firestore.collection('places', ref => ref.where('tags', 'array-contains-any', this.currentPhotoFilters$.value))
     this.allPlaces$ = this.firestore.collection('places')
       .stateChanges().pipe(
         map(places => convertSnaps(places)),
@@ -41,42 +42,53 @@ export class ExplorerService {
     return this.allPlaces$.pipe(
       map(places => {
         return places.filter(place => {
-          const location = [place.geopoint.longitude, place.geopoint.latitude];
+          const location = [place.geopoint.longitude, place.geopoint.latitude];          
           return bounds.contains(location as LngLatLike)
         })
       }),
       distinctUntilChanged(),
       tap(places => this.pinsInBounds$.next(places)),
-      )
-    };
+    )
+  };
     
-    getPhotosInBounds$(): Observable<Photo[]> {        
-      if (!this.currentBounds$.value) {
-        return of([]);
-      }
-      const bounds = this.currentBounds$.value; 
-      const photoFilters = this.currentPhotoFilters$.value; 
+  getPhotosInBounds$(): Observable<Photo[]> {        
+    if (!this.currentBounds$.value) {
+      return of([]);
+    }
+    const bounds = this.currentBounds$.value; 
+    const photoFilters = this.currentPhotoFilters$.value; 
+    const north = new firebase.firestore.GeoPoint(this.currentBounds$.value.getNorth(), 0)
+    const south = new firebase.firestore.GeoPoint(this.currentBounds$.value.getSouth(), 0)
 
-      let myRef;
-      if (this.currentPhotoFilters$.value.length > 0) {
-        myRef = this.firestore.collection('photos', ref => ref.where('tags', 'array-contains-any', this.currentPhotoFilters$.value));
-      }
-      else {
-        myRef = this.firestore.collection('photos');
-      }
-      return myRef.stateChanges().pipe(
-        tap(data => console.log('snaps', this.currentPhotoFilters$.value, data)),
-        map(data => convertSnaps(data)),
-        map((photos: Photo[]) => {
-          return photos.filter(photo => {
-            const location = [photo.geopoint.longitude, photo.geopoint.latitude];
-            return bounds.contains(location as LngLatLike)
-          })
-        }),
-        distinctUntilChanged(),
-        tap((photos: Photo[]) => this.pinsInBounds$.next(photos)),
-      )
-    };
+
+    return this.firestore
+      .collection('photos', ref => ref
+          .where('geopoint', '<', north)
+          .where('geopoint', '>', south))
+          .stateChanges().pipe(
+            map(data => convertSnaps(data)),
+            map((photos: Photo[]) => {
+              return photos.filter(photo => {
+                const location = [photo.geopoint.longitude, photo.geopoint.latitude];
+                return bounds.contains(location as LngLatLike)
+              })
+            }),
+            map((photos: Photo[]) => {
+              return photos.filter(photo => {
+                if (photoFilters.length > 0) {
+                  return photo.tags.some(tag => photoFilters.indexOf(tag) > -1)
+                } 
+                return photo;
+              })
+            }),
+            distinctUntilChanged(),
+            tap((photos: Photo[]) => this.pinsInBounds$.next(photos)),
+    )
+  };
+
+  getFilteredPhotos() {
+    
+  }
 
   getPlaceById$(id: string) {    
     if (!id) {

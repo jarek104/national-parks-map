@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
+import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { ExplorerService } from './../../services/explorer.service';
+import { LngLatBounds } from 'mapbox-gl';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Photo } from 'src/app/models/photo';
 import { Tag } from 'src/app/models/tag';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-list',
@@ -19,29 +20,36 @@ export class PhotoListComponent implements OnInit {
   currentFilters$ = this.explorerService.currentPhotoFilters$;
 
   photos$?: Observable<Photo[]>;
+  photosInBounds$?: Observable<Photo[]>;
 
   constructor(
-    private explorerService: ExplorerService,
+    public explorerService: ExplorerService,
   ) { }
 
   ngOnInit(): void {    
 
-    this.photos$ = combineLatest([
-      this.explorerService.currentBounds$,
-      this.explorerService.currentPhotoFilters$,
-    ]).pipe(
-      switchMap(_ => this.explorerService.getPhotosInBounds$()),
+    // this works, but updating the list requires changing the bounds
+    // we don't want to perform a query every time the filters change
+    this.photos$ = this.explorerService.currentBounds$.pipe(
+      distinctUntilChanged(),
+      switchMap(_ => this.explorerService.getPhotosInBounds$())
     );
     
+    // this.photos$ = combineLatest([
+    //   this.explorerService.currentBounds$,
+    //   this.explorerService.currentPhotoFilters$,
+    // ]).pipe(
+    //   distinctUntilChanged(),
+    //   switchMap(_ => this.explorerService.getPhotosInBounds$()),
+    // )
   }
+  
 
   onItemHover(item: Photo) {
     
   }
 
   onFilterChange(change: MatButtonToggleChange) {
-    console.log(change.value);
-    
     this.explorerService.currentPhotoFilters$.next(change.value);
   }
 

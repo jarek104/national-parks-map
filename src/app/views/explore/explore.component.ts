@@ -34,52 +34,8 @@ export class ExploreComponent implements OnInit {
         return this.explorerService.getPlaceById$(params['placeId'])
       })
     ).subscribe(item => {
-      console.log('item select from route');
-      
       item ? this.onItemSelected(item) : this._resetView();
     });
-    
-    // this works
-    // this.pinsInBounds$ = this.explorerService.currentBounds$.pipe(
-    //   switchMap(bounds => {
-    //     return this.explorerService.getPlacesInBounds$(bounds);
-    //   })
-    // );
-
-
-    // this doesn't work right
-    // this.pinsInBounds$ = combineLatest([
-    //   this.explorerService.currentBounds$,
-    //   this.explorationMode$,
-    //   this.panelViewMode$
-    // ]).pipe(
-    //   switchMap(([bounds, explorationMode, panelMode]) => {
-    //     if (bounds && explorationMode !== undefined && panelMode !== undefined) {
-    //       console.log('here', bounds, explorationMode, ExplorationMode.places, panelMode);
-
-    //       if (explorationMode === ExplorationMode.places) {
-    //         // this.panelViewMode$.next(PanelViewMode.PlacesList);
-    //         console.log('getting places in bounds');
-            
-    //         return this.explorerService.getPlacesInBounds$(bounds);
-    //       } else {
-    //         // this.panelViewMode$.next(PanelViewMode.PhotosList);
-    //         return this.explorerService.getPhotosInBounds$(bounds);
-    //       }
-    //     } else {
-    //       return of(undefined);
-    //     }
-    //   })
-    // )
-    
-    // subscribe(([bounds, explorationMode, panelMode]) => {
-    //   if (bounds && explorationMode && panelMode !== undefined) {
-    //     console.log('here', bounds, explorationMode, panelMode);
-    //     if (explorationMode === ExplorationMode.places) {
-
-    //     }
-    //   }
-    // });
   }
   
   onItemSelected(item: any) {

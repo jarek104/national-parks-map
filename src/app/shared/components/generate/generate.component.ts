@@ -55,7 +55,6 @@ export class GenerateComponent implements OnInit {
           ...place.payload.doc.data() as {},
         }
       })
-      console.log(this.places)
     });
   }
 
