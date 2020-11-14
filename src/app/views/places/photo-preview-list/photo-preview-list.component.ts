@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { ExplorerService } from './../../services/explorer.service';
+import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Photo } from 'src/app/models/photo';
 
 @Component({

@@ -53,16 +53,16 @@ export class ExplorerService {
     )
   };
     
-  getPhotosInBounds(): Photo[] {        
+  getPhotosInBounds$(): Observable<Photo[]> {        
     if (!this.currentBounds$.value) {
-      return [];
+      return of([]);
     }
     const bounds = this.currentBounds$.value; 
     const photoFilters = this.currentPhotoFilters$.value; 
     const north = new firebase.firestore.GeoPoint(this.currentBounds$.value.getNorth(), 0)
     const south = new firebase.firestore.GeoPoint(this.currentBounds$.value.getSouth(), 0)
 
-    this.firestore
+    return this.firestore
       .collection('photos', ref => ref
           .where('geopoint', '<', north)
           .where('geopoint', '>', south))
@@ -82,10 +82,8 @@ export class ExplorerService {
                 return photo;
               })
             }),
-    ).subscribe((photos: Photo[]) => {
-      this.pinsInBounds$.next(photos);
-      return photos;
-    })
+            tap(photos => this.pinsInBounds$.next(photos))
+    );
   };
 
   getPlaceById$(id: string) {    

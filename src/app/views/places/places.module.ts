@@ -2,8 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { PhotoListComponent } from 'src/app/shared/components/photo-list/photo-list.component';
-import { PhotoPreviewListComponent } from 'src/app/shared/components/photo-preview-list/photo-preview-list.component';
+import { PhotoPreviewListComponent } from './photo-preview-list/photo-preview-list.component';
 import { PlaceDetailsComponent } from './place-details/place-details.component';
 import { PlaceListComponent } from './place-list/place-list.component';
 import { PlacesComponent } from './places.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
     PlaceDetailsComponent,
     PlaceListComponent,
     PhotoPreviewListComponent,
-    PhotoListComponent,
   ],
   imports: [
     CommonModule,

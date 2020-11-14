@@ -1,9 +1,8 @@
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable, combineLatest } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 
-import { ExplorerService } from './../../services/explorer.service';
-import { LngLatBounds } from 'mapbox-gl';
+import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Photo } from 'src/app/models/photo';
 import { Tag } from 'src/app/models/tag';
@@ -19,7 +18,7 @@ export class PhotoListComponent implements OnInit {
   tags = Tag;
   currentFilters$ = this.explorerService.currentPhotoFilters$;
 
-  photos$ = new BehaviorSubject<Photo[]>([]);
+  photos$: Observable<Photo[]>;
   photosInBounds$?: Observable<Photo[]>;
 
   constructor(
@@ -27,11 +26,13 @@ export class PhotoListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {    
-    
-    combineLatest([
+    this.photos$ = combineLatest([
       this.explorerService.currentBounds$,
       this.explorerService.currentPhotoFilters$,
-    ]).subscribe(_ => this.photos$.next(this.explorerService.getPhotosInBounds()));
+    ]).pipe(
+      switchMap(_ => this.explorerService.getPhotosInBounds$())
+    );
+
   }
   
 

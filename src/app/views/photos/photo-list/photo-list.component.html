@@ -3,11 +3,12 @@
     <mat-button-toggle *ngFor="let tag of tagKeys" [value]="tags[tag]">{{tag}}</mat-button-toggle>
   </mat-button-toggle-group>
 </div>
+
 <div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
   <div  
     routerLink="/photos/{{photo?.id}}"
     class="wrapper mat-elevation-z3" [class.active]="photo === active" 
-    (click)="onItemClicked(photo)" (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
+    (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="photo?.downloadUrl">
       <div class="image-container" [style.backgroundImage]="'url(' + photo?.downloadUrl + ')'"></div>
