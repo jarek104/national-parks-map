@@ -25,7 +25,6 @@ export class UploadsComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedPlace?: any;
   photoFile?: File;
-  photoIds = [];
 
   places = [];
   placeForm = new FormGroup({
@@ -74,17 +73,19 @@ export class UploadsComponent implements OnInit {
     this.exploreService.goToPoint$.next(pin);
   }
 
-  onSubmit() {
+  onPlaceSubmit() {
     let geo = this.placeForm.get('geopoint').value;
     geo = this.parseGeopoint(geo);
     geo = new firebase.firestore.GeoPoint(Number(geo[0]), Number(geo[1]));
     this.placeForm.patchValue({
       geopoint: geo
     })
-    this.placeForm.patchValue({
-      photoIds: []
-    })
-    // this.firestore.collection('places').add(this.placeForm.value);
+    console.log(this.placeForm.value)
+    this.uploadService.createPlace(this.placeForm.value);
+  }
+
+  get photoIds() {
+    return this.placeForm.get('photoIds');
   }
 
   onAddPhotoId(event: MatChipInputEvent) {
@@ -92,21 +93,25 @@ export class UploadsComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.photoIds.push(value.trim());
+      this.photoIds.setValue([...this.photoIds.value, value.trim()]);
+      this.photoIds.updateValueAndValidity();
     }
     
     if (input) {
       input.value = '';
     }
+    console.log(this.photoIds.value);
   }
   onRemovePhotoId(id: string) {
-    const index = this.photoIds.indexOf(id);
-
+    const index = this.photoIds.value.indexOf(id);
+    
     if (index >= 0) {
-      this.photoIds.splice(index, 1);
+      this.photoIds.value.splice(index, 1);
+      this.photoIds.updateValueAndValidity();
     }
+    console.log(this.photoIds.value);
   }
-
+  
   onPhotoSubmit() {
     let geo = this.photoForm.get('geopoint').value;
     geo = this.parseGeopoint(geo);
@@ -163,6 +168,8 @@ export class UploadsComponent implements OnInit {
     if (input) {
       input.value = '';
     }
+    
+    
   }
   removeTag(event: any) {
     const myTags = this.photoForm.get('tags').value;

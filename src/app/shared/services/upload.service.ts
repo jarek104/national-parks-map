@@ -26,4 +26,8 @@ export class UploadService {
     })
   }
 
+  createPlace(place: Place) {
+    this.firestore.collection('places').add(place);
+  }
+
 }

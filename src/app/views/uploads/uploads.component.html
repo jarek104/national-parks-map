@@ -9,13 +9,10 @@
   <mat-form-field>
     <input matInput placeholder="description" formControlName="description"/>
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="dateCreated" formControlName="dateCreated" type="datetime"/>
-  </mat-form-field>
 
   <mat-form-field>
-    <mat-chip-list #chipList>
-      <mat-chip *ngFor="let photoId of photoIds" removable="true" (removed)="onRemovePhotoId(photoId)">
+    <mat-chip-list #chipList formControlName="photoIds">
+      <mat-chip *ngFor="let photoId of placeForm.get('photoIds').value" removable="true" (removed)="onRemovePhotoId(photoId)">
         {{photoId}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
@@ -28,5 +25,5 @@
   <mat-form-field>
     <input matInput placeholder="geopoint" formControlName="geopoint" (blur)="onGeopointBlur($event.target.value)"/>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="onSubmit()">Submit Place</button>
+  <button mat-raised-button color="primary" (click)="onPlaceSubmit()">Submit Place</button>
 </form>
