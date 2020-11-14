@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { ActivatedRoute } from '@angular/router';
-import { ExplorerService } from './../../services/explorer.service';
+import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';

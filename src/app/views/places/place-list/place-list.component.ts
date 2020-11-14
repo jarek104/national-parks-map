@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ExplorerService } from './../../services/explorer.service';
+import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
 import { switchMap } from 'rxjs/operators';
