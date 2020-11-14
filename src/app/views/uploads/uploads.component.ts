@@ -1,30 +1,28 @@
 import * as firebase from 'firebase';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { concatMap, last, switchMap } from 'rxjs/operators';
 
-import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { LngLat } from 'mapbox-gl';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSelectChange } from '@angular/material/select';
+import { Place } from 'src/app/models/place';
+import { Subscription } from 'rxjs';
 import { Tag } from 'src/app/models/tag';
 import { UploadService } from './../../shared/services/upload.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'sp-uploads',
   templateUrl: './uploads.component.html',
   styleUrls: ['./uploads.component.scss']
 })
-export class UploadsComponent implements OnInit {
+export class UploadsComponent implements OnInit, OnDestroy {
 
   // tags: Tag[] = [Tag.Beach, Tag.Desert, Tag.Forest, Tag.Lake, Tag.Mountain, Tag.Waterfall];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectedPlace?: any;
+  selectedPlace?: Place;
   photoFile?: File;
 
   places = [];
@@ -44,6 +42,8 @@ export class UploadsComponent implements OnInit {
     // tags: new FormControl(this.tags),
   });
 
+  subs = new Subscription;
+
   constructor(
 
     private explorerService: ExplorerService,
@@ -54,22 +54,46 @@ export class UploadsComponent implements OnInit {
   ngOnInit() {
     this.explorerService.pinsInBounds$.next([]);
 
+    this.subs.add(
+      this.placeForm.valueChanges.subscribe(change => {
+        if (typeof change.geopoint !== 'string' && change.geopoint !== undefined) {
+          this.placeForm.patchValue({
+            geopoint: `${change.geopoint.latitude}, ${change.geopoint.longitude}`
+          })
+        }
+      })
+    )
+
     this.uploadService.draggablePin$.next(this.uploadService.boundsCenter$.value);
 
-    this.uploadService.boundsCenter$.subscribe((center: LngLat) => {
-      this.uploadService.draggablePin$.next(center);
-      this.placeForm.patchValue({
-        geopoint: `${center.lat}, ${center.lng}`
+    this.subs.add(
+      this.uploadService.boundsCenter$.subscribe((center: LngLat) => {
+        this.uploadService.draggablePin$.next(center);
+        this.placeForm.patchValue({
+          geopoint: `${center.lat}, ${center.lng}`
+        })
       })
-    });
-    this.explorerService.allPlaces$.subscribe(places =>
-      this.places = places
+    )
+
+    this.subs.add(
+      this.explorerService.allPlaces$.subscribe(places =>
+        this.places = places
+      )
     )
     
   }
 
+  ngOnDestroy() {
+    this.subs.unsubscribe()
+    this.uploadService.draggablePin$.next(undefined);
+  }
+
   onPlaceSelect(change: MatSelectChange) {
-    this.placeForm.patchValue(change.value)
+    this.selectedPlace = change.value as Place;
+    this.placeForm.patchValue(change.value);
+
+    let pin = new LngLat(Number(change.value.geopoint.longitude), Number(change.value.geopoint.latitude));
+    this.explorerService.goToPoint$.next(pin);
   }
 
   onGeopointBlur(point: string) {
@@ -79,14 +103,16 @@ export class UploadsComponent implements OnInit {
   }
 
   onPlaceSubmit() {
+    let place = this.placeForm.value as Place;
+
     let geo = this.placeForm.get('geopoint').value;
     geo = this.parseGeopoint(geo);
     geo = new firebase.firestore.GeoPoint(Number(geo[0]), Number(geo[1]));
-    this.placeForm.patchValue({
-      geopoint: geo
-    })
-    console.log(this.placeForm.value)
-    this.uploadService.createPlace(this.placeForm.value);
+
+    place.geopoint = geo;
+    this.selectedPlace ? this.uploadService.updatePlace(place) : this.uploadService.createPlace(place);
+
+    
   }
 
   get photoIds() {
@@ -105,8 +131,8 @@ export class UploadsComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    console.log(this.photoIds.value);
   }
+
   onRemovePhotoId(id: string) {
     const index = this.photoIds.value.indexOf(id);
     
@@ -114,13 +140,14 @@ export class UploadsComponent implements OnInit {
       this.photoIds.value.splice(index, 1);
       this.photoIds.updateValueAndValidity();
     }
-    console.log(this.photoIds.value);
   }
   
   onPhotoSubmit() {
     let geo = this.photoForm.get('geopoint').value;
     geo = this.parseGeopoint(geo);
     geo = new firebase.firestore.GeoPoint(Number(geo[0]), Number(geo[1]));
+    
+    
     this.photoForm.patchValue({
       geopoint: geo
     })
@@ -173,9 +200,8 @@ export class UploadsComponent implements OnInit {
     if (input) {
       input.value = '';
     }
-    
-    
   }
+
   removeTag(event: any) {
     const myTags = this.photoForm.get('tags').value;
     const index = myTags.indexOf(event);
@@ -187,6 +213,7 @@ export class UploadsComponent implements OnInit {
       })
     }
   }
+  
   getTagString(tag: number) {
     return Tag[tag];
   }

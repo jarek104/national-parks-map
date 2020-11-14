@@ -29,7 +29,7 @@ export class ExplorerService {
     private firestore: AngularFirestore,
   ) {
     this.firestore.collection('places')
-      .stateChanges().pipe(
+      .snapshotChanges().pipe(
         map(snaps => {
           return convertSnaps(snaps) as Place[];
         }),
@@ -44,7 +44,7 @@ export class ExplorerService {
     return this.allPlaces$.pipe(
       map(places => {
         return places.filter(place => {
-          const location = [place.geopoint.longitude, place.geopoint.latitude];          
+          const location = [place.geopoint.longitude, place.geopoint.latitude];
           return bounds.contains(location as LngLatLike)
         })
       }),

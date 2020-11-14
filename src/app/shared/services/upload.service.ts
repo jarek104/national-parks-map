@@ -29,5 +29,9 @@ export class UploadService {
   createPlace(place: Place) {
     this.firestore.collection('places').add(place);
   }
+  
+  updatePlace(place: Place) {    
+    this.firestore.collection('places').doc(place.id).update(place);
+  }
 
 }

@@ -1,12 +1,14 @@
 <p> {{places?.length}} </p>
 
-<mat-select (selectionChange)="onPlaceSelect($event)">
-  <mat-option *ngFor="let place of places" [value]="place">
-    {{place.title}}
-  </mat-option>
-</mat-select>
-
-<div>Create a place</div>
+<div>Create a place or modify existing one</div>
+<mat-form-field>
+  <mat-label>Existing Places</mat-label>
+  <mat-select (selectionChange)="onPlaceSelect($event)">
+    <mat-option *ngFor="let place of places" [value]="place">
+      {{place.title}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 <form [formGroup]="placeForm">
   <mat-form-field>
