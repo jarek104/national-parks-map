@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { LngLatBounds, LngLatLike } from 'mapbox-gl';
+import { LngLat, LngLatBounds, LngLatLike } from 'mapbox-gl';
 import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -22,6 +22,7 @@ export class ExplorerService {
   allPlaces$: Observable<Place[]>;
   currentBounds$ = new BehaviorSubject<mapboxgl.LngLatBounds | undefined>(undefined);
   currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
+  goToPoint$ = new BehaviorSubject<LngLat | undefined>(undefined);
 
 
   constructor(

@@ -27,21 +27,14 @@ export class PhotoListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {    
-
-    // this works, but updating the list requires changing the bounds
-    // we don't want to perform a query every time the filters change
-    this.photos$ = this.explorerService.currentBounds$.pipe(
-      distinctUntilChanged(),
-      switchMap(_ => this.explorerService.getPhotosInBounds$())
-    );
     
-    // this.photos$ = combineLatest([
-    //   this.explorerService.currentBounds$,
-    //   this.explorerService.currentPhotoFilters$,
-    // ]).pipe(
-    //   distinctUntilChanged(),
-    //   switchMap(_ => this.explorerService.getPhotosInBounds$()),
-    // )
+    this.photos$ = combineLatest([
+      this.explorerService.currentBounds$,
+      this.explorerService.currentPhotoFilters$,
+    ]).pipe(
+      distinctUntilChanged(),
+      switchMap(_ => this.explorerService.getPhotosInBounds$()),
+    )
   }
   
 

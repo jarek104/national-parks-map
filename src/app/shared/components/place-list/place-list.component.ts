@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ExplorerService } from './../../services/explorer.service';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
-import { PlaceService } from '../../services/place.service';
 import { Tag } from 'src/app/models/tag';
 import { switchMap } from 'rxjs/operators';
 

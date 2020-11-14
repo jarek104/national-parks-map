@@ -11,8 +11,7 @@ import { AppSidenavComponent } from './shared/components/app-sidenav/app-sidenav
 import { AppTabsComponent } from './shared/components/app-tabs/app-tabs.component';
 import { AppToolbarComponent } from './shared/components/app-toolbar/app-toolbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ExploreComponent } from './views/explore/explore.component';
-import { GenerateModule } from './shared/components/generate/generate.module';
+import { ExploreModule } from './views/explore/explore.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './views/login/login.component';
 import { MapContainerComponent } from './shared/components/map-container/map-container.component';
@@ -20,14 +19,10 @@ import { MapService } from 'ngx-mapbox-gl';
 import { MaterialModule } from './shared/modules/material.module';
 import { NgModule } from '@angular/core';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import { PhotoListComponent } from './shared/components/photo-list/photo-list.component';
-import { PhotoPreviewListComponent } from './shared/components/photo-preview-list/photo-preview-list.component';
-import { PlaceDetailsComponent } from './shared/components/place-details/place-details.component';
-import { PlaceListComponent } from './shared/components/place-list/place-list.component';
 import { ProfileComponent } from './views/profile/profile.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { SharedModule } from './shared/modules/shared.module';
-import { UploadsComponent } from './views/uploads/uploads.component';
+import { UploadsModule } from './views/uploads/uploads.module';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -38,14 +33,9 @@ import { environment } from '../environments/environment';
     AppTabsComponent,
     AppSidenavComponent,
     MapContainerComponent,
-    ExploreComponent,
     ProfileComponent,
-    UploadsComponent,
     SettingsComponent,
-    PlaceDetailsComponent,
-    PlaceListComponent,
-    PhotoPreviewListComponent,
-    PhotoListComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -62,7 +52,8 @@ import { environment } from '../environments/environment';
     MaterialModule,
     HttpClientModule,
     SharedModule,
-    GenerateModule,
+    ExploreModule,
+    UploadsModule,
   ],
   providers: [MapService],
   bootstrap: [AppComponent]

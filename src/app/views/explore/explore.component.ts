@@ -1,10 +1,10 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, forkJoin, of } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { ExplorerService } from './../../shared/services/explorer.service';
+import { Observable } from 'rxjs';
 import { convertSnaps } from 'src/app/shared/services/utils';
 
 @Component({

@@ -1,11 +1,12 @@
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { LngLat, Map, Marker } from 'mapbox-gl';
 
 import { ExplorerService } from '../../services/explorer.service';
-import { Map } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
-import { Observable } from 'rxjs';
 import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
+import { UploadService } from './../../services/upload.service';
 
 @Component({
   selector: 'sp-map-container',
@@ -15,6 +16,8 @@ import { Place } from 'src/app/models/place';
 export class MapContainerComponent implements OnInit{
   startPlace = [-100.3715367, 39.041718];
 
+  draggablePin$?: BehaviorSubject<LngLat>;
+
   @ViewChild(MapComponent) map: MapComponent;
 
   selectedItem$: Observable<unknown>;
@@ -23,19 +26,41 @@ export class MapContainerComponent implements OnInit{
 
   constructor(
     private explorerService: ExplorerService,
+    private uploadService: UploadService,
   ) { }
 
   ngOnInit() {
     this.pinsInBounds$ = this.explorerService.pinsInBounds$;
     this.selectedItem$ = this.explorerService.selectedItem$;
     this.highlightedItem$ = this.explorerService.highlightedItem$;
+    this.draggablePin$ = this.uploadService.draggablePin$;
+    this.explorerService.goToPoint$.subscribe(point => {
+      console.log('point', point);
+      if (this.map) {
+        this.map?.mapInstance.panTo(point)
+      }
+    });
+  }
+
+
+  onDragEnd(marker: Marker) {
+    this.draggablePin$.next(marker.getLngLat());
   }
 
   onLoad(mapInstance?: Map) {
-    this.explorerService.currentBounds$.next(mapInstance.getBounds())
+    this.explorerService.currentBounds$.next(mapInstance.getBounds());
+    let center = new LngLat(this.map.center[0], this.map.center[1])
+    this.uploadService.boundsCenter$.next(center);
   }
-  reloadPlaces() {
+
+  onMapMove() {
     this.explorerService.currentBounds$.next(this.map.mapInstance.getBounds())
+       
+  }
+  
+  onMove() {
+    let center = this.map.mapInstance.getCenter();
+    this.uploadService.boundsCenter$.next(center); 
   }
 
   onPinClick(item: Place | Photo) {

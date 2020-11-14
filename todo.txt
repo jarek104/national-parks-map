@@ -1,5 +1,3 @@
-* filter photos by tag
-
 * make a nicer upload view 
     * tags, author
 * make a photo view 

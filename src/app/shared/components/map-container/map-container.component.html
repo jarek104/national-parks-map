@@ -1,5 +1,5 @@
 <mgl-map [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="[3]" [center]="startPlace" [attributionControl]="false"
-  (load)="onLoad($event)" (moveEnd)="reloadPlaces()" fxFlex>
+  (load)="onLoad($event)" (moveEnd)="onMapMove()" fxFlex (move)="onMove()">
   <mgl-marker [lngLat]="[pin.geopoint.longitude, pin.geopoint.latitude]" *ngFor="let pin of pinsInBounds$ | async; let i=index">
     <div class="marker" (click)="onPinClick(pin)" 
     (mouseenter)="onPinHover(pin)" (mouseleave)="onPinHover()"
@@ -10,5 +10,22 @@
         }">
     </div>
   </mgl-marker>
+  <mgl-marker *ngIf="draggablePin$ | async as pin" [lngLat]="[pin.lng, pin.lat]" (dragEnd)="onDragEnd($event)">
+    <div class="marker" 
+    [ngStyle]="{
+          'background-color': 'red',
+          'width': '12px',
+          'height': '12px'
+        }">
+    </div>
+  </mgl-marker>
   <mgl-control mglAttribution position="top-left"></mgl-control>
 </mgl-map>
+<pre class="coordinates" *ngIf="selectedItem$ | async as point">
+  Latitude: {{point.geopoint.latitude}}
+  Longitude: {{point.geopoint.longitude}}
+</pre>
+<pre class="coordinates" *ngIf="draggablePin$ | async as pin">
+  Latitude: {{pin.lat}}
+  Longitude: {{pin.lng}}
+</pre>
