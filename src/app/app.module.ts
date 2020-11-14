@@ -11,7 +11,6 @@ import { AppSidenavComponent } from './shared/components/app-sidenav/app-sidenav
 import { AppTabsComponent } from './shared/components/app-tabs/app-tabs.component';
 import { AppToolbarComponent } from './shared/components/app-toolbar/app-toolbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ExploreModule } from './views/explore/explore.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './views/login/login.component';
 import { MapContainerComponent } from './shared/components/map-container/map-container.component';
@@ -52,7 +51,6 @@ import { environment } from '../environments/environment';
     MaterialModule,
     HttpClientModule,
     SharedModule,
-    ExploreModule,
     UploadsModule,
   ],
   providers: [MapService],

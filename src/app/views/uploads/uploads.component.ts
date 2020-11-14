@@ -45,13 +45,13 @@ export class UploadsComponent implements OnInit {
 
   constructor(
 
-    private exploreService: ExplorerService,
+    private explorerService: ExplorerService,
     private uploadService: UploadService,
 
   ) { }
 
   ngOnInit() {
-    this.exploreService.pinsInBounds$.next([]);
+    this.explorerService.pinsInBounds$.next([]);
 
     this.uploadService.draggablePin$.next(this.uploadService.boundsCenter$.value);
 
@@ -61,16 +61,16 @@ export class UploadsComponent implements OnInit {
         geopoint: `${center.lat}, ${center.lng}`
       })
     });
-    // this.explorerService.placesInBounds$.subscribe(places =>
-    //   this.places = places
-    // )
+    this.explorerService.allPlaces$.subscribe(places =>
+      this.places = places
+    )
     
   }
 
   onGeopointBlur(point: string) {
     let points = point.split(', ');
     let pin = new LngLat(Number(points[1]), Number(points[0]));
-    this.exploreService.goToPoint$.next(pin);
+    this.explorerService.goToPoint$.next(pin);
   }
 
   onPlaceSubmit() {

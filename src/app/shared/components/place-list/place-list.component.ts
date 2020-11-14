@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ExplorerService } from './../../services/explorer.service';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
-import { Tag } from 'src/app/models/tag';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -17,7 +16,7 @@ export class PlaceListComponent implements OnInit {
 
   constructor(
     private explorerService: ExplorerService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {    
     this.places$ = this.explorerService.currentBounds$.pipe(

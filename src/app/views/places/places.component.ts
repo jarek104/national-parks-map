@@ -3,16 +3,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
-import { ExplorerService } from './../../shared/services/explorer.service';
+import { ExplorerService } from '../../shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { convertSnaps } from 'src/app/shared/services/utils';
 
 @Component({
-  selector: 'sp-explore',
-  templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss']
+  selector: 'sp-places',
+  templateUrl: './places.component.html',
+  styleUrls: ['./places.component.scss']
 })
-export class ExploreComponent implements OnInit {
+export class PlacesComponent implements OnInit {
 
   @ViewChild(CarouselComponent) carousel: CarouselComponent;
   selectedItem?: any;

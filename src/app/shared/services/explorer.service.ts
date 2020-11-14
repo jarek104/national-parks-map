@@ -2,7 +2,7 @@ import * as firebase from 'firebase/app';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LngLat, LngLatBounds, LngLatLike } from 'mapbox-gl';
-import { distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
@@ -19,7 +19,7 @@ export class ExplorerService {
   pinsInBounds$ = new BehaviorSubject<any[]>([]);
   selectedItem$ = new BehaviorSubject<any>(undefined);
   highlightedItem$ = new BehaviorSubject<any>(undefined);
-  allPlaces$: Observable<Place[]>;
+  allPlaces$ = new BehaviorSubject<Place[]>([]);
   currentBounds$ = new BehaviorSubject<mapboxgl.LngLatBounds | undefined>(undefined);
   currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
   goToPoint$ = new BehaviorSubject<LngLat | undefined>(undefined);
@@ -28,11 +28,12 @@ export class ExplorerService {
   constructor(
     private firestore: AngularFirestore,
   ) {
-    // this.allPlaces$ = this.firestore.collection('places', ref => ref.where('tags', 'array-contains-any', this.currentPhotoFilters$.value))
-    this.allPlaces$ = this.firestore.collection('places')
+    this.firestore.collection('places')
       .stateChanges().pipe(
-        map(places => convertSnaps(places)),
-    );
+        map(snaps => {
+          return convertSnaps(snaps) as Place[];
+        }),
+    ).subscribe(places => this.allPlaces$.next(places));
   };
 
   getPlacesInBounds$(): Observable<Place[]> {        
@@ -52,23 +53,22 @@ export class ExplorerService {
     )
   };
     
-  getPhotosInBounds$(): Observable<Photo[]> {        
+  getPhotosInBounds(): Photo[] {        
     if (!this.currentBounds$.value) {
-      return of([]);
+      return [];
     }
     const bounds = this.currentBounds$.value; 
     const photoFilters = this.currentPhotoFilters$.value; 
     const north = new firebase.firestore.GeoPoint(this.currentBounds$.value.getNorth(), 0)
     const south = new firebase.firestore.GeoPoint(this.currentBounds$.value.getSouth(), 0)
 
-
-    return this.firestore
+    this.firestore
       .collection('photos', ref => ref
           .where('geopoint', '<', north)
           .where('geopoint', '>', south))
-          .stateChanges().pipe(
+          .snapshotChanges().pipe(
             map(data => convertSnaps(data)),
-            map((photos: Photo[]) => {
+            map((photos: Photo[]) => {              
               return photos.filter(photo => {
                 const location = [photo.geopoint.longitude, photo.geopoint.latitude];
                 return bounds.contains(location as LngLatLike)
@@ -82,14 +82,11 @@ export class ExplorerService {
                 return photo;
               })
             }),
-            distinctUntilChanged(),
-            tap((photos: Photo[]) => this.pinsInBounds$.next(photos)),
-    )
+    ).subscribe((photos: Photo[]) => {
+      this.pinsInBounds$.next(photos);
+      return photos;
+    })
   };
-
-  getFilteredPhotos() {
-    
-  }
 
   getPlaceById$(id: string) {    
     if (!id) {

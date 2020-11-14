@@ -1,5 +1,5 @@
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { ExplorerService } from './../../services/explorer.service';
@@ -19,7 +19,7 @@ export class PhotoListComponent implements OnInit {
   tags = Tag;
   currentFilters$ = this.explorerService.currentPhotoFilters$;
 
-  photos$?: Observable<Photo[]>;
+  photos$ = new BehaviorSubject<Photo[]>([]);
   photosInBounds$?: Observable<Photo[]>;
 
   constructor(
@@ -28,13 +28,10 @@ export class PhotoListComponent implements OnInit {
 
   ngOnInit(): void {    
     
-    this.photos$ = combineLatest([
+    combineLatest([
       this.explorerService.currentBounds$,
       this.explorerService.currentPhotoFilters$,
-    ]).pipe(
-      distinctUntilChanged(),
-      switchMap(_ => this.explorerService.getPhotosInBounds$()),
-    )
+    ]).subscribe(_ => this.photos$.next(this.explorerService.getPhotosInBounds()));
   }
   
 
