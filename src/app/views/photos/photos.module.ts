@@ -7,7 +7,7 @@ import { SharedModule } from './../../shared/modules/shared.module';
 
 const routes: Routes = [
   { path: '', component: PhotoListComponent },
-  { path: ':placeId', component: PhotoListComponent },
+  { path: ':photoId', component: PhotoListComponent },
 ];
 
 @NgModule({

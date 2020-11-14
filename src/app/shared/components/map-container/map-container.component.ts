@@ -35,8 +35,7 @@ export class MapContainerComponent implements OnInit{
     this.highlightedItem$ = this.explorerService.highlightedItem$;
     this.draggablePin$ = this.uploadService.draggablePin$;
     this.explorerService.goToPoint$.subscribe(point => {
-      console.log('point', point);
-      if (this.map) {
+      if (this.map && point) {
         this.map?.mapInstance.panTo(point)
       }
     });

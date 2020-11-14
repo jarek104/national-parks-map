@@ -10,6 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { LngLat } from 'mapbox-gl';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatSelectChange } from '@angular/material/select';
 import { Tag } from 'src/app/models/tag';
 import { UploadService } from './../../shared/services/upload.service';
 import { forkJoin } from 'rxjs';
@@ -65,6 +66,10 @@ export class UploadsComponent implements OnInit {
       this.places = places
     )
     
+  }
+
+  onPlaceSelect(change: MatSelectChange) {
+    this.placeForm.patchValue(change.value)
   }
 
   onGeopointBlur(point: string) {
