@@ -30,8 +30,8 @@ export class UploadService {
     this.firestore.collection('places').add(place);
   }
   
-  updatePlace(place: Place) {    
-    this.firestore.collection('places').doc(place.id).update(place);
+  updatePlace(id: string, place: Place) {    
+    this.firestore.collection('places').doc(id).update(place);
   }
 
 }

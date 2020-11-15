@@ -110,9 +110,9 @@ export class UploadsComponent implements OnInit, OnDestroy {
     geo = new firebase.firestore.GeoPoint(Number(geo[0]), Number(geo[1]));
 
     place.geopoint = geo;
-    this.selectedPlace ? this.uploadService.updatePlace(place) : this.uploadService.createPlace(place);
-
+    console.log('place', place);
     
+    this.selectedPlace ? this.uploadService.updatePlace(this.selectedPlace.id, place) : this.uploadService.createPlace(place);
   }
 
   get photoIds() {

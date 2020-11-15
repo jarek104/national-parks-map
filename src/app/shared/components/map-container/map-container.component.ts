@@ -36,7 +36,16 @@ export class MapContainerComponent implements OnInit{
     this.draggablePin$ = this.uploadService.draggablePin$;
     this.explorerService.goToPoint$.subscribe(point => {
       if (this.map && point) {
-        this.map?.mapInstance.panTo(point)
+        this.map?.mapInstance.flyTo({
+            center: point,
+            // minZoom: 0,
+            zoom: 9,
+            bearing: 0, 
+            speed: 1,
+            curve: 1,
+            essential: true
+          }
+        )
       }
     });
   }
