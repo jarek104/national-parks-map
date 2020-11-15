@@ -39,7 +39,7 @@ export class MapContainerComponent implements OnInit{
         this.map?.mapInstance.flyTo({
             center: point,
             // minZoom: 0,
-            zoom: 9,
+            zoom: 10,
             bearing: 0, 
             speed: 1,
             curve: 1,
