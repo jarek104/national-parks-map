@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
 
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Photo } from 'src/app/models/photo';
 import { Tag } from 'src/app/models/tag';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-list',

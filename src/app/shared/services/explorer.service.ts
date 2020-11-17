@@ -16,10 +16,11 @@ import { convertSnaps } from './utils';
 })
 export class ExplorerService {
   activePlaceIndex = new BehaviorSubject<number>(0);
-  pinsInBounds$ = new BehaviorSubject<any[]>([]);
+  pinsInBounds$ = new BehaviorSubject<Place[] | Photo[]>([]);
   selectedItem$ = new BehaviorSubject<any>(undefined);
   highlightedItem$ = new BehaviorSubject<any>(undefined);
   allPlaces$ = new BehaviorSubject<Place[]>([]);
+  allPhotos$ = new BehaviorSubject<Photo[]>([]);
   currentBounds$ = new BehaviorSubject<mapboxgl.LngLatBounds | undefined>(undefined);
   currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
   goToPoint$ = new BehaviorSubject<LngLat | undefined>(undefined);
@@ -34,6 +35,13 @@ export class ExplorerService {
           return convertSnaps(snaps) as Place[];
         }),
     ).subscribe(places => this.allPlaces$.next(places));
+
+    this.firestore.collection('photos')
+      .snapshotChanges().pipe(
+        map(snaps => {
+          return convertSnaps(snaps) as Photo[];
+        }),
+    ).subscribe(photo => this.allPhotos$.next(photo));
   };
 
   getPlacesInBounds$(): Observable<Place[]> {        

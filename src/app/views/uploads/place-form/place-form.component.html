@@ -1,0 +1,34 @@
+<mat-form-field>
+  <mat-label>Existing Places</mat-label>
+  <mat-select (selectionChange)="onPlaceSelect($event)">
+    <mat-option *ngFor="let place of places" [value]="place">
+      {{place.title}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<form [formGroup]="placeForm" class="place-form">
+  <mat-form-field>
+    <input matInput placeholder="title" formControlName="title"/>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description">1600 Amphitheatre Pkwy</textarea>    <!-- <input matInput placeholder="description" formControlName="description"/> -->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-chip-list #chipList formControlName="photoIds">
+      <mat-chip *ngFor="let photoId of placeForm.get('photoIds').value" removable="true" (removed)="onRemovePhotoId(photoId)">
+        {{photoId}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="Photo IDs"
+             [matChipInputFor]="chipList"
+             matChipInputAddOnBlur="true"
+             (matChipInputTokenEnd)="onAddPhotoId($event)">
+    </mat-chip-list>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="geopoint" formControlName="geopoint" (blur)="onGeopointBlur($event.target.value)"/>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onPlaceSubmit()">Submit Place</button>
+</form>

@@ -11,6 +11,8 @@ import { MaterialModule } from './../../shared/modules/material.module';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UploadsComponent } from './uploads.component';
+import { PlaceFormComponent } from './place-form/place-form.component';
+import { PhotoFormComponent } from './photo-form/photo-form.component';
 
 const routes: Routes = [
   { path: '', component: UploadsComponent },
@@ -19,6 +21,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     UploadsComponent,
+    PlaceFormComponent,
+    PhotoFormComponent,
   ],
   imports: [
     CommonModule,

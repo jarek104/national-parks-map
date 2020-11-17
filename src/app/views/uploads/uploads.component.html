@@ -1,37 +1,8 @@
-<p> {{places?.length}} </p>
-
-<div>Create a place or modify existing one</div>
-<mat-form-field>
-  <mat-label>Existing Places</mat-label>
-  <mat-select (selectionChange)="onPlaceSelect($event)">
-    <mat-option *ngFor="let place of places" [value]="place">
-      {{place.title}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
-<form [formGroup]="placeForm">
-  <mat-form-field>
-    <input matInput placeholder="title" formControlName="title"/>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="description" formControlName="description"/>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-chip-list #chipList formControlName="photoIds">
-      <mat-chip *ngFor="let photoId of placeForm.get('photoIds').value" removable="true" (removed)="onRemovePhotoId(photoId)">
-        {{photoId}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
-      <input placeholder="Photo IDs"
-             [matChipInputFor]="chipList"
-             matChipInputAddOnBlur="true"
-             (matChipInputTokenEnd)="onAddPhotoId($event)">
-    </mat-chip-list>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="geopoint" formControlName="geopoint" (blur)="onGeopointBlur($event.target.value)"/>
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="onPlaceSubmit()">Submit Place</button>
-</form>
+<mat-tab-group mat-align-tabs="start" mat-stretch-tabs>
+  <mat-tab label="Places">
+    <app-place-form></app-place-form>
+  </mat-tab>
+  <mat-tab label="Photos">
+    <app-photo-form></app-photo-form>
+  </mat-tab>
+</mat-tab-group>

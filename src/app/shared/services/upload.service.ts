@@ -1,9 +1,13 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import * as firebase from 'firebase';
+
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
+import { concatMap, last, switchMap } from 'rxjs/operators';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { LngLat } from 'mapbox-gl';
+import { Photo } from 'src/app/models/photo';
 import { Place } from 'src/app/models/place';
 import { convertSnaps } from 'src/app/shared/services/utils';
 
@@ -30,8 +34,44 @@ export class UploadService {
     this.firestore.collection('places').add(place);
   }
   
-  updatePlace(id: string, place: Place) {    
+  updatePlace(id: string, place: Partial<Place>) {    
     this.firestore.collection('places').doc(id).update(place);
+  }
+
+  uploadPhoto(photo: Partial<Photo>, placeId: string, photoFile) {
+    this.firestore.collection('photos').add({
+      placeId: placeId,
+      ...photo
+    }).then(photoDoc => {
+      if (photoDoc) {
+        console.log('photoDoc', photoDoc);
+        
+        const filePath = `photos/${photoDoc.id}/${photoFile.name}`;
+        console.log('filePath', filePath);
+        
+        const uploadTask = this.fireStorage.upload(filePath, photoFile);
+
+        uploadTask.snapshotChanges().pipe(
+          last(),
+          concatMap(() => this.fireStorage.ref(filePath).getDownloadURL()),
+          switchMap(downloadUrl => {
+            console.log('')
+            return forkJoin([
+              this.firestore.collection('places').doc(`${placeId}`).update({
+               photoIds: firebase.firestore.FieldValue.arrayUnion(photoDoc.id)
+             }),
+             this.firestore.collection('photos').doc(`${photoDoc.id}`).update({
+               downloadUrl
+             })
+            ])
+          })
+        ).subscribe(console.log);
+      }
+    })
+  }
+  
+  updatePhoto(id: string, photo: Partial<Photo>) {    
+    this.firestore.collection('photos').doc(id).update(photo);
   }
 
 }

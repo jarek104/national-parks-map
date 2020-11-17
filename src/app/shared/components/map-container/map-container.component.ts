@@ -20,9 +20,9 @@ export class MapContainerComponent implements OnInit{
 
   @ViewChild(MapComponent) map: MapComponent;
 
-  selectedItem$: Observable<unknown>;
-  highlightedItem$: Observable<unknown>;
-  pinsInBounds$: Observable<unknown[]>;
+  selectedItem$: Observable<Place | Photo>;
+  highlightedItem$: Observable<Place | Photo>;
+  pinsInBounds$: Observable<Place[] | Photo[]>;
 
   constructor(
     private explorerService: ExplorerService,
