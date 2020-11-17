@@ -104,6 +104,6 @@ export class MapContainerComponent implements OnInit {
         return '#66ff00';
       }
     }
-    return '#475467';
+    return '#4bc135';
   }
 }
