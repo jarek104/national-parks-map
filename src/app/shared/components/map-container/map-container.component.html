@@ -1,4 +1,4 @@
-<mgl-map [style]="'mapbox://styles/mapbox/light-v9'" [zoom]="[3]" [center]="startPlace" [attributionControl]="false"
+<mgl-map [style]="'mapbox://styles/jarek104/ckhljhz970cmf19nunt3ydkgt'" [zoom]="[5]" [center]="startPlace" [attributionControl]="false"
   (load)="onLoad($event)" (moveEnd)="onMapMove()" fxFlex (move)="onMove()">
   <mgl-marker [lngLat]="[pin.geopoint.longitude, pin.geopoint.latitude]" *ngFor="let pin of pinsInBounds$ | async; let i=index">
     <div class="marker" (click)="onPinClick(pin)" 
@@ -24,6 +24,9 @@
 <pre class="coordinates" *ngIf="selectedItem$ | async as point">
   Latitude: {{point.geopoint.latitude}}
   Longitude: {{point.geopoint.longitude}}
+</pre>
+<pre class="coordinates">
+  Zoom: {{map?.mapInstance?.getZoom()}}
 </pre>
 <!-- <pre class="coordinates" *ngIf="draggablePin$ | async as pin">
   Latitude: {{pin.lat}}

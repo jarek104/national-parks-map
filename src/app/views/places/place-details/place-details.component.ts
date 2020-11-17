@@ -22,14 +22,24 @@ export class PlaceDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.explorerService.lastPinsInBounds$.next(this.explorerService.pinsInBounds$.value);
     this.place$ = this.route.params.pipe(
       switchMap(params => this.explorerService.getPlaceById$(params['placeId']))
     );
 
     this.photos$ = this.place$.pipe(
       switchMap(place => this.explorerService.getPhotosByPlace$(place)),
-      tap(photos => this.explorerService.pinsInBounds$.next(photos))
+      tap(photos => {
+        this.explorerService.pinsInBounds$.next(photos);
+        this.explorerService.fitItemsToBounds$.next(photos);
+      })
     );
+  }
+
+  ngOnDestroy() {
+    console.log('destroy');
+    
+    this.explorerService.fitItemsToBounds$.next(this.explorerService.lastPinsInBounds$.value);
   }
 
   onFavoritesClick() {

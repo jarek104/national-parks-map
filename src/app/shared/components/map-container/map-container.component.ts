@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LngLat, Map, Marker } from 'mapbox-gl';
+import { LngLat, LngLatBounds, Map, Marker } from 'mapbox-gl';
 
 import { ExplorerService } from '../../services/explorer.service';
 import { MapComponent } from 'ngx-mapbox-gl';
@@ -13,7 +13,7 @@ import { UploadService } from './../../services/upload.service';
   templateUrl: './map-container.component.html',
   styleUrls: ['./map-container.component.scss']
 })
-export class MapContainerComponent implements OnInit{
+export class MapContainerComponent implements OnInit {
   startPlace = [-100.3715367, 39.041718];
 
   draggablePin$?: BehaviorSubject<LngLat>;
@@ -48,6 +48,20 @@ export class MapContainerComponent implements OnInit{
         )
       }
     });
+
+    this.explorerService.fitItemsToBounds$.subscribe(items => {
+      if (this.map && items?.length > 0) {
+        let bounds = new LngLatBounds();
+        items.forEach((item: Place | Photo) => {
+          let point = new LngLat(Number(item.geopoint.longitude), Number(item.geopoint.latitude));
+          bounds.extend(point);
+        });
+        this.map?.mapInstance.fitBounds(bounds, {
+          padding: 100,
+          speed: .8,
+        });        
+      }
+    })
   }
 
 

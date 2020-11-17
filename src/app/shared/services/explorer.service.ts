@@ -22,8 +22,10 @@ export class ExplorerService {
   allPlaces$ = new BehaviorSubject<Place[]>([]);
   allPhotos$ = new BehaviorSubject<Photo[]>([]);
   currentBounds$ = new BehaviorSubject<mapboxgl.LngLatBounds | undefined>(undefined);
+  lastPinsInBounds$ = new BehaviorSubject<Place[] | Photo[]>([]);
   currentPhotoFilters$ = new BehaviorSubject<Tag[]>([]);
   goToPoint$ = new BehaviorSubject<LngLat | undefined>(undefined);
+  fitItemsToBounds$ = new BehaviorSubject<any>(undefined);
 
 
   constructor(
@@ -43,6 +45,10 @@ export class ExplorerService {
         }),
     ).subscribe(photo => this.allPhotos$.next(photo));
   };
+
+  fitToBounds(items: Place[] | Photo[]) {
+    this.fitItemsToBounds$.next(items);
+  }
 
   getPlacesInBounds$(): Observable<Place[]> {        
     if (!this.currentBounds$.value) {
