@@ -10,27 +10,30 @@
     width: 300px;
 }
 
-.mat-tab-body-wrapper {
-  flex-grow: 1;
-}
-
-.mat-tab-body-content {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 .drawer-content {
-    overflow: hidden;
-}
-
-.view-container {
+  height: 100%;
   overflow: hidden;
-  flex-grow: 1;
   display: flex;
   flex-direction: row;
+}
+
+.menu-button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+}
+
+.map-wrapper {
+  position: relative;
+}
+
+.mode-toggle {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 1;
+  border: 2px solid lightgray;
 }
 
 .outlet-wrapper {

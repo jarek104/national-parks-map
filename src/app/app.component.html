@@ -3,20 +3,24 @@
     <sp-app-sidenav (linkClicked)="showSidenav = false" (emitSidenavToggle)="showSidenav = false"></sp-app-sidenav>
   </mat-drawer>
 
-  <mat-drawer-content fxLayout="column" class="drawer-content">
-    <sp-app-toolbar (emitSidenavToggle)="showSidenav = !showSidenav"></sp-app-toolbar>
+  <mat-drawer-content class="drawer-content">
 
-    <div class="view-container">
-      <div fxFlex="60">
+      <div fxFlex="60" class="map-wrapper">
+        <mat-button-toggle-group class="mode-toggle">
+          <mat-button-toggle routerLink="/places">Places</mat-button-toggle>
+          <mat-button-toggle routerLink="/photos">Photos</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <button mat-icon-button (click)="showSidenav = true" class="menu-button">
+          <mat-icon svgIcon="menu2"></mat-icon>
+        </button>
+
+
         <sp-map-container></sp-map-container>
       </div>
       <div fxFlex="40" class="outlet-wrapper mat-elevation-z4">
         <router-outlet></router-outlet>
-        <!-- <sp-generate fxFlexFill></sp-generate> -->
       </div>
-    </div>
     
-    
-    <!-- <sp-app-tabs></sp-app-tabs> -->
   </mat-drawer-content>
 </mat-drawer-container>

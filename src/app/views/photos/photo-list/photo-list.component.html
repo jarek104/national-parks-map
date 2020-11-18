@@ -7,7 +7,7 @@
 <div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
   <div  
     routerLink="/photos/{{photo?.id}}"
-    class="wrapper mat-elevation-z3" [class.active]="photo === active" 
+    class="wrapper mat-elevation-z3" 
     (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="photo?.downloadUrl">
