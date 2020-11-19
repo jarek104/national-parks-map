@@ -17,11 +17,34 @@
   flex-direction: row;
 }
 
-.menu-button {
+.main-button {
   position: absolute;
   top: 15px;
   left: 15px;
   z-index: 1;
+  height: 40px;
+  background: white;
+  border: 1px solid #a9a9a9;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+
+  .menu-button {
+    margin-left: -2px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+  }
+
+  .profile-avatar {
+    height: 30px;
+    width: 30px;
+    border: 1px solid #a9a9a9;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
 }
 
 .map-wrapper {

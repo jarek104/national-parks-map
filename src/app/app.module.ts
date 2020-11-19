@@ -12,7 +12,6 @@ import { AppTabsComponent } from './shared/components/app-tabs/app-tabs.componen
 import { AppToolbarComponent } from './shared/components/app-toolbar/app-toolbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './views/login/login.component';
 import { MapContainerComponent } from './shared/components/map-container/map-container.component';
 import { MapService } from 'ngx-mapbox-gl';
 import { MaterialModule } from './shared/modules/material.module';
@@ -27,14 +26,12 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     AppToolbarComponent,
     AppTabsComponent,
     AppSidenavComponent,
     MapContainerComponent,
     ProfileComponent,
     SettingsComponent,
-    
   ],
   imports: [
     BrowserModule,

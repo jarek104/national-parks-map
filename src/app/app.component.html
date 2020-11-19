@@ -7,13 +7,19 @@
 
       <div fxFlex="60" class="map-wrapper">
         <mat-button-toggle-group class="mode-toggle">
-          <mat-button-toggle routerLink="/places">Places</mat-button-toggle>
-          <mat-button-toggle routerLink="/photos">Photos</mat-button-toggle>
+          <mat-button-toggle routerLink="/places" routerLinkActive="mat-button-toggle-checked">Places</mat-button-toggle>
+          <mat-button-toggle routerLink="/photos" routerLinkActive="mat-button-toggle-checked">Photos</mat-button-toggle>
         </mat-button-toggle-group>
 
-        <button mat-icon-button (click)="showSidenav = true" class="menu-button">
-          <mat-icon svgIcon="menu2"></mat-icon>
-        </button>
+        <div class="main-button mat-elevation-z2">
+          <button mat-icon-button (click)="login()" class="menu-button">
+            <mat-icon svgIcon="menu2"></mat-icon>
+          </button>
+          <ng-container *ngIf="userInfo$ | async as userInfo">
+            <img [src]="userInfo?.user.photoURL" class="profile-avatar" (click)="logout()"/>
+          </ng-container>
+
+        </div>
 
 
         <sp-map-container></sp-map-container>
