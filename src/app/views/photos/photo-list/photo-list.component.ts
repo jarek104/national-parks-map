@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { Photo } from 'src/app/models/photo';
 import { Tag } from 'src/app/models/tag';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-list',
@@ -30,6 +30,7 @@ export class PhotoListComponent implements OnInit {
       this.explorerService.currentBounds$,
       this.explorerService.currentPhotoFilters$,
     ]).pipe(
+      debounceTime(200),
       switchMap(_ => this.explorerService.getPhotosInBounds$())
     );
 

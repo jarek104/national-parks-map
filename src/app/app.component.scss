@@ -47,6 +47,10 @@
   }
 }
 
+::ng-deep.mat-menu-content {
+  min-width: 160px;
+}
+
 .map-wrapper {
   position: relative;
 }

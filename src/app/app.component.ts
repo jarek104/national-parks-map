@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthenticationService } from './shared/services/authentication.service';
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   showSidenav = false;
   pinsInBounds$: Observable<unknown[]>;
   items: Observable<any[]>;
-  userInfo$ = new BehaviorSubject<firebase.auth.UserCredential>(undefined);
+  userInfo$: Observable<firebase.auth.UserCredential>;
 
   constructor(
     db: AngularFirestore,
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private authService: AuthenticationService
   ) {
-    this.userInfo$ = this.authService.loggedInUser$;
+    this.userInfo$ = this.authService.loggedInUser$.pipe(shareReplay());
     this.items = db.collection('items').valueChanges();
   }
 

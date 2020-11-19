@@ -114,12 +114,10 @@ export class ExplorerService {
     )
   }
 
-  getPhotosByPlace$(place: Place): Observable<Photo[]> {    
-    if (place.photoIds) {
-      return this.firestore.collection('photos', photos => photos.where(firebase.firestore.FieldPath.documentId(), 'in', place.photoIds))
-        .snapshotChanges().pipe(
-          map(photo => convertSnaps(photo))
-        )
-    }
+  getPhotosByPlace$(place: Place): Observable<Photo[]> {        
+    return this.firestore.collection('photos', photos => photos.where('placeId', '==', place.id))
+      .snapshotChanges().pipe(
+        map(photo => convertSnaps(photo))
+      )
   }
 }

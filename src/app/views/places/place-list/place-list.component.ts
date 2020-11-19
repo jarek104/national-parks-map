@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-place-list',
@@ -20,6 +20,7 @@ export class PlaceListComponent implements OnInit {
 
   ngOnInit(): void {    
     this.places$ = this.explorerService.currentBounds$.pipe(
+      debounceTime(200),
       switchMap(_ => this.explorerService.getPlacesInBounds$()),
     );
   }
