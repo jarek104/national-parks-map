@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   showSidenav = false;
   pinsInBounds$: Observable<unknown[]>;
   items: Observable<any[]>;
-  userInfo$: Observable<firebase.auth.UserCredential>;
+  userInfo$: Observable<firebase.User>;
 
   constructor(
     db: AngularFirestore,

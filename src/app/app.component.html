@@ -16,7 +16,7 @@
             <mat-icon svgIcon="menu2"></mat-icon>
           </button>
           <ng-container *ngIf="userInfo$ | async as userInfo">
-            <img [src]="userInfo?.user.photoURL" class="profile-avatar"/>
+            <img [src]="userInfo?.photoURL" class="profile-avatar"/>
           </ng-container>
 
         </div>
