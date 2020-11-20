@@ -16,18 +16,6 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-chip-list #chipList formControlName="photoIds">
-      <mat-chip *ngFor="let photoId of placeForm.get('photoIds').value" removable="true" (removed)="onRemovePhotoId(photoId)">
-        {{photoId}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
-      <input placeholder="Photo IDs"
-             [matChipInputFor]="chipList"
-             matChipInputAddOnBlur="true"
-             (matChipInputTokenEnd)="onAddPhotoId($event)">
-    </mat-chip-list>
-  </mat-form-field>
-  <mat-form-field>
     <input matInput placeholder="geopoint" formControlName="geopoint" (blur)="onGeopointBlur($event.target.value)"/>
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="onPlaceSubmit()">Submit Place</button>

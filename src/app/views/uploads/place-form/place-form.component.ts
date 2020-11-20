@@ -23,7 +23,6 @@ export class PlaceFormComponent implements OnInit {
     description: new FormControl(''),
     dateCreated: new FormControl(new Date()),
     geopoint: new FormControl(''),
-    photoIds: new FormControl([])
   });
 
   subs = new Subscription;
@@ -91,33 +90,6 @@ export class PlaceFormComponent implements OnInit {
     place.geopoint = geo;
     
     this.selectedPlace ? this.uploadService.updatePlace(this.selectedPlace.id, place) : this.uploadService.createPlace(place);
-  }
-
-  get photoIds() {
-    return this.placeForm.get('photoIds');
-  }
-
-  onAddPhotoId(event: MatChipInputEvent) {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || '').trim()) {
-      this.photoIds.setValue([...this.photoIds.value, value.trim()]);
-      this.photoIds.updateValueAndValidity();
-    }
-    
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  onRemovePhotoId(id: string) {
-    const index = this.photoIds.value.indexOf(id);
-    
-    if (index >= 0) {
-      this.photoIds.value.splice(index, 1);
-      this.photoIds.updateValueAndValidity();
-    }
   }
 
   parseGeopoint(point: string) {

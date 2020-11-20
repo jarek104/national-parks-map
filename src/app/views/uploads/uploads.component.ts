@@ -11,16 +11,6 @@ import { UploadService } from './../../shared/services/upload.service';
 })
 export class UploadsComponent implements OnInit {
 
-  selectedPlace?: Place;
-  photoFile?: File;
-
-  places = [];
-  
-
-  
-
-  
-
   constructor(
     private explorerService: ExplorerService,
     private uploadService: UploadService,
@@ -28,17 +18,6 @@ export class UploadsComponent implements OnInit {
 
   ngOnInit() {
     this.explorerService.pinsInBounds$.next([]);
-
-    
-
     this.uploadService.draggablePin$.next(this.uploadService.boundsCenter$.value);
-
-    
-    
   }
-
-  
-  
-  
-  
 }
