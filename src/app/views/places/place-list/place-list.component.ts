@@ -29,10 +29,9 @@ export class PlaceListComponent implements OnInit {
     item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined)
   }
 
-  async onClick(item: Place) {
-    let blob = await fetch(item.coverPhotoUrl).then(r => {
-      console.log('blob', r.blob())
-    });
+  async onClick(item: Place, filename: string) {
+    let blob = await fetch(item.coverPhotoUrl).then(r => r.blob())
+      .then(blobFile => new File([blobFile], filename, { type: "image/png" }));
   }
 
   isActive(place: Place) {

@@ -7,7 +7,8 @@ export interface Photo {
   placeId: string;
   tags: Tag[];
   geopoint: firebase.firestore.GeoPoint;
-  downloadUrl: string;
+  originalDownloadUrl: string;
+  originalFileName: string;
   authorId?: string;
   isCopyright?: boolean;
   showAuthor?: boolean;

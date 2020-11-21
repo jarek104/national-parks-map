@@ -44,28 +44,22 @@ export class UploadService {
       ...photo
     }).then(photoDoc => {
       if (photoDoc) {
-        console.log('photoDoc', photoDoc);
-        
-        const filePath = `photos/${photoDoc.id}/${photoFile.name}`;
-        console.log('filePath', filePath);
-        
+        const originalFileName = `original.${photoFile.name.split('.').pop()}`; // original.png
+        const smallFileName = "original_400x400.jpg";
+        const mediumFileName = "original_800x800.jpg";
+        const filePath = `photos/${photoDoc.id}/${originalFileName}`;        
         const uploadTask = this.fireStorage.upload(filePath, photoFile);
 
         uploadTask.snapshotChanges().pipe(
           last(),
           concatMap(() => this.fireStorage.ref(filePath).getDownloadURL()),
-          switchMap(downloadUrl => {
-            console.log('')
-            return forkJoin([
-              this.firestore.collection('places').doc(`${placeId}`).update({
-               photoIds: firebase.firestore.FieldValue.arrayUnion(photoDoc.id)
-             }),
-             this.firestore.collection('photos').doc(`${photoDoc.id}`).update({
-               downloadUrl
-             })
-            ])
+          switchMap((originalDownloadUrl: string) => {
+            return this.firestore.collection('photos').doc(`${photoDoc.id}`).update({
+              originalDownloadUrl,
+              originalFileName
+            })
           })
-        ).subscribe(console.log);
+        ).subscribe();
       }
     })
   }
