@@ -1,3 +1,7 @@
-<p>
-  profile works!
-</p>
+<button mat-button (click)="getData()">Get parks</button>
+
+<div *ngIf="data$ | async as data">
+  <div *ngFor="let park of data.data">
+    {{park.longitude}}
+  </div>
+</div>

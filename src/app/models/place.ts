@@ -2,8 +2,10 @@ export interface Place {
   id: string;
   title: string;
   geopoint: firebase.firestore.GeoPoint;
-  photoIds: string[];
-  coverPhotoUrl: string;
-  description?: string;
+  description: string;
+  coverPhotoUrl?: string;
+  type?: string;
   dateCreated?: string | Date;
+  website?: string;
+  states?: string;
 }

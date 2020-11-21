@@ -50,7 +50,8 @@ export class ExplorerService {
     this.fitItemsToBounds$.next(items);
   }
 
-  getPlacesInBounds$(): Observable<Place[]> {        
+  getPlacesInBounds$(): Observable<Place[]> { 
+    // return this.pinsInBounds$.asObservable() as Observable<Place[]>;       
     if (!this.currentBounds$.value) {
       return of([]);
     }

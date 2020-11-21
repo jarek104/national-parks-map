@@ -6,8 +6,8 @@
     (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="place?.coverPhotoUrl">
-      <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'"></div>
+      <!-- <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'"></div> -->
     </ng-container>
-    <div class="image-description">{{ place?.title }}</div>
+    <div class="image-description" (click)="onClick(place)">{{ place?.title }}</div>
   </div>
 </div>
