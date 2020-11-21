@@ -36,9 +36,7 @@ export class PlaceDetailsComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {
-    console.log('destroy');
-    
+  ngOnDestroy() {    
     this.explorerService.fitItemsToBounds$.next(this.explorerService.lastPinsInBounds$.value);
   }
 

@@ -45,8 +45,6 @@ export class UploadService {
     }).then(photoDoc => {
       if (photoDoc) {
         const originalFileName = `original.${photoFile.name.split('.').pop()}`; // original.png
-        const smallFileName = "original_400x400.jpg";
-        const mediumFileName = "original_800x800.jpg";
         const filePath = `photos/${photoDoc.id}/${originalFileName}`;        
         const uploadTask = this.fireStorage.upload(filePath, photoFile);
 

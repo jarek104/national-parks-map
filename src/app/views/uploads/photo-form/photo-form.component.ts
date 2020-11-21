@@ -156,8 +156,6 @@ export class PhotoFormComponent implements OnInit {
     
     photo.geopoint = geo;
 
-    console.log(photo, this.selectedPlaceId, this.photoFile)
-    
     this.selectedPhoto ? 
       this.uploadService.updatePhoto(this.selectedPhoto.id, photo) : 
       this.uploadService.uploadPhoto(photo, this.selectedPlaceId, this.photoFile);
