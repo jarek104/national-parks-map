@@ -4,6 +4,6 @@ photo preview list
   routerLink="/photo/{{photo.id}}"
   class="image-container" [class.active]="photo === active" 
   (click)="onItemClicked(place)" (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
-  [style.backgroundImage]="'url(' + photo.downloadUrl + ')'">
+  [style.backgroundImage]="'url(' + (photo | imageUrl: 'medium') + ')'">
     <div class="image-description">{{ photo?.title }}</div>
 </div>

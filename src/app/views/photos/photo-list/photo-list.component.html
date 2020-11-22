@@ -1,18 +1,26 @@
 <div class="tags-filter">
-  <mat-button-toggle-group name="photoContentType" multiple="true" (change)="onFilterChange($event)" [value]="currentFilters$ | async">
-    <mat-button-toggle *ngFor="let tag of tagKeys" [value]="tags[tag]">{{tag}}</mat-button-toggle>
+  <div class="tags-filter-text">Filter Photos:</div>
+  <mat-button-toggle-group class="tags-toggle-group" multiple="true" (change)="onFilterChange($event)" [value]="currentFilters$ | async">
+    <mat-button-toggle class="tags-toggle-group-item" *ngFor="let tag of tagKeys" [value]="tags[tag]">
+      <img [src]="'../../../../assets/icons/tags/' + tags[tag] + '.svg'"/>
+      <div class="tag-label">{{tag}}</div>
+    </mat-button-toggle>
   </mat-button-toggle-group>
 </div>
-
-<div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
-  <div  
-    routerLink="/photos/{{photo?.id}}"
-    class="wrapper mat-elevation-z3" 
-    (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
-    >
-    <ng-container *ngIf="photo?.originalDownloadUrl">
-      <div class="image-container" [style.backgroundImage]="'url(' + (photo | imageUrl: 'small') + ')'"></div>
-    </ng-container>
-    <div class="image-description">{{ photo?.title }}</div>
+<br>
+<mat-divider></mat-divider>
+<br>
+<div class="photo-thumbnails">
+  <div *ngFor="let photo of photos$ | async as photos; let i = index" class="item-wrapper">
+    <div  
+      routerLink="/photos/{{photo?.id}}"
+      class="wrapper mat-elevation-z3" 
+      (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
+      >
+      <ng-container *ngIf="photo?.originalDownloadUrl">
+        <div class="image-container" [style.backgroundImage]="'url(' + (photo | imageUrl: 'small') + ')'"></div>
+      </ng-container>
+      <div class="image-description">{{ photo?.title }}</div>
+    </div>
   </div>
 </div>

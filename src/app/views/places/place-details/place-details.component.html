@@ -9,7 +9,6 @@
         <mat-icon>favorite_border</mat-icon>
       </button>
       <div> 37 </div>
-      <!-- <div> {{ currentPhoto.favorites }}</div> -->
     </div>
   </div>
   
@@ -24,7 +23,11 @@
     <div class="image-description" fxFlex="2 1 auto">
       {{ place?.description }}
     </div>
-    <button mat-button fxFlexAlign="end" (click)="toggleDescriptionView()">Read More</button>
+    <a mat-button *ngIf="place.website" class="website-link" fxFlexAlign="end" [href]="place.website" target="_blank">Official Website
+      <span class="launch-icon">
+        <mat-icon>launch</mat-icon>
+      </span>
+    </a>
     <div> More Photos</div>
     <app-photo-preview-list [photos]="photos$ | async"></app-photo-preview-list>
   </div>

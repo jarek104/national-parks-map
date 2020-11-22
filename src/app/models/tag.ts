@@ -2,7 +2,7 @@ export enum Tag {
   'Beach' = 'beach',
   'Waterfall' = 'waterfall',
   'Forest' = 'forest',
-  'Lake' = 'lake',
+  'Waters' = 'water',
   'Desert' = 'desert',
   'Mountain' = 'mountain',
 }

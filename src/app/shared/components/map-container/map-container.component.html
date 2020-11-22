@@ -1,14 +1,8 @@
 <mgl-map [style]="'mapbox://styles/jarek104/ckhljhz970cmf19nunt3ydkgt'" [zoom]="[4]" [center]="startPlace" [attributionControl]="false"
   (load)="onLoad($event)" (moveEnd)="onMapMove()" fxFlex (move)="onMove()">
   <mgl-marker [lngLat]="[pin.geopoint.longitude, pin.geopoint.latitude]" *ngFor="let pin of pinsInBounds$ | async; let i=index">
-    <div class="marker" (click)="onPinClick(pin)" 
-    (mouseenter)="onPinHover(pin)" (mouseleave)="onPinHover()"
-    [ngStyle]="{
-          'background-color': getPinStyle(pin),
-          'width': '12px',
-          'height': '12px'
-        }">
-    </div>
+    <img class="pin" src="../../../../assets/icons/marker.svg" alt="Pin" (click)="onPinClick(pin)" 
+    (mouseenter)="onPinHover(pin)" (mouseleave)="onPinHover()">
   </mgl-marker>
   <mgl-marker *ngIf="draggablePin$ | async as pin" [lngLat]="[pin.lng, pin.lat]" (dragEnd)="onDragEnd($event)">
     <div class="marker" 
