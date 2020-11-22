@@ -11,7 +11,7 @@
     (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="photo?.originalDownloadUrl">
-      <div class="image-container" [style.backgroundImage]="'url(' + (photo | thumbnailUrl) + ')'"></div>
+      <div class="image-container" [style.backgroundImage]="'url(' + (photo | imageUrl: 'small') + ')'"></div>
     </ng-container>
     <div class="image-description">{{ photo?.title }}</div>
   </div>

@@ -1,6 +1,6 @@
 <ng-container *ngIf="place$ | async as place">
   <div fxFlex class="image-wrapper mat-elevation-z2">
-    <div class="image-container" [style.backgroundImage]="'url(' + place?.coverPhotoUrl + ')'" fxFlex></div>
+    <div class="image-container" [style.backgroundImage]="'url(' + (place | imageUrl: 'medium') + ')'" fxFlex></div>
     <button mat-icon-button class="back-button" [routerLink]="['places']">
       <mat-icon>arrow_back</mat-icon>
     </button>

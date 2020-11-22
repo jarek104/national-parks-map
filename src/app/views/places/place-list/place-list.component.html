@@ -6,7 +6,7 @@
     (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
     >
     <ng-container *ngIf="place?.originalDownloadUrl">
-      <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + (place | thumbnailUrl) + ')'"></div>
+      <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + (place | imageUrl: 'small') + ')'"></div>
     </ng-container>
     <div class="image-description" (click)="onClick(place)">{{ place?.title }}</div>
   </div>
