@@ -6,6 +6,9 @@ import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';
+import { UploadService } from 'src/app/shared/services/upload.service';
+import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/shared/services/user-data.service';
 
 @Component({
   selector: 'sp-place-details',
@@ -15,6 +18,7 @@ import { Place } from 'src/app/models/place';
 export class PlaceDetailsComponent implements OnInit {
   place$?: Observable<Place>;
   photos$?: Observable<Photo[]>;
+  author$?: Observable<User>
 
   constructor(
     private route: ActivatedRoute,

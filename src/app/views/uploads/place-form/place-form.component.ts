@@ -35,6 +35,9 @@ export class PlaceFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.explorerService.pinsInBounds$.next([]);
+    this.uploadService.draggablePin$.next(this.uploadService.boundsCenter$.value);
+    
     this.subs.add(
       this.placeForm.valueChanges.subscribe(change => {
         if (typeof change.geopoint !== 'string' && change.geopoint !== undefined) {

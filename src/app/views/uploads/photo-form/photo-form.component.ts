@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription, timer } from 'rxjs';
+import { debounce, debounceTime, delay } from 'rxjs/operators';
 
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { LngLat } from 'mapbox-gl';
@@ -12,7 +13,6 @@ import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';
 import { Tag } from 'src/app/models/tag';
 import { UploadService } from 'src/app/shared/services/upload.service';
-import { debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-form',
@@ -53,8 +53,10 @@ export class PhotoFormComponent implements OnInit {
   ) { 
     this.filteredKeys = this._filterTags([])
   }
-
+  
   ngOnInit(): void {
+    this.explorerService.pinsInBounds$.next([]);
+    this.uploadService.draggablePin$.next(this.uploadService.boundsCenter$.value);
     this.subs.add(
       this.photoForm.get('tags').valueChanges.subscribe(values => {
         this.filteredKeys = this._filterTags(values);
@@ -62,21 +64,20 @@ export class PhotoFormComponent implements OnInit {
     )
 
     this.subs.add(
-      this.photoForm.valueChanges.pipe(
-        debounce(() => timer(500))
-      ).subscribe(change => {        
-        if (typeof change.geopoint !== 'string' || !change.title) {
-          this.photoForm.patchValue({
-            geopoint: `${change.geopoint.latitude}, ${change.geopoint.longitude}`
-          })
-        }
-      })
+      // this.photoForm.valueChanges.pipe(
+      //   debounceTime(500)
+      // ).subscribe(change => {      
+      //   if (change.geopoint.latitude) {
+      //     this.photoForm.patchValue({
+      //       geopoint: `${change.geopoint.latitude}, ${change.geopoint.longitude}`
+      //     })
+      //   }
+      // })
     )
 
     this.subs.add(
-      this.uploadService.boundsCenter$.pipe(
-        debounce(() => timer(500))
-      ).subscribe((center: LngLat) => {
+      this.uploadService.boundsCenter$.subscribe((center: LngLat) => {
+        console.log('center', center)
         this.uploadService.draggablePin$.next(center);
         this.photoForm.patchValue({
           geopoint: `${center.lat}, ${center.lng}`

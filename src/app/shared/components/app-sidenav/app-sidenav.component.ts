@@ -18,8 +18,12 @@ export class AppSidenavComponent implements OnInit {
       label: 'Profile'
     },
     {
-      route: 'uploads',
-      label: 'Uploads'
+      route: 'uploads/photo',
+      label: 'Upload Photo'
+    },
+    {
+      route: 'uploads/place',
+      label: 'Create a Place'
     },
     {
       route: 'bucket-lists',

@@ -35,7 +35,8 @@
   </ng-container>
   <ng-container *ngIf="userInfo$ | async">
     <button mat-menu-item routerLink="/profile">Profile</button>
-    <button mat-menu-item routerLink="/uploads">Upload Photo</button>
+    <button mat-menu-item routerLink="/uploads/photo">Upload Photo</button>
+    <button mat-menu-item routerLink="/uploads/place">Create a Place</button>
     <button mat-menu-item routerLink="/favorites">Favorites</button>
     <button mat-menu-item routerLink="/help">Help</button>
     <mat-divider></mat-divider>

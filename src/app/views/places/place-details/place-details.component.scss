@@ -1,5 +1,5 @@
 :host {
-  flex-grow: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
   color: #475467;
@@ -94,4 +94,8 @@
   .mat-icon {
     font-size: 18px !important;
   }
+}
+
+.add-photo-button {
+  width: 100%;
 }
