@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription, timer } from 'rxjs';
 
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { LngLat } from 'mapbox-gl';
@@ -9,9 +10,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSelectChange } from '@angular/material/select';
 import { Photo } from './../../../models/photo';
 import { Place } from 'src/app/models/place';
-import { Subscription } from 'rxjs';
 import { Tag } from 'src/app/models/tag';
 import { UploadService } from 'src/app/shared/services/upload.service';
+import { debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-photo-form',
@@ -33,6 +34,7 @@ export class PhotoFormComponent implements OnInit {
     dateCreated: new FormControl(new Date()),
     geopoint: new FormControl(''),
     placeId: new FormControl(''),
+    authorId: new FormControl(''),
     tags: new FormControl([]),
   });
 
@@ -60,8 +62,10 @@ export class PhotoFormComponent implements OnInit {
     )
 
     this.subs.add(
-      this.photoForm.valueChanges.subscribe(change => {
-        if (typeof change.geopoint !== 'string' && change.geopoint !== undefined) {
+      this.photoForm.valueChanges.pipe(
+        debounce(() => timer(500))
+      ).subscribe(change => {        
+        if (typeof change.geopoint !== 'string' || !change.title) {
           this.photoForm.patchValue({
             geopoint: `${change.geopoint.latitude}, ${change.geopoint.longitude}`
           })
@@ -70,7 +74,9 @@ export class PhotoFormComponent implements OnInit {
     )
 
     this.subs.add(
-      this.uploadService.boundsCenter$.subscribe((center: LngLat) => {
+      this.uploadService.boundsCenter$.pipe(
+        debounce(() => timer(500))
+      ).subscribe((center: LngLat) => {
         this.uploadService.draggablePin$.next(center);
         this.photoForm.patchValue({
           geopoint: `${center.lat}, ${center.lng}`
@@ -101,6 +107,10 @@ export class PhotoFormComponent implements OnInit {
 
   onPhotoSelect(change: MatSelectChange) {
     this.selectedPhoto = change.value as Photo;
+    this.photoForm.reset();
+    if (!change.value) {
+      return;
+    }
     this.photoForm.patchValue(change.value);
 
     let pin = new LngLat(Number(change.value.geopoint.longitude), Number(change.value.geopoint.latitude));
@@ -163,6 +173,9 @@ export class PhotoFormComponent implements OnInit {
   }
   
   private _filterTags(currentValues: string[]): string[] {
+    if (!currentValues) {
+      return this.tagValues;
+    }
     return this.tagValues.filter(tag => currentValues.indexOf(tag) === -1);
   }
 
