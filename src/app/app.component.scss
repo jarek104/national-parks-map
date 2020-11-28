@@ -1,70 +1,8 @@
-.container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.drawer {
-    width: 300px;
-}
-
-.drawer-content {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-}
-
-.main-button {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 1;
-  height: 40px;
-  background: white;
-  border: 1px solid #a9a9a9;
-  border-radius: 20px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-
-  .menu-button {
-    margin-left: -2px;
-    margin-right: 1px;
-    margin-bottom: 1px;
-  }
-
-  .profile-avatar {
-    height: 30px;
-    width: 30px;
-    border: 1px solid #a9a9a9;
-    border-radius: 50%;
-    margin-right: 5px;
-  }
-}
-
-::ng-deep.mat-menu-content {
-  min-width: 160px;
-}
-
-.map-wrapper {
-  position: relative;
-}
-
-.mode-toggle {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  z-index: 1;
-  border: 2px solid lightgray;
-}
-
 .outlet-wrapper {
   z-index: 1;
   overflow: auto;
+}
+
+.main-wrapper {
+  position: relative;
 }

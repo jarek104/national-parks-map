@@ -1,49 +1,10 @@
-<mat-drawer-container class="container" (backdropClick)="showSidenav = false">
-  <mat-drawer class="drawer" mode="push" [opened]="showSidenav">
-    <sp-app-sidenav (linkClicked)="showSidenav = false" (emitSidenavToggle)="showSidenav = false"></sp-app-sidenav>
-  </mat-drawer>
-
-  <mat-drawer-content class="drawer-content">
-
-      <div fxFlex="60" class="map-wrapper">
-        <mat-button-toggle-group class="mode-toggle">
-          <mat-button-toggle routerLink="/places" routerLinkActive="mat-button-toggle-checked">Places</mat-button-toggle>
-          <mat-button-toggle routerLink="/photos" routerLinkActive="mat-button-toggle-checked">Photos</mat-button-toggle>
-        </mat-button-toggle-group>
-
-        <div class="main-button mat-elevation-z2" matRipple [matMenuTriggerFor]="menu">
-          <button mat-icon-button disableRipple class="menu-button">
-            <mat-icon svgIcon="menu2"></mat-icon>
-          </button>
-          <ng-container *ngIf="userInfo$ | async as userInfo">
-            <img [src]="userInfo?.photoURL" class="profile-avatar"/>
-          </ng-container>
-
-        </div>
-
-        <mat-menu #menu="matMenu">
-          <ng-container *ngIf="!(userInfo$ | async)">
-            <button mat-menu-item (click)="login()">Login</button>
-            <button mat-menu-item (click)="login()">Sign Up</button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/help">Help</button>
-          </ng-container>
-          <ng-container *ngIf="userInfo$ | async">
-            <button mat-menu-item routerLink="/profile">Profile</button>
-            <button mat-menu-item routerLink="/uploads">Upload Photo</button>
-            <button mat-menu-item routerLink="/favorites">Favorites</button>
-            <button mat-menu-item routerLink="/help">Help</button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item (click)="logout()">Logout</button>
-          </ng-container>
-        </mat-menu>
-
-
-        <sp-map-container></sp-map-container>
-      </div>
-      <div fxFlex="40" class="outlet-wrapper mat-elevation-z4">
-        <router-outlet></router-outlet>
-      </div>
-    
-  </mat-drawer-content>
-</mat-drawer-container>
+<div fxFlexFill fxLayout="row">
+  <div class="main-wrapper" fxFlex="60">
+    <sp-app-toolbar></sp-app-toolbar>
+    <sp-map-container></sp-map-container>  
+  </div>
+  
+  <div fxFlex="40" class="outlet-wrapper mat-elevation-z4">
+    <router-outlet></router-outlet>
+  </div>
+</div>

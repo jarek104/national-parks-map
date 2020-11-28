@@ -4,7 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { UserService } from './user.service';
+import { UserService } from './user-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class AuthenticationService {
     firebase.auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result: firebase.auth.UserCredential) => {
-        console.log(result.user);
+        console.log('initializeAuth', result.user);
         this.loggedInUser$.next(result.user)
         if (result.user.emailVerified && result.additionalUserInfo.isNewUser) {
           this.userService.createNewUser(result);

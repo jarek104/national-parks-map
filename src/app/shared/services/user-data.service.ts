@@ -1,8 +1,7 @@
-import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { User } from './../../models/user';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,22 @@ export class UserService {
 
   constructor(
     private firestore: AngularFirestore,
-    private fireStorage: AngularFireStorage,
   ) {}
 
   createNewUser(user: firebase.auth.UserCredential) {
     let userData = this._parseNewGoogleUser(user);
-    this.firestore.collection('users').add(userData);
+    const id = this.firestore.createId();
+    console.log('this.firestore.createId()', id)
+    const userWithId = {
+      id,
+      ...userData,
+    }
+
+    this.firestore.collection('users').doc(id).set(userWithId);
+  }
+
+  updateUserData(userData: Partial<User>) {
+    this.firestore.collection('users').doc(userData.id).update(userData);
   }
 
   getUserData$(userId: string) {
@@ -45,5 +54,6 @@ export class UserService {
     }
     return user;
   }
+
   
 }

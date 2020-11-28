@@ -1,29 +1,44 @@
-<div fxFlex fxLayout="row" fxLayoutAlign="space-between center" class="top-row">
-  <div fxFlex>
-    <button mat-icon-button (click)="onMenuClick()">
-      <mat-icon style="color: #fff;" svgIcon="menu2"></mat-icon>
-    </button>
+<div class="top-row">
+  <div class="flex-item">
+    <div class="main-button mat-elevation-z2" matRipple [matMenuTriggerFor]="menu">
+      <button mat-icon-button disableRipple class="menu-button">
+        <mat-icon svgIcon="menu2"></mat-icon>
+      </button>
+      <ng-container *ngIf="userInfo$ | async as userInfo">
+        <img [src]="userInfo?.photoURL" class="profile-avatar"/>
+      </ng-container>
+    </div>
   </div>
-  <!-- <div class="title" *ngIf="showSearchInput === false">Stunning Pins</div> -->
-  <div>
-    <mat-button-toggle-group name="mode">
-      <mat-button-toggle routerLink="/places">Places</mat-button-toggle>
-      <mat-button-toggle routerLink="/photos">Photos</mat-button-toggle>
+  <div class="flex-item center">
+    <mat-button-toggle-group class="mode-toggle">
+      <mat-button-toggle routerLink="/places" routerLinkActive="mat-button-toggle-checked">Places</mat-button-toggle>
+      <mat-button-toggle routerLink="/photos" routerLinkActive="mat-button-toggle-checked">Photos</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <div fxFlex fxLayout="row-reverse">
-    <button mat-icon-button (click)="showSearchInput = !showSearchInput">
-      <mat-icon style="color: #fff;">search</mat-icon>
-    </button>
+  <div class="flex-item end">
+    <div class="main-button mat-elevation-z2" matRipple>
+      <button mat-icon-button disableRipple class="menu-button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
   </div>
+  
+
 </div>
-<div *ngIf="showSearchInput === true" class="bottom-row" fxLayout="row" fxLayoutAlign="space-between center">
-  <form fxFlex>
-    <mat-form-field class="input-full-width">
-      <input matInput placeholder="Search...">
-    </mat-form-field>
-  </form>
-  <button mat-icon-button (click)="onMenuClick()">
-    <mat-icon style="color: #fff;">close</mat-icon>
-  </button>
-</div>
+
+<mat-menu #menu="matMenu">
+  <ng-container *ngIf="!(userInfo$ | async)">
+    <button mat-menu-item (click)="login()">Login</button>
+    <button mat-menu-item (click)="login()">Sign Up</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item routerLink="/help">Help</button>
+  </ng-container>
+  <ng-container *ngIf="userInfo$ | async">
+    <button mat-menu-item routerLink="/profile">Profile</button>
+    <button mat-menu-item routerLink="/uploads">Upload Photo</button>
+    <button mat-menu-item routerLink="/favorites">Favorites</button>
+    <button mat-menu-item routerLink="/help">Help</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </ng-container>
+</mat-menu>
