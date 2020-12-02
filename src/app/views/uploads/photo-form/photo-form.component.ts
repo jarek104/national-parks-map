@@ -35,6 +35,10 @@ export class PhotoFormComponent implements OnInit {
     geopoint: new FormControl(''),
     placeId: new FormControl(''),
     authorId: new FormControl(''),
+    externalImageFileUrl: new FormControl(''),
+    externalImagePageUrl: new FormControl(''),
+    externalAuthor: new FormControl(''),
+    externalAuthorUrl: new FormControl(''),
     tags: new FormControl([]),
   });
 
@@ -46,6 +50,7 @@ export class PhotoFormComponent implements OnInit {
   selectedPhoto: Photo;
 
   photoFile?: File;
+  photoString?: string;
 
   constructor(
     private explorerService: ExplorerService,
@@ -64,20 +69,7 @@ export class PhotoFormComponent implements OnInit {
     )
 
     this.subs.add(
-      // this.photoForm.valueChanges.pipe(
-      //   debounceTime(500)
-      // ).subscribe(change => {      
-      //   if (change.geopoint.latitude) {
-      //     this.photoForm.patchValue({
-      //       geopoint: `${change.geopoint.latitude}, ${change.geopoint.longitude}`
-      //     })
-      //   }
-      // })
-    )
-
-    this.subs.add(
       this.uploadService.boundsCenter$.subscribe((center: LngLat) => {
-        console.log('center', center)
         this.uploadService.draggablePin$.next(center);
         this.photoForm.patchValue({
           geopoint: `${center.lat}, ${center.lng}`
@@ -103,7 +95,12 @@ export class PhotoFormComponent implements OnInit {
   }
 
   onPlaceSelect(change: MatSelectChange) {
-    this.selectedPlaceId = change.value;
+    if (change.value) {
+      const newPlace = this.places.find(place => place.id === change.value);
+      let pin = new LngLat(Number(newPlace.geopoint.longitude), Number(newPlace.geopoint.latitude));
+      this.explorerService.goToPoint$.next(pin)
+      this.selectedPlaceId = change.value;
+    }
   }
 
   onPhotoSelect(change: MatSelectChange) {
@@ -141,13 +138,38 @@ export class PhotoFormComponent implements OnInit {
     let pin = new LngLat(Number(points[1]), Number(points[0]));
     this.explorerService.goToPoint$.next(pin);
   }
+
+  async onImageUrlBlur(value: any) {
+    const reader = new FileReader();
+    console.log(value);
+    await fetch(value).then(r => r.blob())
+      .then(blobFile => {
+        this.photoFile = new File([blobFile], "cc.jpg", {type: "image/jpeg", lastModified: new Date().getTime()})
+        reader.readAsDataURL(blobFile);
+    
+        reader.onload = () => {
+          this.photoString = reader.result as string;
+        };
+      });
+  }
   
   getTagString(tag: number) {
     return Tag[tag];
   }
 
-  uploadFile(event: any) {
-    this.photoFile = event.target.files[0];
+  onFileChange(event: any) {
+    const reader = new FileReader();
+    
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      this.photoFile = file;
+      reader.readAsDataURL(file);
+    
+      reader.onload = () => {
+        this.photoString = reader.result as string;
+      };
+   
+    }
   }
 
   onTagSelected(event: MatAutocompleteSelectedEvent): void {    
@@ -180,4 +202,27 @@ export class PhotoFormComponent implements OnInit {
     return this.tagValues.filter(tag => currentValues.indexOf(tag) === -1);
   }
 
+  onHtmlBlockBlur(text: string) {
+    var element = document.createElement('div'); 
+    element.innerHTML = text; 
+    var imgs = element.getElementsByTagName("img");
+    var anchors = element.getElementsByTagName("a");
+
+    this.photoForm.patchValue({
+      externalImageFileUrl: imgs[0].getAttribute("src")
+    })
+    this.photoForm.patchValue({
+      title: imgs[0].getAttribute("alt")
+    })
+    this.photoForm.patchValue({
+      externalImagePageUrl: anchors[0].getAttribute("href")
+    })
+    this.photoForm.patchValue({
+      externalAuthorUrl: anchors[1].getAttribute("href")
+    })
+    this.photoForm.patchValue({
+      externalAuthor: anchors[1].innerHTML
+    })
+
+  }
 }

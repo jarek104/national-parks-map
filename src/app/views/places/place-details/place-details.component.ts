@@ -34,6 +34,9 @@ export class PlaceDetailsComponent implements OnInit {
     this.photos$ = this.place$.pipe(
       switchMap(place => this.explorerService.getPhotosByPlace$(place)),
       tap(photos => {
+        // if (photos.length === 0) {
+        //   photos.push([...this.place$.])
+        // }
         this.explorerService.pinsInBounds$.next(photos);
         this.explorerService.fitItemsToBounds$.next(photos);
       })

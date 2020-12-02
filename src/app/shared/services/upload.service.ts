@@ -57,7 +57,7 @@ export class UploadService {
               originalFileName
             })
           })
-        ).subscribe();
+        ).subscribe(_ => console.log('worked', _));
       }
     })
   }
