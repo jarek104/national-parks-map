@@ -1,13 +1,2 @@
 
-<div *ngFor="let place of places$ | async as places; let i = index" class="item-wrapper">
-  <div  
-    routerLink="/places/{{place?.id}}"
-    class="wrapper mat-elevation-z3" 
-    (mouseenter)="onItemHover(place)" (mouseleave)="onItemHover()"
-    >
-    <ng-container *ngIf="place?.originalDownloadUrl">
-      <div class="image-container" [class.hovered]="isActive(place)" [style.backgroundImage]="'url(' + (place | imageUrl: 'small') + ')'"></div>
-    </ng-container>
-    <div class="image-description" (click)="onClick(place)">{{ place?.title }}</div>
-  </div>
-</div>
+<app-photo-preview-list [items]="places$ | async" (clicked)="onItemClicked($event)"></app-photo-preview-list>

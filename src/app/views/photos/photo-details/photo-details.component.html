@@ -1,7 +1,7 @@
-<ng-container *ngIf="place$ | async as place">
+<ng-container *ngIf="photo$ | async as photo">
   <div class="image-wrapper mat-elevation-z2">
-    <div class="image-container" [style.backgroundImage]="'url(' + (place | imageUrl: 'medium') + ')'" fxFlex></div>
-    <button mat-icon-button class="back-button" [routerLink]="['places']">
+    <div class="image-container" [style.backgroundImage]="'url(' + (photo | imageUrl: 'medium') + ')'" fxFlex></div>
+    <button mat-icon-button class="back-button" (click)="onBackClick()">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <div class="favorites-section" fxLayout="row" fxLayoutAlign="start center">
@@ -14,21 +14,20 @@
   
   <div fxFlex class="details-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
     <div class="image-title">
-      {{ place?.title }}
+      {{ photo?.title }}
     </div>
     <div class="image-author">
       <span class="photo-by">Photo by: </span>
       <span class="author-name"> Anonnymous </span>
     </div>
     <div class="image-description" fxFlex="2 1 auto">
-      {{ place?.description }}
+      {{ photo?.description }}
     </div>
-    <a mat-button *ngIf="place.website" class="website-link" fxFlexAlign="end" [href]="place.website" target="_blank">Official Website
+    <a mat-button *ngIf="photo.externalImagePageUrl" class="website-link" fxFlexAlign="end" [href]="photo.externalImagePageUrl" target="_blank">Official Website
       <span class="launch-icon">
         <mat-icon>launch</mat-icon>
       </span>
     </a>
     <div> More Photos</div>
-    <app-photo-preview-list [items]="photos$ | async" (clicked)="onItemsClicked($event)"></app-photo-preview-list>
   </div>
 </ng-container>

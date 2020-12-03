@@ -21,7 +21,7 @@ export class MapContainerComponent implements OnInit {
   @ViewChild(MapComponent) map: MapComponent;
 
   selectedItem$: Observable<Place | Photo>;
-  highlightedItem$: Observable<Place | Photo>;
+  highlightedItem: Place | Photo;
   pinsInBounds$: Observable<Place[] | Photo[]>;
 
   constructor(
@@ -32,8 +32,10 @@ export class MapContainerComponent implements OnInit {
   ngOnInit() {
     this.pinsInBounds$ = this.explorerService.pinsInBounds$;
     this.selectedItem$ = this.explorerService.selectedItem$;
-    this.highlightedItem$ = this.explorerService.highlightedItem$;
     this.draggablePin$ = this.uploadService.draggablePin$;
+    
+    this.explorerService.highlightedItem$.subscribe(item => this.highlightedItem = item);
+    
     this.explorerService.goToPoint$.subscribe(point => {
       if (this.map && point) {
         this.map?.mapInstance.flyTo({

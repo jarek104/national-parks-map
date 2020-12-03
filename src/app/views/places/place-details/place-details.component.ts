@@ -1,7 +1,7 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { ActivatedRoute } from '@angular/router';
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Photo } from './../../../models/photo';
@@ -23,6 +23,7 @@ export class PlaceDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private explorerService: ExplorerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -51,8 +52,8 @@ export class PlaceDetailsComponent implements OnInit {
     console.log('add/remove photo from favorites');
   }
 
-  onItemHovered(photo: Photo) {    
-    this.explorerService.highlightedItem$.next(photo);
+  onItemsClicked(item: Place) {
+    this.router.navigate(['photos', item.id])
   }
 
   toggleDescriptionView() {

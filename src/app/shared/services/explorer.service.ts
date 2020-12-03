@@ -15,7 +15,6 @@ import { convertSnaps } from './utils';
   providedIn: 'root'
 })
 export class ExplorerService {
-  activePlaceIndex = new BehaviorSubject<number>(0);
   pinsInBounds$ = new BehaviorSubject<Place[] | Photo[]>([]);
   selectedItem$ = new BehaviorSubject<any>(undefined);
   highlightedItem$ = new BehaviorSubject<any>(undefined);
@@ -109,6 +108,20 @@ export class ExplorerService {
       map((places: Place[]) => {        
         if (places) {
           return places.find(item => item.id === id);
+        }
+        return undefined;
+      }),
+    )
+  }
+
+  getPhotoById$(id: string) {    
+    if (!id) {
+      return undefined;
+    }
+    return this.allPhotos$.pipe(
+      map((photos: Photo[]) => {        
+        if (photos) {
+          return photos.find(item => item.id === id);
         }
         return undefined;
       }),

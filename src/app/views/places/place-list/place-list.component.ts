@@ -4,6 +4,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExplorerService } from 'src/app/shared/services/explorer.service';
 import { Observable } from 'rxjs';
 import { Place } from 'src/app/models/place';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-place-list',
@@ -16,6 +17,7 @@ export class PlaceListComponent implements OnInit {
 
   constructor(
     private explorerService: ExplorerService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {    
@@ -29,9 +31,10 @@ export class PlaceListComponent implements OnInit {
     item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined)
   }
 
-  async onClick(item: Place, filename: string) {
-    let blob = await fetch(item.coverPhotoUrl).then(r => r.blob())
-      .then(blobFile => new File([blobFile], filename, { type: "image/png" }));
+  onItemClicked(item: Place) {
+    console.log('item', item);
+    
+    this.router.navigate(['places', item.id])
   }
 
   isActive(place: Place) {
