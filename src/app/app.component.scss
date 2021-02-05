@@ -6,3 +6,8 @@
 .main-wrapper {
   position: relative;
 }
+
+:host {
+  width: 100%;
+  box-sizing: border-box;
+}

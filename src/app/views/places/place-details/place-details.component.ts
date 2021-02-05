@@ -60,4 +60,8 @@ export class PlaceDetailsComponent implements OnInit {
     
   }
 
+  onAuthorClick(place: Place) {
+    window.open("https://nps.gov", "_blank");
+  }
+
 }

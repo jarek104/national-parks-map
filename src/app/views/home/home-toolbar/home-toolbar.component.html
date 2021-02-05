@@ -1,0 +1,32 @@
+<div class="space"></div>
+<div class="logo">
+  <img class="logo-image" src="./../../../../assets/images/demo_logo.png" alt="logo">
+  Worpher
+</div>
+<div class="space main-button" matRipple [matMenuTriggerFor]="menu">
+  <button mat-icon-button disableRipple class="menu-button">
+    <mat-icon svgIcon="menu2"></mat-icon>
+  </button>
+  <ng-container *ngIf="userInfo$ | async as userInfo">
+    <img [src]="userInfo?.photoURL" class="profile-avatar"/>
+  </ng-container>
+</div>
+
+
+<mat-menu #menu="matMenu">
+  <ng-container *ngIf="!(userInfo$ | async)">
+    <button mat-menu-item (click)="login()">Login</button>
+    <button mat-menu-item (click)="login()">Sign Up</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item routerLink="/help">Help</button>
+  </ng-container>
+  <ng-container *ngIf="userInfo$ | async">
+    <button mat-menu-item routerLink="/profile">Profile</button>
+    <button mat-menu-item routerLink="/uploads/photo">Upload Photo</button>
+    <button mat-menu-item routerLink="/uploads/place">Create a Place</button>
+    <button mat-menu-item routerLink="/favorites">Favorites</button>
+    <button mat-menu-item routerLink="/help">Help</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </ng-container>
+</mat-menu>

@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  flex-direction: row;
+}
+
+:host(.reverse) {
+  flex-direction: row-reverse;
+}
+
+.text-wrapper {
+  flex-grow: 3;
+  flex-basis: 0;
+}
+
+.text-wrapper__text-align-end {
+  text-align: end;
+}
+
+img {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.image {
+  flex-grow: 2;
+  flex-basis: 0;
+  margin-right: 40px;
+}
+
+.image-margin__left {
+  margin-left: 40px;
+  margin-right: 0;
+}
+
+.title {
+  font-family: 'Alef', sans-serif;
+  font-size: 35px;
+  margin-bottom: 16px;
+}
+
+.text {
+  font-family: 'ABeeZee', sans-serif;
+  font-size: 28px;
+  color: #565656;
+}

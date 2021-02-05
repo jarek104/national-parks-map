@@ -1,0 +1,62 @@
+@import '~@angular/material/theming';
+
+:host {
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  position: relative;
+  flex-direction: row;
+
+  @include mat-elevation(2)
+}
+
+.space {
+  min-width: 100px;
+}
+
+.logo {
+  // font-family: 'Sarabun', sans-serif;
+  font-family: 'B612', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  font-weight: 800;
+  font-size: 35px;
+  color: #1C78C0;
+}
+
+.logo-image {
+  height: 40px;
+  width: 40px;
+  padding: 8px;
+}
+
+.main-button {
+  z-index: 1;
+  height: 45px;
+  background: white;
+  border: 1px solid #a9a9a9;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+
+  .profile-avatar {
+    height: 35px;
+    width: 35px;
+    border: 1px solid #a9a9a9;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+}
+
+::ng-deep.mat-menu-content {
+  min-width: 160px;
+}

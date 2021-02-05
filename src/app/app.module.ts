@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppSidenavComponent } from './shared/components/app-sidenav/app-sidenav.component';
 import { AppTabsComponent } from './shared/components/app-tabs/app-tabs.component';
-import { AppToolbarComponent } from './shared/components/app-toolbar/app-toolbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MapContainerComponent } from './shared/components/map-container/map-container.component';
@@ -26,7 +25,6 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    AppToolbarComponent,
     AppTabsComponent,
     AppSidenavComponent,
     MapContainerComponent,

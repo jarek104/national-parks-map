@@ -62,38 +62,38 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  // getData() {
-  //   // this.data$ = this.npr.getParkData$();
+  getData() {
+    // this.data$ = this.npr.getParkData$();
 
-  //   this.npr.getParkData$().pipe(
-  //     map((parksData: any) => parksData.data),
-  //     tap(data => console.log(data)),
-  //     map((parks: any[]) => {
-  //       return parks
-  //       .filter(park => {
-  //         return park.designation.toLowerCase().indexOf("national lakeshore") > -1 ||
-  //         park.designation.toLowerCase().indexOf("national seashore") > -1 ||
-  //         park.designation.toLowerCase().indexOf("national park") > -1
-  //       })
-  //       .map(park => {
-  //         return {
-  //           title: park.fullName,
-  //           geopoint: new firebase.firestore.GeoPoint(Number(park.latitude), Number(park.longitude)),
-  //           description: park.description,
-  //           type: park.designation,
-  //           website: park.url,
-  //           states: park.states,
-  //           coverPhotoUrl: park.images[0].url
-  //         }
-  //       })
-  //     }),
-  //     tap(data => console.log(data)),
-  //   ).subscribe(data => {
+    this.npr.getParkData$().pipe(
+      map((parksData: any) => parksData.data),
+      tap(data => console.log(data)),
+      map((parks: any[]) => {
+        return parks
+        .filter(park => {
+          return park.designation.toLowerCase().indexOf("national lakeshore") > -1 ||
+          park.designation.toLowerCase().indexOf("national seashore") > -1 ||
+          park.designation.toLowerCase().indexOf("national park") > -1
+        })
+        // .map(park => {
+        //   return {
+        //     title: park.fullName,
+        //     geopoint: new firebase.firestore.GeoPoint(Number(park.latitude), Number(park.longitude)),
+        //     description: park.description,
+        //     type: park.designation,
+        //     website: park.url,
+        //     states: park.states,
+        //     coverPhotoUrl: park.images[0].url
+        //   }
+        // })
+      }),
+      tap(data => console.log(data)),
+    ).subscribe(data => {
 
-  //     this.explorerService.pinsInBounds$.next(data as Place[]);
-  //     // this.batchCreate(data);
-  //   })
-  // }
+      this.explorerService.pinsInBounds$.next(data as Place[]);
+      // this.batchCreate(data);
+    })
+  }
 
   batchCreate(data: any[]) {
     let db = firebase.firestore();

@@ -192,6 +192,8 @@ export class PhotoFormComponent implements OnInit {
     this.selectedPhoto ? 
       this.uploadService.updatePhoto(this.selectedPhoto.id, photo) : 
       this.uploadService.uploadPhoto(photo, this.selectedPlaceId, this.photoFile);
+
+      this.photoForm.reset();
     
   }
   
