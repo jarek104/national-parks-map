@@ -33,16 +33,16 @@ export class MapContainerComponent implements OnInit {
     this.pinsInBounds$ = this.explorerService.pinsInBounds$;
     this.selectedItem$ = this.explorerService.selectedItem$;
     this.draggablePin$ = this.uploadService.draggablePin$;
-    
+
     this.explorerService.highlightedItem$.subscribe(item => this.highlightedItem = item);
-    
+
     this.explorerService.goToPoint$.subscribe(point => {
       if (this.map && point) {
         this.map?.mapInstance.flyTo({
             center: point,
             // minZoom: 0,
             zoom: 10,
-            bearing: 0, 
+            bearing: 0,
             speed: 1,
             curve: 1,
             essential: true
@@ -61,7 +61,7 @@ export class MapContainerComponent implements OnInit {
         this.map?.mapInstance.fitBounds(bounds, {
           padding: 100,
           speed: .8,
-        });        
+        });
       }
     })
   }
@@ -79,19 +79,19 @@ export class MapContainerComponent implements OnInit {
 
   onMapMove() {
     this.explorerService.currentBounds$.next(this.map.mapInstance.getBounds())
-       
+
   }
-  
+
   onMove() {
     let center = this.map.mapInstance.getCenter();
-    this.uploadService.boundsCenter$.next(center); 
+    this.uploadService.boundsCenter$.next(center);
   }
 
   onPinClick(item: Place | Photo) {
     this.explorerService.selectedItem$.next(item);
   }
-  
-  onPinHover(item?: Place | Photo) {    
+
+  onPinHover(item?: Place | Photo) {
     item ? this.explorerService.highlightedItem$.next(item) : this.explorerService.highlightedItem$.next(undefined);
   }
 

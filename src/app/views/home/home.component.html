@@ -1,6 +1,22 @@
-<app-home-toolbar></app-home-toolbar>
 <div class="main-image-container">
   <button mat-button (click)="test()">Get Position</button>
+  <form class="input-form">
+    <mat-form-field class="input-form-field" appearance="outline">
+      <mat-label>State</mat-label>
+      <input type="text"
+             placeholder="Select a State"
+             aria-label="State"
+             matInput
+             [formControl]="stateControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+       (optionSelected)="onStateSelected($event)">
+        <mat-option *ngFor="let state of filteredStates | async" [value]="state.state">
+          {{state.state}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
 </div>
 
 <div class="features-intro">

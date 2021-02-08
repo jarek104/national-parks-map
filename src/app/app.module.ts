@@ -1,5 +1,4 @@
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
@@ -10,9 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppSidenavComponent } from './shared/components/app-sidenav/app-sidenav.component';
 import { AppTabsComponent } from './shared/components/app-tabs/app-tabs.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeToolbarComponent } from './shared/components/home-toolbar/home-toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MapContainerComponent } from './shared/components/map-container/map-container.component';
 import { MapService } from 'ngx-mapbox-gl';
+import { MatIconRegistry } from '@angular/material/icon';
 import { MaterialModule } from './shared/modules/material.module';
 import { NgModule } from '@angular/core';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
@@ -27,9 +27,9 @@ import { environment } from '../environments/environment';
     AppComponent,
     AppTabsComponent,
     AppSidenavComponent,
-    MapContainerComponent,
     ProfileComponent,
     SettingsComponent,
+    HomeToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +48,6 @@ import { environment } from '../environments/environment';
     SharedModule,
     UploadsModule,
   ],
-  providers: [MapService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
