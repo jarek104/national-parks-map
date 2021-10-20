@@ -1,4 +1,9 @@
 <div class="wrapper">
+  <div fxFlex class="metadata-wrapper">
+    <div *ngFor="let item of allPlaces$ | async">
+      {{item.title}}
+    </div>
+  </div>
 
   <sp-map-container fxFlex></sp-map-container>
 </div>

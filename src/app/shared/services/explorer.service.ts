@@ -35,7 +35,11 @@ export class ExplorerService {
         map(snaps => {
           return convertSnaps(snaps) as Place[];
         }),
-    ).subscribe(places => this.allPlaces$.next(places));
+    ).subscribe(places => {
+      console.log('hi', places);
+
+      this.allPlaces$.next(places);
+    });
 
     this.firestore.collection('photos')
       .snapshotChanges().pipe(
@@ -49,12 +53,12 @@ export class ExplorerService {
     this.fitItemsToBounds$.next(items);
   }
 
-  getPlacesInBounds$(): Observable<Place[]> { 
-    // return this.pinsInBounds$.asObservable() as Observable<Place[]>;       
+  getPlacesInBounds$(): Observable<Place[]> {
+    // return this.pinsInBounds$.asObservable() as Observable<Place[]>;
     if (!this.currentBounds$.value) {
       return of([]);
     }
-    const bounds = this.currentBounds$.value;   
+    const bounds = this.currentBounds$.value;
     return this.allPlaces$.pipe(
       map(places => {
         return places.filter(place => {
@@ -66,13 +70,13 @@ export class ExplorerService {
       tap(places => this.pinsInBounds$.next(places)),
     )
   };
-    
-  getPhotosInBounds$(): Observable<Photo[]> {        
+
+  getPhotosInBounds$(): Observable<Photo[]> {
     if (!this.currentBounds$.value) {
       return of([]);
     }
-    const bounds = this.currentBounds$.value; 
-    const photoFilters = this.currentPhotoFilters$.value; 
+    const bounds = this.currentBounds$.value;
+    const photoFilters = this.currentPhotoFilters$.value;
     const north = new firebase.firestore.GeoPoint(this.currentBounds$.value.getNorth(), 0)
     const south = new firebase.firestore.GeoPoint(this.currentBounds$.value.getSouth(), 0)
 
@@ -82,7 +86,7 @@ export class ExplorerService {
           .where('geopoint', '>', south))
           .snapshotChanges().pipe(
             map(data => convertSnaps(data)),
-            map((photos: Photo[]) => {              
+            map((photos: Photo[]) => {
               return photos.filter(photo => {
                 const location = [photo.geopoint.longitude, photo.geopoint.latitude];
                 return bounds.contains(location as LngLatLike)
@@ -92,7 +96,7 @@ export class ExplorerService {
               return photos.filter(photo => {
                 if (photoFilters.length > 0) {
                   return photo.tags.some(tag => photoFilters.indexOf(tag) > -1)
-                } 
+                }
                 return photo;
               })
             }),
@@ -100,12 +104,12 @@ export class ExplorerService {
     );
   };
 
-  getPlaceById$(id: string) {    
+  getPlaceById$(id: string) {
     if (!id) {
       return undefined;
     }
     return this.allPlaces$.pipe(
-      map((places: Place[]) => {        
+      map((places: Place[]) => {
         if (places) {
           return places.find(item => item.id === id);
         }
@@ -114,12 +118,12 @@ export class ExplorerService {
     )
   }
 
-  getPhotoById$(id: string) {    
+  getPhotoById$(id: string) {
     if (!id) {
       return undefined;
     }
     return this.allPhotos$.pipe(
-      map((photos: Photo[]) => {        
+      map((photos: Photo[]) => {
         if (photos) {
           return photos.find(item => item.id === id);
         }
@@ -128,7 +132,7 @@ export class ExplorerService {
     )
   }
 
-  getPhotosByPlace$(place: Place): Observable<Photo[]> {        
+  getPhotosByPlace$(place: Place): Observable<Photo[]> {
     return this.firestore.collection('photos', photos => photos.where('placeId', '==', place.id))
       .snapshotChanges().pipe(
         map(photo => convertSnaps(photo))
