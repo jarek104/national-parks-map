@@ -26,8 +26,8 @@
     <input matInput placeholder="Author ID" formControlName="authorId"/>
   </mat-form-field>
 
-  <mat-form-field>
-    <input matInput placeholder="Description" formControlName="description"/>
+  <mat-form-field class="full">
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
   </mat-form-field>
 
   <mat-form-field>
@@ -53,9 +53,32 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  
+  <h2 class="full">External Image</h2>
 
-  <input type="file" (change)="uploadFile($event)"/> 
-  <img [src]="photoFile" class="preview-container"/>
+  <mat-form-field>
+    <input matInput placeholder="image file url" formControlName="externalImageFileUrl" (blur)="onImageUrlBlur($event.target.value)"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="image page url" formControlName="externalImagePageUrl"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="author name" formControlName="externalAuthor"/>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="author page" formControlName="externalAuthorUrl"/>
+  </mat-form-field>
+
+  <input type="file" (change)="onFileChange($event)"/> 
+  <div>
+    <img [src]="photoString" class="preview-container"/>
+  </div>
   <button mat-raised-button color="primary" (click)="onPhotoSubmit()">Submit Photo</button>
 </form>
+
+
+<mat-form-field>
+  <textarea matInput placeholder="CC html block" (blur)="onHtmlBlockBlur($event.target.value)"></textarea>
+</mat-form-field>

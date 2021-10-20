@@ -1,13 +1,13 @@
 <div class="top-row">
   <div class="flex-item">
-    <div class="main-button mat-elevation-z2" matRipple [matMenuTriggerFor]="menu">
+    <!-- <div class="main-button mat-elevation-z2" matRipple [matMenuTriggerFor]="menu">
       <button mat-icon-button disableRipple class="menu-button">
         <mat-icon svgIcon="menu2"></mat-icon>
       </button>
       <ng-container *ngIf="userInfo$ | async as userInfo">
         <img [src]="userInfo?.photoURL" class="profile-avatar"/>
       </ng-container>
-    </div>
+    </div> -->
   </div>
   <div class="flex-item center">
     <mat-button-toggle-group class="mode-toggle">
@@ -16,13 +16,13 @@
     </mat-button-toggle-group>
   </div>
   <div class="flex-item end">
-    <div class="main-button mat-elevation-z2" matRipple>
+    <!-- <div class="main-button mat-elevation-z2" matRipple>
       <button mat-icon-button disableRipple class="menu-button">
         <mat-icon>search</mat-icon>
       </button>
-    </div>
+    </div> -->
   </div>
-  
+
 
 </div>
 
@@ -35,7 +35,8 @@
   </ng-container>
   <ng-container *ngIf="userInfo$ | async">
     <button mat-menu-item routerLink="/profile">Profile</button>
-    <button mat-menu-item routerLink="/uploads">Upload Photo</button>
+    <button mat-menu-item routerLink="/uploads/photo">Upload Photo</button>
+    <button mat-menu-item routerLink="/uploads/place">Create a Place</button>
     <button mat-menu-item routerLink="/favorites">Favorites</button>
     <button mat-menu-item routerLink="/help">Help</button>
     <mat-divider></mat-divider>

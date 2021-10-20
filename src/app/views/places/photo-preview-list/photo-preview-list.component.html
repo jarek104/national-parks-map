@@ -1,9 +1,10 @@
-photo preview list
-
-<div *ngFor="let photo of photos; let i = index" 
-  routerLink="/photo/{{photo.id}}"
-  class="image-container" [class.active]="photo === active" 
-  (click)="onItemClicked(place)" (mouseenter)="onItemHover(photo)" (mouseleave)="onItemHover()"
-  [style.backgroundImage]="'url(' + (photo | imageUrl: 'medium') + ')'">
-    <div class="image-description">{{ photo?.title }}</div>
+<div *ngFor="let item of items; let i = index" class="item-wrapper" (click)="onClick(item)">
+  <div class="wrapper mat-elevation-z1" 
+    (mouseenter)="onItemHover(item)" (mouseleave)="onItemHover()"
+  >
+    <ng-container *ngIf="item?.originalDownloadUrl">
+      <div class="image-container" [class.hovered]="isActive(item)" [style.backgroundImage]="'url(' + (item | imageUrl: 'small') + ')'"></div>
+    </ng-container>
+    <div class="image-description">{{ item?.title }}</div>
+  </div>
 </div>

@@ -7,10 +7,18 @@ export interface Photo {
   placeId: string;
   tags: Tag[];
   geopoint: firebase.firestore.GeoPoint;
+
   originalDownloadUrl: string;
   originalFileName: string;
+
+  externalImageFileUrl?: string
+  externalImagePageUrl?: string
+  externalAuthor?: string
+  externalAuthorUrl?: string
+
   authorId?: string;
   isCopyright?: boolean;
+  
   showAuthor?: boolean;
   likesCount?: number;
   viewCount?: number;
@@ -18,9 +26,6 @@ export interface Photo {
   dateCreated: string | Date;
   cameraBrand?: string;
   cameraModel?: string;
-  fullRezLink?: string;
-  medRezLink?: string;
-  lowRezLink?: string;
   wasEdited?: boolean;
   reportIds?: string[];
 }
